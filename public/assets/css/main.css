@@ -1,0 +1,172 @@
+:root {
+    --color-base: #E8E5E1;
+    --color-contrast: #3E3129;
+    --color-accent: #C49A6C;
+    --safe-bottom: env(safe-area-inset-bottom, 0px);
+    --safe-top: env(safe-area-inset-top, 0px);
+}
+
+/* --- Acessibilidade --- */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.skip-link {
+    position: absolute;
+    top: -100%;
+    left: 1rem;
+    z-index: 200;
+    padding: 0.75rem 1rem;
+    background: var(--color-contrast);
+    color: var(--color-base);
+    font-size: 0.875rem;
+    font-weight: 600;
+    border-radius: 0.25rem;
+    transition: top 0.2s ease;
+}
+.skip-link:focus {
+    top: 1rem;
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+}
+
+/* --- Scrollbar --- */
+::-webkit-scrollbar { width: 8px; }
+::-webkit-scrollbar-track { background: var(--color-base); }
+::-webkit-scrollbar-thumb { background: var(--color-accent); border-radius: 10px; }
+::-webkit-scrollbar-thumb:hover { background: #a37c52; }
+
+/* --- Glass --- */
+.glass {
+    background: rgba(232, 229, 225, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+}
+.glass-dark {
+    background: rgba(62, 49, 41, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* --- Cursor customizado --- */
+#custom-cursor {
+    pointer-events: none;
+    transition: width 0.3s, height 0.3s, background-color 0.3s, border-color 0.3s;
+    z-index: 9999;
+    will-change: transform;
+}
+.cursor-expand {
+    width: 80px !important;
+    height: 80px !important;
+    background-color: rgba(196, 154, 108, 0.9) !important;
+    border-color: transparent !important;
+}
+body.has-custom-cursor { cursor: none; }
+body.has-custom-cursor a,
+body.has-custom-cursor button,
+body.has-custom-cursor input,
+body.has-custom-cursor textarea,
+body.has-custom-cursor select { cursor: none !important; }
+
+/* --- WhatsApp pulse --- */
+@keyframes pulse-glow {
+    0% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.7); }
+    70% { box-shadow: 0 0 0 15px rgba(37, 211, 102, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(37, 211, 102, 0); }
+}
+.whatsapp-pulse { animation: pulse-glow 2s infinite; }
+
+/* --- X-Ray cards --- */
+.xray-container { overflow: hidden; position: relative; }
+.xray-img {
+    transition: transform 0.7s ease, opacity 0.5s ease;
+    opacity: 0.3;
+    transform: scale(1.1);
+}
+.xray-container:hover .xray-img { opacity: 1; transform: scale(1); }
+.xray-overlay { transition: background 0.5s ease; }
+.xray-container:hover .xray-overlay { background: rgba(232, 229, 225, 0.2); }
+
+/* --- FAQ --- */
+.accordion-content {
+    transition: max-height 0.3s ease-in-out, padding 0.3s ease;
+    max-height: 0;
+    overflow: hidden;
+}
+
+/* --- Scroll reveal --- */
+.reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.75s ease, transform 0.75s ease;
+}
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* --- Utilitários --- */
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar { display: none; }
+
+.magnetic-btn {
+    transition: transform 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+#mobile-menu {
+    transition: opacity 0.3s ease, transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+#mobile-action-bar {
+    padding-bottom: max(1rem, var(--safe-bottom));
+    transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.form-error {
+    display: none;
+    color: #b91c1c;
+    font-size: 0.75rem;
+    margin-top: 0.25rem;
+}
+.form-error.visible { display: block; }
+
+.input-error {
+    border-color: #b91c1c !important;
+    box-shadow: 0 0 0 1px #b91c1c;
+}
+
+/* --- Mobile layout --- */
+@media (max-width: 767px) {
+    body { padding-bottom: calc(5.5rem + var(--safe-bottom)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .reveal,
+    .magnetic-btn,
+    #mobile-menu,
+    #mobile-action-bar,
+    .xray-img,
+    .whatsapp-pulse {
+        animation: none !important;
+        transition: none !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+}

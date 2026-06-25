@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Sartoria">
+  <rect width="64" height="64" rx="12" fill="#3E3129"/>
+  <path d="M20 44 L32 18 L44 44 Z" fill="none" stroke="#C49A6C" stroke-width="3" stroke-linejoin="round"/>
+  <circle cx="32" cy="38" r="3" fill="#E8E5E1"/>
+</svg>

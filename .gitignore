@@ -1,0 +1,26 @@
+# Dependencies
+node_modules/
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Env / secrets (se adicionar no futuro)
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Build artifacts (futuro)
+dist/
+.cache/
