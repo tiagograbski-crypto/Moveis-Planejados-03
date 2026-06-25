@@ -8,10 +8,22 @@ const SITE_CONFIG = {
     address: {
         line1: 'Av. Getúlio Vargas, 1200',
         city: 'Chapecó - SC, Brasil',
+        footerRegion: 'Brasil',
     },
-    defaultMessage: 'Olá! Vim pelo site da Sartoria e gostaria de falar sobre móveis planejados.',
+    defaultMessage: 'Olá! Vim pelo site da Sartoria e gostaria de solicitar uma consultoria privada de móveis planejados.',
     siteUrl: 'https://www.sartoriamoveis.com.br',
 };
+
+/** Número placeholder — substitua antes do deploy comercial. */
+const PLACEHOLDER_WHATSAPP = '5549999999999';
+
+function isWhatsAppConfigured() {
+    const digits = String(SITE_CONFIG.whatsapp || '').replace(/\D/g, '');
+    if (!digits || digits.length < 12) return false;
+    if (digits === PLACEHOLDER_WHATSAPP) return false;
+    if (/9{6,}/.test(digits)) return false;
+    return true;
+}
 
 function getWhatsAppUrl(message) {
     const text = message || SITE_CONFIG.defaultMessage;
@@ -20,12 +32,12 @@ function getWhatsAppUrl(message) {
 
 function buildLeadMessage(name, phone, spaces, urgency) {
     const lines = [
-        `Olá! Vim pelo site da ${SITE_CONFIG.brand} e gostaria de um atendimento VIP.`,
+        `Olá! Vim pelo site da ${SITE_CONFIG.brand} e gostaria de solicitar uma consultoria privada.`,
         '',
         `Nome: ${name}`,
         `WhatsApp: ${phone}`,
     ];
     if (spaces.length) lines.push(`Ambientes: ${spaces.join(', ')}`);
-    if (urgency) lines.push(`Estágio da obra: ${urgency}`);
+    if (urgency) lines.push(`Momento do projeto: ${urgency}`);
     return lines.join('\n');
 }
