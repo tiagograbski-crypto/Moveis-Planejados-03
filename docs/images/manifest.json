@@ -1,0 +1,25 @@
+{
+  "version": 2,
+  "brand": "Sartoria Móveis Planejados",
+  "portfolioSource": "~/Desktop/Portifolio Moveis Planejados",
+  "syncCommand": "npm run images:sync",
+  "colorReference": {
+    "base": "#E8E5E1",
+    "contrast": "#3E3129",
+    "accent": "#C49A6C",
+    "accentLight": "#E8C99A"
+  },
+  "assets": [
+    { "section": "01-hero", "filename": "hero-capa-marrom.png", "htmlTarget": "section.hero-section" },
+    { "section": "02-solucao", "filename": "solucao-detalhe-marcenaria-blum.jpg", "htmlTarget": "#solucao figure img" },
+    { "section": "03-anatomia", "filename": "anatomia-bg-atelier-escuro.jpg", "htmlTarget": "#diferenciais background" },
+    { "section": "03-anatomia", "filename": "anatomia-01-chapas-premium.jpg", "htmlTarget": "anatomy card 01" },
+    { "section": "03-anatomia", "filename": "anatomia-02-ferragens-importadas.jpg", "htmlTarget": "anatomy card 02" },
+    { "section": "03-anatomia", "filename": "anatomia-03-projeto-tecnico-3d.jpg", "htmlTarget": "anatomy card 03" },
+    { "section": "03-anatomia", "filename": "anatomia-04-instalacao-premium.jpg", "htmlTarget": "anatomy card 04" },
+    { "section": "04-execucoes", "filename": "execucao-01-cozinha-gourmet-nogueira.jpg", "htmlTarget": "portfolio item 1" },
+    { "section": "04-execucoes", "filename": "execucao-02-living-painel-ripado.png", "htmlTarget": "portfolio item 2" },
+    { "section": "04-execucoes", "filename": "execucao-03-closet-minimalista-lacca.jpg", "htmlTarget": "portfolio item 3" },
+    { "section": "05-social", "filename": "social-og-compartilhamento.png", "htmlTarget": "meta og:image" }
+  ]
+}

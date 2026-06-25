@@ -21,6 +21,9 @@ desktop.ini
 *.log
 npm-debug.log*
 
-# Build artifacts (futuro)
-dist/
+# Build / deploy tooling
+.vercel/
 .cache/
+
+# Local portfolio source (outside repo)
+# ~/Desktop/Portifolio Moveis Planejados

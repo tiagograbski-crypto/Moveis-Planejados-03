@@ -178,4 +178,4 @@ capa do site, espaço livre à esquerda, foto realista premium, sem texto
 10. **Closet:** Walk-in lacca branca com LED quente.  
 11. **Social:** Crop horizontal cozinha marrom estilo capa.
 
-Salve cada arquivo na pasta indicada em `manifest.json`.
+Salve cada arquivo na pasta indicada em `docs/images/manifest.json`.

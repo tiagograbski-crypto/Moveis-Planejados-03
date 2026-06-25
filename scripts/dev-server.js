@@ -2,10 +2,11 @@ const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
+const { PUBLIC_DIR } = require('./lib/project-paths');
 
 const PORT = Number(process.env.PORT) || 3000;
 const HOST = process.env.HOST || '0.0.0.0';
-const ROOT = path.join(__dirname, '..', 'public');
+const ROOT = PUBLIC_DIR;
 
 const MIME = {
     '.html': 'text/html; charset=utf-8',

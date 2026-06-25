@@ -5,8 +5,11 @@
   "private": true,
   "scripts": {
     "start": "node scripts/dev-server.js",
-    "dev": "node scripts/dev-server.js",
-    "images:list": "node scripts/list-images.js"
+    "dev": "npm start",
+    "validate": "node scripts/validate.js",
+    "images:list": "node scripts/portfolio/list-images.js",
+    "images:sync": "powershell -ExecutionPolicy Bypass -File scripts/portfolio/sync-portfolio-images.ps1",
+    "images:organize-desktop": "powershell -ExecutionPolicy Bypass -File scripts/portfolio/reorganize-portfolio-desktop.ps1"
   },
   "engines": {
     "node": ">=18"

@@ -33,13 +33,15 @@ Dourado claro:  #E8C99A
 ## Estrutura de pastas
 
 ```
-public/assets/images/
-├── 01-hero/          → Capa principal
-├── 02-solucao/       → Aba "A Solução"
-├── 03-anatomia/      → Aba "Diferenciais" (fundo + 4 pilares)
-├── 04-execucoes/     → Aba "Execuções"
-├── 05-social/        → Open Graph / compartilhamento
-└── manifest.json     → Mapa técnico (dimensões, HTML alvo)
+public/assets/images/     → Assets publicados no site
+├── 01-hero/              → Capa principal
+├── 02-solucao/           → Aba "A Solução"
+├── 03-anatomia/          → Aba "Diferenciais" (fundo + 4 pilares)
+├── 04-execucoes/         → Aba "Execuções"
+└── 05-social/            → Open Graph / compartilhamento
+
+docs/images/
+└── manifest.json         → Mapa técnico (dimensões, HTML alvo)
 ```
 
 ---

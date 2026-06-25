@@ -1,0 +1,20 @@
+{
+  "name": "sartoria-landing",
+  "portfolio": {
+    "desktopPath": "~/Desktop/Portifolio Moveis Planejados"
+  },
+  "deploy": {
+    "outputDirectory": "public",
+    "productionUrl": "https://www.sartoriamoveis.com.br"
+  },
+  "images": {
+    "sections": [
+      "01-hero",
+      "02-solucao",
+      "03-anatomia",
+      "04-execucoes",
+      "05-social"
+    ],
+    "manifest": "docs/images/manifest.json"
+  }
+}
