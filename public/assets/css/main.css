@@ -1,4 +1,4 @@
-    :root {
+﻿    :root {
       --bg: #ece7e2;
       --surface: #f6f1eb;
       --card: rgba(255, 255, 255, 0.72);
@@ -875,7 +875,7 @@
       color: #fff8f1;
       background:
         linear-gradient(rgba(32, 20, 15, 0.82), rgba(32, 20, 15, 0.82)),
-        url("../images/03-anatomia/anatomia-bg-atelier-escuro.jpg") center/cover no-repeat fixed;
+        url("anatomia/anatomia-bg-atelier-escuro.jpg") center/cover no-repeat fixed;
     }
 
     .pillars .section-subtitle {
