@@ -1,0 +1,26 @@
+{
+  "version": 2,
+  "project": "tendencia-landing",
+  "sitePath": "C:/Users/Tiago/Projects/tendencia-landing/public/assets/images",
+  "sections": [
+    { "folder": "01-hero", "file": "hero-capa-marrom.png", "sourceOriginal": "RIPADO CAPA HERO.png" },
+    { "folder": "01-hero", "file": "hero-capa-marrom.webp", "sourceOriginal": "RIPADO CAPA HERO.png" },
+    { "folder": "02-solucao", "file": "solucao-detalhe-marcenaria-blum.jpg", "sourceOriginal": "GAVETA.jpg" },
+    { "folder": "03-anatomia", "file": "anatomia-bg-atelier-escuro.jpg", "sourceOriginal": "OFICINA.jpg" },
+    { "folder": "03-anatomia", "file": "anatomia-01-chapas-premium.jpg", "sourceOriginal": "MADEIRA.jpg" },
+    { "folder": "03-anatomia", "file": "anatomia-02-ferragens-importadas.jpg", "sourceOriginal": "GAVETA.jpg" },
+    { "folder": "03-anatomia", "file": "anatomia-03-projeto-tecnico-3d.jpg", "sourceOriginal": "MONITOR PROJETANDO SEM ROSTO.jpg" },
+    { "folder": "03-anatomia", "file": "anatomia-04-instalacao-premium.jpg", "sourceOriginal": "MARCINEIRO AJUSTANDO.jpg" },
+    { "folder": "04-execucoes", "file": "execucao-01-cozinha-gourmet-nogueira.jpg", "sourceOriginal": "CONSUNTO SALA COIZINHA.jpg" },
+    { "folder": "04-execucoes", "file": "execucao-02-living-painel-ripado.png", "sourceOriginal": "RIPADO CAPA HERO.png" },
+    { "folder": "04-execucoes", "file": "execucao-02-living-painel-ripado.webp", "sourceOriginal": "RIPADO CAPA HERO.png" },
+    { "folder": "04-execucoes", "file": "execucao-03-closet-minimalista-lacca.jpg", "sourceOriginal": "CLOUSEP.jpg" },
+    { "folder": "05-social", "file": "social-og-compartilhamento.png", "sourceOriginal": "RIPADO CAPA HERO.png" },
+    { "folder": "05-social", "file": "social-og-compartilhamento.webp", "sourceOriginal": "RIPADO CAPA HERO.png" },
+    { "folder": "05-social", "file": "logotipo-tendencia.png", "sourceOriginal": "Upload marca Tendência" }
+  ],
+  "reserve": [
+    { "file": "COZINHA.jpg" },
+    { "file": "COZINHA MINI.jpg" }
+  ]
+}

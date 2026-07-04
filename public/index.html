@@ -1,556 +1,519 @@
 <!DOCTYPE html>
-<html lang="pt-BR" class="scroll-smooth">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="theme-color" content="#3E3129">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
-    <title>Móveis Planejados com Precisão Milimétrica | Sartoria</title>
-    <meta name="description" content="Móveis planejados sob medida de alto padrão. Do Projeto Técnico 3D à instalação premium, com cronograma contratual e 5 anos de garantia. Chapecó - SC.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" id="canonical-url" href="https://www.sartoriamoveis.com.br/">
-
-    <meta property="og:type" content="website">
-    <meta property="og:locale" content="pt_BR">
-    <meta property="og:url" id="og-url" content="https://www.sartoriamoveis.com.br/">
-    <meta property="og:title" content="Sartoria | Marcenaria de Alto Padrão">
-    <meta property="og:description" content="Móveis planejados com precisão milimétrica. Projeto Técnico 3D, instalação premium e garantia contratual de 5 anos.">
-    <meta property="og:image" content="/assets/images/05-social/social-og-compartilhamento.png">
-    <meta name="twitter:card" content="summary_large_image">
-
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="/assets/css/main.css">
-
-    <script src="/assets/js/tailwind-config.js"></script>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script type="application/ld+json" id="schema-local-business">
-    {
-        "@context": "https://schema.org",
-        "@type": "LocalBusiness",
-        "name": "Sartoria Móveis Planejados",
-        "description": "Marcenaria de alto padrão em Chapecó. Projeto Técnico 3D, execução premium e instalação certificada.",
-        "url": "https://www.sartoriamoveis.com.br/",
-        "telephone": "+5549999999999",
-        "email": "projetos@sartoriamoveis.com.br",
-        "address": {
-            "@type": "PostalAddress",
-            "streetAddress": "Av. Getúlio Vargas, 1200",
-            "addressLocality": "Chapecó",
-            "addressRegion": "SC",
-            "addressCountry": "BR"
-        },
-        "areaServed": "Chapecó e região Oeste de Santa Catarina"
-    }
-    </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tendência | Móveis Planejados</title>
+  <meta
+    name="description"
+    content="Landing page local da Tendência com visual responsivo para desktop e mobile."
+  >
+  <meta property="og:title" content="Tendência | Móveis Planejados">
+  <meta
+    property="og:description"
+    content="Design autoral, precisão milimétrica e atendimento via WhatsApp."
+  >
+  <meta property="og:image" content="assets/images/05-social/social-og-compartilhamento.webp">
+  <link rel="preload" as="image" href="assets/images/01-hero/hero-capa-marrom.webp" fetchpriority="high">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;600&display=swap"
+    rel="stylesheet"
+  >
+    <link rel="stylesheet" href="assets/css/main.css">
 </head>
-<body class="bg-base text-contrast antialiased selection:bg-accent selection:text-white">
+<body>
+  <div class="page-progress" id="page-progress"></div>
 
-    <a href="#conteudo" class="skip-link">Ir para o conteúdo</a>
-
-    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-accent z-[100] w-0 transition-all duration-100" aria-hidden="true"></div>
-
-    <div id="custom-cursor" class="fixed top-0 left-0 w-8 h-8 rounded-full border-2 border-accent hidden md:flex items-center justify-center text-white text-[10px] font-bold tracking-widest opacity-0 uppercase text-center leading-tight shadow-lg" style="transform: translate(-50%, -50%);" aria-hidden="true">
-        <span class="opacity-0 transition-opacity duration-300" id="cursor-text">Ver<br>Projeto</span>
+  <header class="site-header" id="site-header">
+    <div class="container">
+      <div class="header-row">
+        <div class="brand-identity" aria-label="Marca Tendência">
+          <img
+            class="brand-header-logo"
+            src="assets/images/05-social/logotipo-tendencia.png"
+            alt="Tendência Moveis Planejados"
+            width="34"
+            height="34"
+            loading="eager"
+            decoding="async"
+          >
+          <span class="brand-name">Tendência</span>
+        </div>
+        <div class="header-nav-shell">
+          <nav class="site-nav-desktop" id="site-nav-desktop" aria-label="Navegacao principal"></nav>
+          <button
+            class="menu-toggle"
+            id="menu-toggle"
+            type="button"
+            aria-label="Abrir menu"
+            aria-controls="site-menu-drawer"
+            aria-expanded="false"
+          >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
     </div>
+  </header>
 
-    <header class="fixed w-full top-0 z-50 glass transition-all duration-300" id="header" style="padding-top: env(safe-area-inset-top, 0px);">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 xl:px-10">
-            <div class="flex justify-between items-center h-20">
-                <a href="#conteudo" class="flex-shrink-0 flex items-center gap-2" aria-label="Sartoria — início">
-                    <i class="fa-solid fa-compass-drafting text-accent text-2xl" aria-hidden="true"></i>
-                    <span class="font-serif font-bold text-2xl xl:text-3xl tracking-wider text-contrast">SARTORIA</span>
-                </a>
-                <nav class="hidden md:flex space-x-5 lg:space-x-7 xl:space-x-9" aria-label="Navegação principal">
-                    <a href="#solucao" class="text-sm font-medium hover:text-accent transition-colors">A Solução</a>
-                    <a href="#diferenciais" class="text-sm font-medium hover:text-accent transition-colors">Diferenciais</a>
-                    <a href="#portfolio" class="text-sm font-medium hover:text-accent transition-colors">Execuções</a>
-                    <a href="#depoimentos" class="text-sm font-medium hover:text-accent transition-colors">Experiências</a>
-                    <a href="#faq" class="text-sm font-medium hover:text-accent transition-colors">Dúvidas</a>
-                </nav>
-                <div class="hidden md:flex">
-                    <button type="button" onclick="openModal()" class="btn-especialista btn-cta px-5 py-2.5 rounded-sm font-medium text-sm magnetic-btn whitespace-nowrap">
-                        Consultoria Privada
-                    </button>
-                </div>
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-btn" type="button" aria-label="Abrir menu" aria-expanded="false" aria-controls="mobile-menu" class="text-contrast hover:text-accent focus:outline-none p-2">
-                        <i class="fa-solid fa-bars text-2xl transition-transform duration-300" aria-hidden="true"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
-        <div id="mobile-menu" class="md:hidden fixed inset-x-0 top-20 bottom-0 z-40 glass-dark opacity-0 translate-x-full pointer-events-none overflow-y-auto" aria-label="Menu mobile">
-            <div class="px-6 pt-4 pb-8 space-y-2 text-center">
-                <a href="#solucao" class="mobile-link block px-3 py-4 text-base text-white hover:text-accent rounded-lg">A Solução</a>
-                <a href="#diferenciais" class="mobile-link block px-3 py-4 text-base text-white hover:text-accent rounded-lg">Diferenciais</a>
-                <a href="#portfolio" class="mobile-link block px-3 py-4 text-base text-white hover:text-accent rounded-lg">Execuções</a>
-                <a href="#depoimentos" class="mobile-link block px-3 py-4 text-base text-white hover:text-accent rounded-lg">Experiências</a>
-                <a href="#faq" class="mobile-link block px-3 py-4 text-base text-white hover:text-accent rounded-lg">Dúvidas</a>
-                <button type="button" onclick="closeMobileMenu(); openModal();" class="mobile-link mt-4 w-full btn-especialista btn-cta px-6 py-4 rounded-sm font-medium shadow-lg whitespace-nowrap">
-                    Consultoria Privada
-                </button>
-            </div>
-        </div>
-    </header>
+  <main>
+    <section class="hero" id="inicio">
+      <picture class="hero-media">
+        <source type="image/webp" media="(min-width: 768px)" srcset="assets/images/01-hero/hero-capa-marrom.webp">
+        <source media="(min-width: 768px)" srcset="assets/images/01-hero/hero-capa-marrom.png">
+        <img
+          src="assets/images/01-hero/hero-capa-marrom.webp"
+          alt="Ambiente planejado em madeira nobre Tendência"
+          width="2816"
+          height="1536"
+          fetchpriority="high"
+          loading="eager"
+          decoding="sync"
+        >
+      </picture>
 
-    <main id="conteudo">
-        <section class="hero-section relative min-h-[100svh] flex items-center bg-center bg-cover pt-20 pb-28 md:pb-16 lg:pt-0 lg:pb-0 lg:min-h-[700px] xl:min-h-[85vh]" style="background-image: url('/assets/images/01-hero/hero-capa-marrom.png');" aria-label="Apresentação">
-            <div class="absolute inset-0 bg-contrast/40"></div>
-            <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 xl:px-10 w-full flex justify-center lg:justify-start">
-                <div class="hero-card glass p-6 sm:p-8 md:p-12 lg:p-14 max-w-xl lg:max-w-xl xl:max-w-2xl w-full rounded-2xl shadow-glass border border-white/30 backdrop-blur-xl">
-                    <p class="inline-block px-3 py-1 mb-3 rounded-full border border-contrast/20 text-[10px] sm:text-xs font-semibold tracking-widest uppercase">Marcenaria de Alto Padrão</p>
-                    <h1 class="font-serif text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-2">Móveis Planejados</h1>
-                    <p class="hero-subtitle font-serif text-xl sm:text-2xl md:text-3xl text-accent italic font-semibold mb-4">Precisão Milimétrica.</p>
-                    <p class="text-contrast/80 text-sm md:text-base mb-5 md:mb-8 leading-relaxed">
-                        Do Projeto Técnico 3D à instalação premium — cronograma contratual e 5 anos de garantia.
-                    </p>
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <button type="button" onclick="openModal()" class="btn-especialista btn-cta w-full sm:w-auto px-6 py-3.5 md:py-4 rounded-sm font-semibold shadow-lg magnetic-btn whitespace-nowrap">
-                            Consultoria Privada
-                        </button>
-                        <a href="#portfolio" class="btn-secondary w-full sm:w-auto border border-contrast text-contrast hover:bg-contrast hover:text-base px-6 py-3.5 md:py-4 rounded-sm font-semibold transition-all text-center whitespace-nowrap">Ver Execuções</a>
-                    </div>
-                    <p class="mt-3 md:mt-4 text-[10px] sm:text-xs text-contrast/75 text-center sm:text-left">
-                        +500 ambientes · 10 anos · Atendimento privado
-                    </p>
-                </div>
-            </div>
-            <div class="absolute bottom-24 md:bottom-10 left-1/2 -translate-x-1/2 hidden sm:flex flex-col items-center animate-bounce z-10" aria-hidden="true">
-                <span class="text-white text-xs uppercase tracking-widest mb-2 font-medium">Descubra</span>
-                <i class="fa-solid fa-arrow-down text-white/80"></i>
-            </div>
-        </section>
-
-        <section id="solucao" class="py-20 md:py-24 xl:py-28 bg-base">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 xl:px-10">
-                <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 xl:gap-20 items-center">
-                    <div>
-                        <h2 class="font-serif text-3xl md:text-4xl font-bold mb-6">A beleza que você vê.<br>A solidez que você sente.</h2>
-                        <p class="text-contrast/80 mb-6 leading-relaxed">
-                            Muitos entregam armários. Nós entregamos <strong>projeto e execução de móveis planejados sob medida, com rigor de marcenaria industrial</strong>. Com mais de 10 anos no mercado de alto padrão, oferecemos previsibilidade de prazo e escopo — com 5 anos de garantia contratual.
-                        </p>
-                        <ul class="space-y-4">
-                            <li class="flex items-start gap-3">
-                                <div class="mt-1 bg-accent/20 p-1.5 rounded-full text-accent"><i class="fa-solid fa-check text-sm" aria-hidden="true"></i></div>
-                                <div><h3 class="font-semibold text-contrast">Cronograma Contratual</h3><p class="text-sm text-contrast/80">Prazo blindado em contrato. Entrega na data acordada, com transparência total.</p></div>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <div class="mt-1 bg-accent/20 p-1.5 rounded-full text-accent"><i class="fa-solid fa-check text-sm" aria-hidden="true"></i></div>
-                                <div><h3 class="font-semibold text-contrast">Instalação Premium</h3><p class="text-sm text-contrast/80">Equipe própria e protocolo de proteção total do ambiente durante a montagem.</p></div>
-                            </li>
-                            <li class="flex items-start gap-3">
-                                <div class="mt-1 bg-accent/20 p-1.5 rounded-full text-accent"><i class="fa-solid fa-check text-sm" aria-hidden="true"></i></div>
-                                <div><h3 class="font-semibold text-contrast">Durabilidade de Décadas</h3><p class="text-sm text-contrast/80">Ferragens austríacas e MDFs de alta densidade. Feito para durar uma vida inteira.</p></div>
-                            </li>
-                        </ul>
-                    </div>
-                    <figure class="relative rounded-2xl overflow-hidden shadow-2xl h-[420px] lg:h-[500px] xl:h-[560px] group m-0">
-                        <img src="/assets/images/02-solucao/solucao-detalhe-marcenaria-blum.jpg" alt="Detalhe de marcenaria premium com acabamento em madeira" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" loading="lazy" width="1000" height="667">
-                        <figcaption class="absolute inset-0 bg-gradient-to-t from-contrast/80 via-transparent to-transparent flex items-end p-8">
-                            <div class="glass p-4 rounded-lg w-full border border-white/20">
-                                <p class="text-base font-medium font-serif italic mb-1 text-contrast">"A diferença está naquilo que você não vê logo de cara."</p>
-                                <p class="text-xs text-contrast/80 uppercase tracking-widest">Detalhe Amortecimento Blum</p>
-                            </div>
-                        </figcaption>
-                    </figure>
-                </div>
-            </div>
-        </section>
-
-        <section id="diferenciais" class="anatomy-section py-20 md:py-24 xl:py-28 relative bg-center bg-cover" style="background-image: url('/assets/images/03-anatomia/anatomia-bg-atelier-escuro.jpg');">
-            <div class="absolute inset-0 bg-contrast/80 mix-blend-multiply"></div>
-            <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8 xl:px-10">
-                <div class="anatomy-intro text-center max-w-2xl xl:max-w-3xl mx-auto mb-8 md:mb-12 xl:mb-14">
-                    <p class="anatomy-eyebrow">Quatro pilares · Um padrão</p>
-                    <h2 class="font-serif text-3xl md:text-4xl xl:text-[2.75rem] font-bold text-base mb-3 leading-tight">A Anatomia da Perfeição</h2>
-                    <p class="anatomy-lead">Do material à instalação — cada camada do móvel planejado Sartoria segue critério técnico inegociável.</p>
-                    <p class="anatomy-hint md:hidden">Deslize para revelar cada camada</p>
-                    <p class="anatomy-hint-desktop max-md:hidden">Passe o mouse sobre cada camada para revelar a perfeição</p>
-                </div>
-                <div class="anatomy-track flex md:grid md:grid-cols-2 xl:grid-cols-4 gap-4 md:gap-5 xl:gap-6 overflow-x-auto md:overflow-visible snap-x snap-mandatory hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0 pb-2 md:pb-0" aria-label="Pilares da marcenaria Sartoria">
-                    <article class="anatomy-card xray-container rounded-xl shadow-glass shrink-0 w-[82vw] sm:w-[78vw] md:w-auto snap-center group cursor-pointer" data-anatomy="0" aria-pressed="false" aria-label="01 Material — Chapas Premium">
-                        <img src="/assets/images/03-anatomia/anatomia-01-chapas-premium.jpg" class="absolute inset-0 w-full h-full object-cover xray-img" alt="Textura de chapa premium em marcenaria" loading="lazy" width="800" height="1067">
-                        <div class="absolute inset-0 xray-overlay anatomy-card-overlay">
-                            <div class="anatomy-card-scrim" aria-hidden="true"></div>
-                            <div class="anatomy-card-body">
-                                <div class="anatomy-card-head">
-                                    <span class="anatomy-card-icon xray-icon" aria-hidden="true"><i class="fa-solid fa-layer-group"></i></span>
-                                    <header class="anatomy-card-meta">
-                                        <span class="anatomy-card-index">01</span>
-                                        <span class="anatomy-card-category">Material</span>
-                                    </header>
-                                </div>
-                                <h3 class="anatomy-card-title">Chapas Premium</h3>
-                                <p class="anatomy-card-caption">MDF e MDP de alta densidade, revestimento melamínico e proteção antibacteriana.</p>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="anatomy-card xray-container rounded-xl shadow-glass shrink-0 w-[82vw] sm:w-[78vw] md:w-auto snap-center group cursor-pointer" data-anatomy="1" aria-pressed="false" aria-label="02 Ferragens — Ferragens Importadas">
-                        <img src="/assets/images/03-anatomia/anatomia-02-ferragens-importadas.jpg" class="absolute inset-0 w-full h-full object-cover xray-img" alt="Ferragens Blum e Hafele em gaveta planejada" loading="lazy" width="800" height="1067">
-                        <div class="absolute inset-0 xray-overlay anatomy-card-overlay">
-                            <div class="anatomy-card-scrim" aria-hidden="true"></div>
-                            <div class="anatomy-card-body">
-                                <div class="anatomy-card-head">
-                                    <span class="anatomy-card-icon xray-icon" aria-hidden="true"><i class="fa-solid fa-gears"></i></span>
-                                    <header class="anatomy-card-meta">
-                                        <span class="anatomy-card-index">02</span>
-                                        <span class="anatomy-card-category">Ferragens</span>
-                                    </header>
-                                </div>
-                                <h3 class="anatomy-card-title">Ferragens Importadas</h3>
-                                <p class="anatomy-card-caption">Blum e Hafele com fechamento suave, corrediças telescópicas e garantia de fábrica.</p>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="anatomy-card xray-container rounded-xl shadow-glass shrink-0 w-[82vw] sm:w-[78vw] md:w-auto snap-center group cursor-pointer" data-anatomy="2" aria-pressed="false" aria-label="03 Projeto — Projeto Técnico 3D">
-                        <img src="/assets/images/03-anatomia/anatomia-03-projeto-tecnico-3d.jpg" class="absolute inset-0 w-full h-full object-cover xray-img" alt="Projeto técnico 3D de ambiente planejado" loading="lazy" width="800" height="1067">
-                        <div class="absolute inset-0 xray-overlay anatomy-card-overlay">
-                            <div class="anatomy-card-scrim" aria-hidden="true"></div>
-                            <div class="anatomy-card-body">
-                                <div class="anatomy-card-head">
-                                    <span class="anatomy-card-icon xray-icon" aria-hidden="true"><i class="fa-solid fa-cube"></i></span>
-                                    <header class="anatomy-card-meta">
-                                        <span class="anatomy-card-index">03</span>
-                                        <span class="anatomy-card-category">Projeto</span>
-                                    </header>
-                                </div>
-                                <h3 class="anatomy-card-title">Projeto Técnico 3D</h3>
-                                <p class="anatomy-card-caption">Render fotorrealista do ambiente, validado milímetro a milímetro antes do corte.</p>
-                            </div>
-                        </div>
-                    </article>
-                    <article class="anatomy-card xray-container rounded-xl shadow-glass shrink-0 w-[82vw] sm:w-[78vw] md:w-auto snap-center group cursor-pointer" data-anatomy="3" aria-pressed="false" aria-label="04 Execução — Instalação Premium">
-                        <img src="/assets/images/03-anatomia/anatomia-04-instalacao-premium.jpg" class="absolute inset-0 w-full h-full object-cover xray-img" alt="Instalação premium de móveis planejados" loading="lazy" width="800" height="1067">
-                        <div class="absolute inset-0 xray-overlay anatomy-card-overlay">
-                            <div class="anatomy-card-scrim" aria-hidden="true"></div>
-                            <div class="anatomy-card-body">
-                                <div class="anatomy-card-head">
-                                    <span class="anatomy-card-icon xray-icon" aria-hidden="true"><i class="fa-solid fa-hammer"></i></span>
-                                    <header class="anatomy-card-meta">
-                                        <span class="anatomy-card-index">04</span>
-                                        <span class="anatomy-card-category">Execução</span>
-                                    </header>
-                                </div>
-                                <h3 class="anatomy-card-title">Instalação Premium</h3>
-                                <p class="anatomy-card-caption">Montagem com equipe própria, proteção do ambiente e entrega pronta para morar.</p>
-                            </div>
-                        </div>
-                    </article>
-                </div>
-                <div class="anatomy-dots md:hidden flex justify-center gap-2.5 mt-5" role="group" aria-label="Navegação dos pilares">
-                    <button type="button" class="anatomy-dot is-active" aria-current="true" aria-label="Chapas Premium" data-anatomy-dot="0"></button>
-                    <button type="button" class="anatomy-dot" aria-current="false" aria-label="Ferragens Importadas" data-anatomy-dot="1"></button>
-                    <button type="button" class="anatomy-dot" aria-current="false" aria-label="Projeto Técnico 3D" data-anatomy-dot="2"></button>
-                    <button type="button" class="anatomy-dot" aria-current="false" aria-label="Instalação Premium" data-anatomy-dot="3"></button>
-                </div>
-            </div>
-        </section>
-
-        <section id="portfolio" class="py-20 md:py-24 xl:py-28 bg-base">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 xl:px-10">
-                <div class="flex flex-col lg:flex-row justify-between items-start lg:items-end mb-8 md:mb-12 xl:mb-14 gap-6">
-                    <div class="max-w-2xl">
-                        <h2 class="font-serif text-3xl md:text-4xl xl:text-5xl font-bold mb-4">Execuções Curadas</h2>
-                        <p class="text-contrast/80 text-base md:text-lg">Ambientes executados que refletem nossa assinatura técnica e estética — integração perfeita entre design e rotina.</p>
-                        <p class="portfolio-hint md:hidden text-contrast/45 text-xs uppercase tracking-widest mt-4">Deslize para explorar · Toque para ampliar</p>
-                    </div>
-                    <button type="button" onclick="openModal()" class="hidden lg:flex btn-especialista btn-cta px-5 py-3 rounded-sm font-semibold text-sm magnetic-btn whitespace-nowrap shrink-0">
-                        Projeto Semelhante
-                    </button>
-                </div>
-                <div class="portfolio-track flex md:grid md:grid-cols-3 md:grid-rows-2 gap-4 lg:gap-6 xl:gap-8 overflow-x-auto md:overflow-visible pb-4 md:pb-0 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 md:mx-0 md:px-0" aria-label="Galeria de execuções Sartoria">
-                    <div class="portfolio-item group relative rounded-xl overflow-hidden min-w-[85vw] md:min-w-0 md:col-span-2 md:row-span-2 h-[400px] md:h-full md:min-h-[520px] lg:min-h-[580px] xl:min-h-[640px] snap-center shrink-0 cursor-pointer" onclick="openLightbox(this)" aria-label="Ver projeto Residência Viena">
-                        <img src="/assets/images/04-execucoes/execucao-01-cozinha-gourmet-nogueira.jpg" class="portfolio-img w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" loading="lazy" alt="Cozinha gourmet com lâmina de nogueira" width="1600" height="1200">
-                        <div class="portfolio-overlay absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 xl:p-10 pointer-events-none">
-                            <span class="card-eyebrow-on-dark mb-2" data-subtitle>Cozinha Gourmet</span>
-                            <h3 class="card-title-on-dark text-2xl xl:text-3xl font-serif" data-title>Residência Viena</h3>
-                            <span class="hidden" data-material="Lâmina de Nogueira & Vidro Reflecta"></span>
-                        </div>
-                    </div>
-                    <div class="portfolio-item group relative rounded-xl overflow-hidden min-w-[85vw] md:min-w-0 md:h-full md:min-h-[240px] lg:min-h-[272px] xl:min-h-[300px] h-[400px] snap-center shrink-0 cursor-pointer" onclick="openLightbox(this)" aria-label="Ver projeto Painel Acústico Ripado">
-                        <img src="/assets/images/04-execucoes/execucao-02-living-painel-ripado.png" class="portfolio-img w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" loading="lazy" alt="Living com painel ripado em MDF freijó" width="1200" height="900">
-                        <div class="portfolio-overlay absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 xl:p-8 pointer-events-none">
-                            <span class="card-eyebrow-on-dark mb-1" data-subtitle>Living</span>
-                            <h3 class="card-title-on-dark text-lg xl:text-xl font-serif" data-title>Painel Acústico Ripado</h3>
-                            <span class="hidden" data-material="MDF Freijó Ripado Premium"></span>
-                        </div>
-                    </div>
-                    <div class="portfolio-item group relative rounded-xl overflow-hidden min-w-[85vw] md:min-w-0 md:h-full md:min-h-[240px] lg:min-h-[272px] xl:min-h-[300px] h-[400px] snap-center shrink-0 cursor-pointer" onclick="openLightbox(this)" aria-label="Ver projeto Closet Minimalista">
-                        <img src="/assets/images/04-execucoes/execucao-03-closet-minimalista-lacca.jpg" class="portfolio-img w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105" loading="lazy" alt="Closet minimalista em lacca fosca" width="1200" height="900">
-                        <div class="portfolio-overlay absolute inset-0 bg-gradient-to-t from-black/95 via-black/35 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-6 xl:p-8 pointer-events-none">
-                            <span class="card-eyebrow-on-dark mb-1" data-subtitle>Dormitório Master</span>
-                            <h3 class="card-title-on-dark text-lg xl:text-xl font-serif" data-title>Closet Minimalista</h3>
-                            <span class="hidden" data-material="Lacca Fosca Branca & Iluminação LED Perfil"></span>
-                        </div>
-                    </div>
-                </div>
-                <div class="portfolio-dots md:hidden flex justify-center gap-2.5 mt-6" role="group" aria-label="Navegação do portfólio">
-                    <button type="button" class="portfolio-dot is-active" aria-current="true" aria-label="Residência Viena" data-portfolio-dot="0"></button>
-                    <button type="button" class="portfolio-dot" aria-current="false" aria-label="Painel Acústico Ripado" data-portfolio-dot="1"></button>
-                    <button type="button" class="portfolio-dot" aria-current="false" aria-label="Closet Minimalista" data-portfolio-dot="2"></button>
-                </div>
-                <div class="mt-8 text-center lg:hidden">
-                    <button type="button" onclick="openModal()" class="btn-especialista btn-cta px-5 py-3 rounded-sm font-semibold text-sm whitespace-nowrap">
-                        Projeto Semelhante
-                    </button>
-                </div>
-            </div>
-        </section>
-
-        <section id="depoimentos" class="py-20 md:py-24 xl:py-28 bg-contrast text-base">
-            <div class="max-w-7xl mx-auto px-6 lg:px-8 xl:px-10">
-                <div class="text-center max-w-3xl xl:max-w-4xl mx-auto mb-12 xl:mb-16">
-                    <i class="fa-solid fa-quote-right text-4xl text-accent/60 mb-6 reveal" aria-hidden="true"></i>
-                    <h2 class="font-serif text-3xl md:text-5xl xl:text-6xl font-bold mb-6 reveal">O Verdadeiro Luxo é a Paz de Espírito.</h2>
-                    <p class="text-on-dark-muted text-base md:text-lg reveal">Nada fala mais alto do que a vivência de quem nos confiou o próprio lar.</p>
-                </div>
-                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 xl:gap-10">
-                    <blockquote class="testimonial-card bg-base text-contrast p-8 xl:p-10 rounded-2xl shadow-xl mt-4 m-0">
-                        <div class="flex text-accent text-sm mb-4" aria-label="5 estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="card-quote-on-light italic font-serif text-lg xl:text-xl mb-6 leading-relaxed">"A primeira marcenaria que contratei e não tive dor de cabeça. O cronograma foi cumprido à risca."</p>
-                        <footer><cite class="card-author-on-light text-sm not-italic">Carolina M.</cite><span class="block card-meta-on-light text-xs">Residência no Centro · Chapecó</span></footer>
-                    </blockquote>
-                    <blockquote class="testimonial-card bg-base text-contrast p-8 xl:p-10 rounded-2xl shadow-xl md:-translate-y-4 m-0">
-                        <div class="flex text-accent text-sm mb-4" aria-label="5 estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="card-quote-on-light italic font-serif text-lg xl:text-xl mb-6 leading-relaxed">"O Projeto Técnico 3D já era lindo, mas o resultado físico superou. As dobradiças Blum fazem toda a diferença."</p>
-                        <footer><cite class="card-author-on-light text-sm not-italic">Roberto e Ana</cite><span class="block card-meta-on-light text-xs">Casa no Efagi · Chapecó</span></footer>
-                    </blockquote>
-                    <blockquote class="testimonial-card bg-base text-contrast p-8 xl:p-10 rounded-2xl shadow-xl mt-4 m-0">
-                        <div class="flex text-accent text-sm mb-4" aria-label="5 estrelas"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
-                        <p class="card-quote-on-light italic font-serif text-lg xl:text-xl mb-6 leading-relaxed">"A precisão é milimétrica. Recomendo de olhos fechados."</p>
-                        <footer><cite class="card-author-on-light text-sm not-italic">Juliana F.</cite><span class="block card-meta-on-light text-xs">Arquiteta parceira · Oeste de SC</span></footer>
-                    </blockquote>
-                </div>
-                <div class="mt-16 text-center">
-                    <button type="button" onclick="openModal()" class="btn-especialista btn-cta px-8 py-4 rounded-sm font-semibold shadow-lg magnetic-btn whitespace-nowrap">Consultoria Privada</button>
-                </div>
-            </div>
-        </section>
-
-        <section id="faq" class="py-20 md:py-24 xl:py-28 bg-base">
-            <div class="max-w-3xl xl:max-w-4xl mx-auto px-6 lg:px-8">
-                <div class="text-center mb-12">
-                    <p class="faq-eyebrow">Transparência total</p>
-                    <h2 class="font-serif text-3xl md:text-4xl font-bold mb-4 text-contrast">Dúvidas Frequentes</h2>
-                    <p class="text-contrast/80 max-w-xl mx-auto">Respostas diretas sobre consultoria, prazo, projeto técnico e garantia — alinhadas ao nosso padrão de execução.</p>
-                </div>
-                <div class="faq-list space-y-3">
-                    <div class="faq-item">
-                        <button type="button" class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center gap-4" aria-expanded="false" aria-controls="faq-panel-1" id="faq-trigger-1">
-                            <span class="faq-question">Como funciona a Consultoria Privada?</span>
-                            <i class="fa-solid fa-chevron-down faq-chevron shrink-0" aria-hidden="true"></i>
-                        </button>
-                        <div class="accordion-content" id="faq-panel-1" role="region" aria-labelledby="faq-trigger-1"><p class="faq-answer">Você preenche um briefing rápido pelo site. Um consultor de projeto Sartoria retorna via WhatsApp, entende seu ambiente e conduz a próxima etapa — do Projeto Técnico 3D à proposta personalizada.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button type="button" class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center gap-4" aria-expanded="false" aria-controls="faq-panel-2" id="faq-trigger-2">
-                            <span class="faq-question">Qual é o prazo de produção e instalação?</span>
-                            <i class="fa-solid fa-chevron-down faq-chevron shrink-0" aria-hidden="true"></i>
-                        </button>
-                        <div class="accordion-content" id="faq-panel-2" role="region" aria-labelledby="faq-trigger-2"><p class="faq-answer">Após assinatura do projeto final e medição in loco, o cronograma contratual padrão é de 35 a 45 dias úteis — prazo blindado em contrato, com instalação premium incluída.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button type="button" class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center gap-4" aria-expanded="false" aria-controls="faq-panel-3" id="faq-trigger-3">
-                            <span class="faq-question">Preciso ter projeto pronto ou vocês desenvolvem o 3D?</span>
-                            <i class="fa-solid fa-chevron-down faq-chevron shrink-0" aria-hidden="true"></i>
-                        </button>
-                        <div class="accordion-content" id="faq-panel-3" role="region" aria-labelledby="faq-trigger-3"><p class="faq-answer">As duas opções. Se você já tem layout definido, executamos com rigor de marcenaria industrial. Se não, desenvolvemos o Projeto Técnico 3D fotorrealista — incluso no fluxo de consultoria privada.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button type="button" class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center gap-4" aria-expanded="false" aria-controls="faq-panel-4" id="faq-trigger-4">
-                            <span class="faq-question">Quais materiais e ferragens são utilizados?</span>
-                            <i class="fa-solid fa-chevron-down faq-chevron shrink-0" aria-hidden="true"></i>
-                        </button>
-                        <div class="accordion-content" id="faq-panel-4" role="region" aria-labelledby="faq-trigger-4"><p class="faq-answer">Chapas premium (MDF e MDP de alta densidade), revestimentos melamínicos e ferragens importadas Blum e Hafele — com fechamento suave, corrediças telescópicas e garantia de fábrica.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button type="button" class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center gap-4" aria-expanded="false" aria-controls="faq-panel-5" id="faq-trigger-5">
-                            <span class="faq-question">Qual a garantia dos móveis planejados?</span>
-                            <i class="fa-solid fa-chevron-down faq-chevron shrink-0" aria-hidden="true"></i>
-                        </button>
-                        <div class="accordion-content" id="faq-panel-5" role="region" aria-labelledby="faq-trigger-5"><p class="faq-answer">5 anos de garantia contratual sobre a marcenaria (MDF, lacca e acabamentos) e garantia estendida de fábrica para ferragens e sistemas de abertura.</p></div>
-                    </div>
-                    <div class="faq-item">
-                        <button type="button" class="faq-btn w-full px-6 py-5 text-left flex justify-between items-center gap-4" aria-expanded="false" aria-controls="faq-panel-6" id="faq-trigger-6">
-                            <span class="faq-question">Como é feita a instalação no meu ambiente?</span>
-                            <i class="fa-solid fa-chevron-down faq-chevron shrink-0" aria-hidden="true"></i>
-                        </button>
-                        <div class="accordion-content" id="faq-panel-6" role="region" aria-labelledby="faq-trigger-6"><p class="faq-answer">Instalação premium com equipe própria, protocolo de proteção de pisos e paredes, montagem técnica certificada e entrega do ambiente pronto para morar — sem improviso.</p></div>
-                    </div>
-                </div>
-                <div class="mt-10 text-center">
-                    <button type="button" onclick="openModal()" class="btn-especialista btn-cta px-6 py-3 rounded-sm font-semibold text-sm whitespace-nowrap">Consultoria Privada</button>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <footer class="site-footer pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-6 lg:px-8 xl:px-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-12 gap-10 xl:gap-8 mb-12">
-                <div class="xl:col-span-4">
-                    <div class="footer-seal" aria-label="Selo Sartoria — Marcenaria de Alto Padrão">
-                        <div class="footer-seal-ring">
-                            <span class="footer-seal-orbit">Marcenaria · Alto Padrão</span>
-                            <div class="footer-seal-core">
-                                <i class="fa-solid fa-compass-drafting" aria-hidden="true"></i>
-                            </div>
-                            <span class="footer-seal-brand">Sartoria</span>
-                            <span class="footer-seal-tagline">Precisão Milimétrica</span>
-                        </div>
-                    </div>
-                    <p class="footer-text mt-6 max-w-sm">Transformamos ambientes com marcenaria de precisão — do Projeto Técnico 3D à instalação premium, com cronograma contratual.</p>
-                </div>
-                <nav class="xl:col-span-2" aria-label="Links do rodapé">
-                    <h2 class="footer-heading">Navegação</h2>
-                    <ul class="footer-links space-y-3">
-                        <li><a href="#solucao" class="footer-link">A Solução</a></li>
-                        <li><a href="#diferenciais" class="footer-link">Diferenciais</a></li>
-                        <li><a href="#portfolio" class="footer-link">Execuções</a></li>
-                        <li><a href="#faq" class="footer-link">Dúvidas</a></li>
-                    </ul>
-                </nav>
-                <div class="xl:col-span-3">
-                    <h2 class="footer-heading">Contato</h2>
-                    <ul class="footer-links space-y-3">
-                        <li class="flex items-start gap-3">
-                            <i class="fa-solid fa-location-dot mt-1 footer-icon" aria-hidden="true"></i>
-                            <span id="contact-address" class="footer-text">Av. Getúlio Vargas, 1200<br>Brasil</span>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-phone footer-icon" aria-hidden="true"></i>
-                            <a id="contact-phone" href="tel:+5549999999999" class="footer-link">+55 49 99999-9999</a>
-                        </li>
-                        <li class="flex items-center gap-3">
-                            <i class="fa-solid fa-envelope footer-icon" aria-hidden="true"></i>
-                            <a id="contact-email" href="mailto:projetos@sartoriamoveis.com.br" class="footer-link">projetos@sartoriamoveis.com.br</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="xl:col-span-3">
-                    <h2 class="footer-heading">Atendimento</h2>
-                    <p class="footer-text mb-4">Segunda a Sexta: 08h às 18h<br>Sábado: com agendamento.</p>
-                    <button type="button" onclick="openModal()" class="btn-especialista btn-cta w-full px-6 py-3 rounded-sm text-sm font-semibold whitespace-nowrap">
-                        Consultoria Privada
-                    </button>
-                </div>
-            </div>
-            <div class="footer-bottom pt-8 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center gap-3 text-center sm:text-left">
-                <p class="footer-legal">&copy; <span id="year">2026</span> Sartoria Móveis Planejados. Todos os direitos reservados.</p>
-                <p class="footer-legal">5 anos de garantia · +500 ambientes executados</p>
-            </div>
-            <p class="footer-credit">
-                Projeto <a href="https://glid.ia.br/" target="_blank" rel="noopener noreferrer" class="footer-credit-link">ESSENTIEL</a>
-                por <a href="https://glid.ia.br/" target="_blank" rel="noopener noreferrer" class="footer-credit-link">glid.ia.br</a>
+      <div class="container">
+        <div class="hero-grid">
+          <div class="hero-card">
+            <span class="eyebrow">Projeto autoral + execução premium</span>
+            <h1>O Seu Ambiente Pronto. Na Medida. No Prazo Exato.</h1>
+            <p class="hero-copy">
+              Precisao milimetrica na marcenaria e respeito absoluto a sua casa.
+              Receba o seu espaco pronto para viver, sem a ansiedade da obra.
             </p>
+            <div class="hero-actions">
+              <button class="btn btn-accent cta-stack" type="button" data-open-modal data-primary-action data-cta-location="hero-primary">
+                <span class="cta-main-text">Conversar com a equipe</span>
+                <span class="cta-presence-line" aria-hidden="true">
+                  <span class="presence-dot"></span>
+                  <span class="presence-copy">Chapecó</span>
+                </span>
+              </button>
+              <a class="btn btn-outline" href="#portfolio">Ver Execucoes</a>
+            </div>
+            <div class="hero-note">
+              O rigor tecnico e a tranquilidade que o seu projeto exige.
+            </div>
+          </div>
         </div>
-    </footer>
+      </div>
+    </section>
 
-    <div id="mobile-action-bar" class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-base/95 backdrop-blur-lg border-t border-accent/20 px-4 pt-3 shadow-2xl">
-        <button type="button" id="mobile-action-cta" onclick="openModal()" class="btn-especialista btn-cta w-full py-3.5 rounded-sm font-semibold text-sm uppercase tracking-wide whitespace-nowrap">
-            Consultoria Privada
-        </button>
-    </div>
+    <section class="curation-banner-section" aria-label="Banner de curadoria de paletas">
+      <div class="container">
+        <div class="curation-banner">
+          <span class="sr-only">Curadoria ativa de paletas de design da Tendência.</span>
+          <div class="curation-icon" aria-hidden="true">
+            <svg viewBox="0 0 48 48" focusable="false">
+              <path d="M11 27c0-3.9 3.1-7 7-7h4l3-4c1.4-1.9 4.2-2.2 6.1-.7 1.9 1.4 2.2 4.2.7 6.1l-4.2 5.6A8 8 0 0 1 21.2 30H18a7 7 0 0 1-7-7Z" />
+              <path d="M37 27c0-3.9-3.1-7-7-7h-4l-3-4c-1.4-1.9-4.2-2.2-6.1-.7-1.9 1.4-2.2 4.2-.7 6.1l4.2 5.6A8 8 0 0 0 26.8 30H30a7 7 0 0 0 7-7Z" />
+              <path d="M15 35h18" />
+            </svg>
+          </div>
 
-    <div id="lead-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="modal-title">
-        <div class="absolute inset-0 bg-contrast/80 backdrop-blur-sm transition-opacity opacity-0" id="modal-backdrop" onclick="closeModal()"></div>
-        <div class="relative bg-base w-full max-w-lg rounded-2xl shadow-2xl overflow-hidden transform scale-95 opacity-0 transition-all duration-300 max-h-[90vh] overflow-y-auto" id="modal-content">
-            <button type="button" onclick="closeModal()" aria-label="Fechar formulário" class="absolute top-4 right-4 text-contrast/50 hover:text-contrast text-2xl z-10"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
-            <div class="bg-white px-8 pt-8 pb-4 border-b border-contrast/10" id="modal-header">
-                <h2 id="modal-title" class="font-serif text-2xl font-bold text-contrast mb-2">Briefing de Consultoria Privada</h2>
-                <div class="w-full bg-base rounded-full h-1.5 mb-2"><div class="bg-accent h-1.5 rounded-full transition-all duration-300 w-1/3" id="form-progress"></div></div>
-                <p class="text-xs text-contrast/60 uppercase tracking-widest font-semibold" id="step-counter">Etapa 1 · Diagnóstico do Ambiente</p>
+          <div class="palette-loop">
+            <div class="palette-dots" aria-hidden="true">
+              <span class="palette-dot palette-dot-1"></span>
+              <span class="palette-dot palette-dot-2"></span>
+              <span class="palette-dot palette-dot-3"></span>
             </div>
-            <div class="p-8">
-                <div id="step-1" class="form-step">
-                    <h3 class="text-lg font-semibold mb-4 text-contrast">Qual ambiente será desenvolvido?</h3>
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-6">
-                        <label class="border border-contrast/20 rounded-lg p-3 flex items-center gap-3 cursor-pointer hover:border-accent hover:bg-white"><input type="checkbox" name="space" value="Cozinha Gourmet" class="accent-accent w-4 h-4"> <span class="text-sm font-medium">Cozinha Gourmet</span></label>
-                        <label class="border border-contrast/20 rounded-lg p-3 flex items-center gap-3 cursor-pointer hover:border-accent hover:bg-white"><input type="checkbox" name="space" value="Estar Integrado" class="accent-accent w-4 h-4"> <span class="text-sm font-medium">Estar Integrado</span></label>
-                        <label class="border border-contrast/20 rounded-lg p-3 flex items-center gap-3 cursor-pointer hover:border-accent hover:bg-white"><input type="checkbox" name="space" value="Dormitório / Closet" class="accent-accent w-4 h-4"> <span class="text-sm font-medium">Dormitório / Closet</span></label>
-                        <label class="border border-contrast/20 rounded-lg p-3 flex items-center gap-3 cursor-pointer hover:border-accent hover:bg-white"><input type="checkbox" name="space" value="Banheiro / Lavabo" class="accent-accent w-4 h-4"> <span class="text-sm font-medium">Banheiro / Lavabo</span></label>
-                        <label class="border border-contrast/20 rounded-lg p-3 flex items-center gap-3 cursor-pointer hover:border-accent hover:bg-white sm:col-span-2"><input type="checkbox" name="space" value="Residência Completa" class="accent-accent w-4 h-4"> <span class="text-sm font-medium">Residência Completa (Projeto Integral)</span></label>
-                    </div>
-                    <p id="error-step-1" class="form-error mb-4" role="alert"></p>
-                    <button type="button" onclick="nextStep(2)" class="w-full bg-contrast text-base hover:bg-black py-3 rounded-sm font-semibold magnetic-btn">Avançar <i class="fa-solid fa-arrow-right ml-2 text-sm" aria-hidden="true"></i></button>
-                </div>
-                <div id="step-2" class="form-step hidden">
-                    <h3 class="text-lg font-semibold mb-4 text-contrast">Qual o momento do seu projeto?</h3>
-                    <div class="space-y-3 mb-6">
-                        <label class="border border-contrast/20 rounded-lg p-4 flex items-center gap-3 cursor-pointer hover:border-accent hover:bg-white"><input type="radio" name="urgency" value="Imediata" class="accent-accent w-4 h-4"><div><span class="text-sm font-bold block text-contrast">Imediata</span><span class="text-xs card-meta-on-light">Obra já finalizada ou em fase final.</span></div></label>
-                        <label class="border border-contrast/20 rounded-lg p-4 flex items-center gap-3 cursor-pointer hover:border-accent hover:bg-white"><input type="radio" name="urgency" value="Próximos 3 meses" class="accent-accent w-4 h-4"><div><span class="text-sm font-bold block text-contrast">Próximos 3 meses</span><span class="text-xs card-meta-on-light">Obra em andamento.</span></div></label>
-                        <label class="border border-contrast/20 rounded-lg p-4 flex items-center gap-3 cursor-pointer hover:border-accent hover:bg-white"><input type="radio" name="urgency" value="Apenas Planejamento" class="accent-accent w-4 h-4"><div><span class="text-sm font-bold block text-contrast">Apenas Planejamento</span><span class="text-xs card-meta-on-light">Pesquisando valores e referências.</span></div></label>
-                    </div>
-                    <p id="error-step-2" class="form-error mb-4" role="alert"></p>
-                    <div class="flex gap-3">
-                        <button type="button" onclick="prevStep(1)" class="px-4 py-3 border border-contrast/20 rounded-sm text-contrast font-medium hover:bg-white" aria-label="Voltar"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
-                        <button type="button" onclick="nextStep(3)" class="flex-1 bg-contrast text-base hover:bg-black py-3 rounded-sm font-semibold magnetic-btn">Continuar</button>
-                    </div>
-                </div>
-                <div id="step-3" class="form-step hidden">
-                    <h3 class="text-lg font-semibold mb-2 text-contrast">Para onde direcionamos o consultor de projeto?</h3>
-                    <p class="text-sm text-contrast/70 mb-4">Em até 10 minutos comerciais, um consultor Sartoria entrará em contato via WhatsApp.</p>
-                    <div class="space-y-4 mb-6">
-                        <div>
-                            <label for="lead-name" class="sr-only">Nome</label>
-                            <input id="lead-name" type="text" autocomplete="name" placeholder="Como devemos lhe chamar?" class="w-full bg-white border border-contrast/20 rounded-sm px-4 py-3 text-base focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent">
-                            <p id="error-name" class="form-error" role="alert"></p>
-                        </div>
-                        <div>
-                            <label for="lead-phone" class="sr-only">WhatsApp</label>
-                            <input id="lead-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="Seu WhatsApp (com DDD)" class="w-full bg-white border border-contrast/20 rounded-sm px-4 py-3 text-base focus:outline-none focus:border-accent focus:ring-1 focus:ring-accent">
-                            <p id="error-phone" class="form-error" role="alert"></p>
-                        </div>
-                    </div>
-                    <div class="flex gap-3">
-                        <button type="button" onclick="prevStep(2)" class="px-4 py-3 border border-contrast/20 rounded-sm text-contrast font-medium hover:bg-white" aria-label="Voltar"><i class="fa-solid fa-arrow-left" aria-hidden="true"></i></button>
-                        <button type="button" id="submit-btn" onclick="submitForm()" class="flex-1 btn-especialista btn-cta py-3 rounded-sm font-bold text-base shadow-lg magnetic-btn whitespace-nowrap">Enviar Briefing</button>
-                    </div>
-                    <p class="text-center text-xs text-contrast/50 mt-4"><i class="fa-solid fa-lock" aria-hidden="true"></i> Seus dados estão seguros.</p>
-                </div>
-                <div id="step-success" class="form-step hidden text-center py-6">
-                    <div class="w-16 h-16 bg-accent/15 text-accent rounded-full flex items-center justify-center text-3xl mx-auto mb-4" aria-hidden="true"><i class="fa-solid fa-check"></i></div>
-                    <h3 class="font-serif text-2xl font-bold mb-2 text-contrast">Briefing Enviado</h3>
-                    <p class="text-contrast/70 mb-6">Seu consultor de projeto receberá os dados e continuará o atendimento pelo WhatsApp.</p>
-                    <button type="button" onclick="closeModal()" class="border border-contrast/20 px-6 py-2 rounded-sm text-sm font-medium hover:bg-white">Voltar ao site</button>
-                </div>
+            <div class="palette-copy" aria-hidden="true">
+              <span class="palette-copy-item palette-copy-1">Acolhimento na forma bruta</span>
+              <span class="palette-copy-item palette-copy-2">Elegancia terrosa para viver bem</span>
+              <span class="palette-copy-item palette-copy-3">Calma organica com assinatura premium</span>
             </div>
+          </div>
         </div>
-    </div>
+      </div>
+    </section>
 
-    <div id="portfolio-lightbox" class="fixed inset-0 z-[110] hidden items-center justify-center p-4 md:p-8" role="dialog" aria-modal="true" aria-label="Visualização do projeto">
-        <div class="absolute inset-0 bg-black/60 backdrop-blur-2xl transition-opacity opacity-0" id="lightbox-backdrop" onclick="closeLightbox()"></div>
-        <button type="button" onclick="closeLightbox()" aria-label="Fechar galeria" class="absolute right-6 text-white/50 hover:text-white text-3xl z-[120]" style="top: max(1.5rem, env(safe-area-inset-top));"><i class="fa-solid fa-xmark" aria-hidden="true"></i></button>
-        <div class="relative w-full max-w-6xl h-full max-h-[90vh] flex flex-col transform scale-95 opacity-0 transition-all duration-500 z-[115]" id="lb-content">
-            <div class="relative flex-1 rounded-t-2xl overflow-hidden bg-black/20 shadow-2xl">
-                <img id="lb-img" src="" class="absolute inset-0 w-full h-full object-contain transition-all duration-500" alt="Visualização ampliada do projeto">
+    <section class="section" id="solucao">
+      <div class="container">
+        <div class="two-col">
+          <div>
+            <div class="section-header">
+              <h2>A casa e o palco onde a vida acontece.</h2>
+              <div class="manifesto-copy">
+                <p>Onde a familia se encontra, os amigos chegam e o tempo desacelera.</p>
+                <p>Cada detalhe da nossa execucao organiza a sua rotina e prepara o seu espaco para ser vivido de verdade.</p>
+                <p>A marcenaria da Tendência e desenhada para acolher, com uma presenca silenciosa e uma durabilidade que atravessa geracoes.</p>
+              </div>
             </div>
-            <div class="bg-base rounded-b-2xl p-6 md:p-8 flex flex-col md:flex-row justify-between items-start md:items-center gap-6 shadow-2xl border-t border-white/20">
+
+            <div class="feature-list">
+              <article class="feature-item">
+                <div class="feature-icon">01</div>
                 <div>
-                    <span id="lb-subtitle" class="card-eyebrow-on-light mb-1 block"></span>
-                    <h3 id="lb-title" class="card-title-on-light font-serif text-2xl md:text-3xl font-bold mb-3"></h3>
-                    <div id="lb-material" class="inline-flex items-center gap-2 bg-contrast/5 px-3 py-1.5 rounded-full border border-contrast/10">
-                        <i class="fa-solid fa-layer-group text-accent text-xs" aria-hidden="true"></i>
-                        <span class="card-meta-on-light text-xs font-bold uppercase tracking-wider"></span>
-                    </div>
+                  <strong>Precisao Milimetrica</strong>
+                  <div>Mapeamento tecnico da circulacao e do uso real. Encaixe perfeito, do primeiro ao ultimo modulo, sem improvisos.</div>
                 </div>
-                <button type="button" onclick="closeLightbox(); openModal();" class="w-full md:w-auto bg-contrast text-base hover:bg-black px-6 py-4 rounded-sm font-semibold shadow-xl magnetic-btn shrink-0 whitespace-nowrap">
-                    Projeto Semelhante
-                </button>
-            </div>
-        </div>
-    </div>
+              </article>
 
-    <script src="/assets/js/config.js"></script>
-    <script src="/assets/js/images.js"></script>
-    <script src="/assets/js/main.js" defer></script>
+              <article class="feature-item">
+                <div class="feature-icon">02</div>
+                <div>
+                  <strong>O "Fio do Bigode" (Cronograma)</strong>
+                  <div>O respeito a sua casa traduzido em planejamento tatico. Instalacao com etapas claras, comunicacao direta e compromisso total com o prazo.</div>
+                </div>
+              </article>
+
+              <article class="feature-item">
+                <div class="feature-icon">03</div>
+                <div>
+                  <strong>Engenharia Oculta</strong>
+                  <div>Uso exclusivo de ferragens e acabamentos de alta resistencia. Funcionamento suave e estrutura implacavel para o uso diario pesado.</div>
+                </div>
+              </article>
+            </div>
+          </div>
+
+          <div class="card media-frame sensory-visual-target">
+            <img
+              src="assets/images/02-solucao/solucao-detalhe-marcenaria-blum.jpg"
+              alt="Detalhe de marcenaria premium com ferragens de alto padrão"
+              width="1024"
+              height="559"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="media-caption">
+              <strong>Detalhe que vende confiança</strong>
+              <div>Imagem local em alta qualidade para demo rápida no localhost.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section pillars" id="diferenciais">
+      <div class="container">
+        <div class="section-header">
+          <h2>A anatomia da perfeição</h2>
+          <p class="section-subtitle">
+            Um bloco responsivo com quatro pilares, adaptado para desktop e mobile sem depender de build.
+          </p>
+        </div>
+
+        <div class="pillar-grid">
+          <article class="pillar-card sensory-visual-target">
+            <img src="assets/images/03-anatomia/anatomia-01-chapas-premium.jpg" alt="Chapas premium" width="1024" height="559" loading="lazy" decoding="async">
+            <div class="pillar-body">
+              <h3>Chapas Premium</h3>
+              <p>Núcleo de alta densidade, textura elegante e proposta visual de alto padrão.</p>
+            </div>
+          </article>
+
+          <article class="pillar-card sensory-visual-target">
+            <img src="assets/images/03-anatomia/anatomia-02-ferragens-importadas.jpg" alt="Ferragens importadas" width="1024" height="559" loading="lazy" decoding="async">
+            <div class="pillar-body">
+              <h3>Ferragens High-End</h3>
+              <p>Componentes que reforçam suavidade, durabilidade e percepção premium.</p>
+            </div>
+          </article>
+
+          <article class="pillar-card sensory-visual-target">
+            <img src="assets/images/03-anatomia/anatomia-03-projeto-tecnico-3d.jpg" alt="Projeto técnico em 3D" width="1024" height="559" loading="lazy" decoding="async">
+            <div class="pillar-body">
+              <h3>Projeto Técnico 3D</h3>
+              <p>Visualização clara para acelerar a decisão comercial e alinhar expectativas.</p>
+            </div>
+          </article>
+
+          <article class="pillar-card sensory-visual-target">
+            <img src="assets/images/03-anatomia/anatomia-04-instalacao-premium.jpg" alt="Instalação premium" width="1024" height="559" loading="lazy" decoding="async">
+            <div class="pillar-body">
+              <h3>Instalação Premium</h3>
+              <p>Execução organizada, finalização limpa e foco total na experiência do cliente.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="portfolio">
+      <div class="container">
+        <div class="section-header">
+          <h2>Galeria de ambientes</h2>
+          <p class="section-subtitle">
+            As imagens locais da pasta do projeto agora já podem ser vistas diretamente em uma página responsiva.
+          </p>
+        </div>
+
+        <div class="portfolio-grid">
+          <article class="portfolio-card tall sensory-visual-target">
+            <img src="assets/images/04-execucoes/execucao-01-cozinha-gourmet-nogueira.jpg" alt="Cozinha gourmet em nogueira" width="572" height="1024" loading="lazy" decoding="async">
+            <div class="portfolio-copy">
+              <strong>Cozinha gourmet</strong>
+              <div>Layout de destaque para telas grandes, sem quebrar no mobile.</div>
+            </div>
+          </article>
+
+          <article class="portfolio-card sensory-visual-target">
+            <picture>
+              <source type="image/webp" srcset="assets/images/04-execucoes/execucao-02-living-painel-ripado.webp">
+              <img src="assets/images/04-execucoes/execucao-02-living-painel-ripado.png" alt="Living com painel ripado" width="2816" height="1536" loading="lazy" decoding="async">
+            </picture>
+            <div class="portfolio-copy">
+              <strong>Living ripado</strong>
+              <div>Imagem local otimizada para preview imediato.</div>
+            </div>
+          </article>
+
+          <article class="portfolio-card sensory-visual-target">
+            <img src="assets/images/04-execucoes/execucao-03-closet-minimalista-lacca.jpg" alt="Closet minimalista em lacca" width="1024" height="559" loading="lazy" decoding="async">
+            <div class="portfolio-copy">
+              <strong>Closet minimalista</strong>
+              <div>Card compacto para navegação suave no mobile.</div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section testimonials">
+      <div class="container">
+        <div class="section-header">
+          <h2>Experiência sem surpresas</h2>
+          <p class="section-subtitle">
+            Bloco de prova social pronto para apresentação comercial local.
+          </p>
+        </div>
+
+        <div class="testimonial-grid">
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"O visual ficou elegante no notebook e no celular. Excelente para mostrar o portfólio em reunião."</p>
+            <strong>Cliente residencial</strong>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"A navegação está leve e clara. Os CTAs para WhatsApp ficaram muito mais diretos."</p>
+            <strong>Arquiteta parceira</strong>
+          </article>
+
+          <article class="testimonial-card">
+            <div class="stars">★★★★★</div>
+            <p>"As imagens locais carregam rápido e a página abre sem precisar de framework nem build."</p>
+            <strong>Equipe comercial</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container">
+        <div class="section-header">
+          <h2>Dúvidas frequentes</h2>
+          <p class="section-subtitle">
+            Uma seção simples para a apresentação local funcionar bem em qualquer dispositivo.
+          </p>
+        </div>
+
+        <div class="faq">
+          <article class="faq-item">
+            <button class="faq-question" type="button" id="faq-question-1" aria-expanded="false" aria-controls="faq-answer-1">
+              <span>Como abrir no computador?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-question-1" aria-hidden="true">
+              Rode um servidor estático na pasta do projeto e abra <strong>http://localhost:8080</strong> no navegador.
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <button class="faq-question" type="button" id="faq-question-2" aria-expanded="false" aria-controls="faq-answer-2">
+              <span>Como ver no celular?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-question-2" aria-hidden="true">
+              Com o computador e o celular na mesma rede Wi-Fi, acesse <strong>http://SEU-IP:8080</strong>.
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <button class="faq-question" type="button" id="faq-question-3" aria-expanded="false" aria-controls="faq-answer-3">
+              <span>Precisa instalar framework?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-question-3" aria-hidden="true">
+              Nao. Esta versao usa apenas HTML, CSS e JavaScript puros com imagens locais da pasta.
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer" id="contato">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <div class="footer-brand">
+            <img
+              class="footer-brand-logo"
+              src="assets/images/05-social/logotipo-tendencia.png"
+              alt="Tendência Moveis Planejados"
+              width="44"
+              height="44"
+              loading="lazy"
+              decoding="async"
+            >
+            <span>TENDÊNCIA</span>
+          </div>
+          <p>
+            Apresentacao local do portfolio de moveis planejados, pronta para atendimento em desktop e mobile.
+          </p>
+        </div>
+
+        <div>
+          <div class="footer-title">Navegacao</div>
+          <div class="footer-list">
+            <a href="#solucao">A Solucao</a>
+            <a href="#diferenciais">Diferenciais</a>
+            <a href="#portfolio">Portfolio</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Contato</div>
+          <div class="footer-list">
+            <span>Chapeco - SC</span>
+            <a href="tel:+5549999508884">+55 49 99950-8884</a>
+            <a href="mailto:projetos@tendenciamoveis.com.br">projetos@tendenciamoveis.com.br</a>
+          </div>
+        </div>
+
+        <div>
+          <div class="footer-title">Atendimento</div>
+          <div class="footer-list">
+            <span>O rigor tecnico e a tranquilidade que o seu projeto exige.</span>
+            <button class="btn btn-accent cta-stack" type="button" data-open-modal data-primary-action data-cta-location="footer-primary">
+              <span class="cta-main-text">Conversar com a equipe</span>
+              <span class="cta-presence-line" aria-hidden="true">
+                <span class="presence-dot"></span>
+                <span class="presence-copy">Chapecó</span>
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <span>&copy; 2026 Tendência Moveis Planejados.</span>
+        <span>Versao local responsiva para demonstracao.</span>
+      </div>
+    </div>
+  </footer>
+
+  <div class="bottom-action-bar" role="group" aria-label="Acoes rapidas">
+    <a class="bottom-action-btn secondary" href="#portfolio" aria-label="Ver execucoes">
+      <svg viewBox="0 0 24 24" aria-hidden="true">
+        <path
+          fill="currentColor"
+          d="M6 6.5A2.5 2.5 0 0 1 8.5 4h7A2.5 2.5 0 0 1 18 6.5V8h1a2 2 0 0 1 2 2v7.5A2.5 2.5 0 0 1 18.5 20h-13A2.5 2.5 0 0 1 3 17.5V10a2 2 0 0 1 2-2h1V6.5Zm2.5-1a1 1 0 0 0-1 1V8h9V6.5a1 1 0 0 0-1-1h-7ZM5 10v7.5c0 .83.67 1.5 1.5 1.5h11c.83 0 1.5-.67 1.5-1.5V10H5Zm7 1.7a3.3 3.3 0 1 1 0 6.6 3.3 3.3 0 0 1 0-6.6Zm0 1.5a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Z"
+        />
+      </svg>
+      <span>Ver Execucoes</span>
+    </a>
+
+    <span class="bar-divider" aria-hidden="true"></span>
+
+    <a
+      class="bottom-action-btn primary"
+      data-primary-action
+      data-cta-location="bottom-bar-primary"
+      href="https://wa.me/5549999508884?text=Ola%2C%20quero%20conversar%20com%20a%20equipe."
+      target="_blank"
+      rel="noreferrer"
+      aria-label="Conversar com a equipe no WhatsApp"
+    >
+      <span class="cta-stack">
+        <span class="cta-main-text">Conversar com a equipe</span>
+        <span class="cta-presence-line" aria-hidden="true">
+          <span class="presence-dot"></span>
+          <span class="presence-copy">Chapecó</span>
+        </span>
+      </span>
+    </a>
+  </div>
+
+  <div class="menu-backdrop" id="menu-backdrop" data-close-menu></div>
+  <aside class="menu-drawer" id="site-menu-drawer" aria-hidden="true" aria-labelledby="menu-drawer-title">
+    <div class="menu-drawer-header">
+      <strong id="menu-drawer-title">Navegacao</strong>
+      <button class="menu-close" type="button" data-close-menu aria-label="Fechar menu">×</button>
+    </div>
+    <nav class="menu-drawer-nav" id="site-nav-drawer" aria-label="Menu mobile"></nav>
+    <div class="menu-watermark">gl.it.ya.br</div>
+  </aside>
+
+  <audio id="premium-click" preload="auto" aria-hidden="true">
+    <source src="data:audio/wav;base64,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" type="audio/wav">
+  </audio>
+
+  <div class="modal" id="lead-modal" aria-hidden="true">
+    <div class="modal-backdrop" data-close-modal></div>
+
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
+
+      <div class="modal-header">
+        <strong id="modal-title">Solicitar atendimento</strong>
+        <div class="modal-progress"><span id="modal-progress-fill"></span></div>
+        <div class="status-text" id="step-indicator">Passo 1 de 3</div>
+      </div>
+
+      <div class="modal-body">
+        <section class="step active" data-step="1">
+          <h3>Quais ambientes voce deseja planejar?</h3>
+          <div class="choice-grid" id="environment-options">
+            <button class="chip" type="button" data-value="Cozinha">Cozinha</button>
+            <button class="chip" type="button" data-value="Living/Sala">Living/Sala</button>
+            <button class="chip" type="button" data-value="Dormitorio">Dormitorio</button>
+            <button class="chip" type="button" data-value="Banheiro">Banheiro</button>
+            <button class="chip" type="button" data-value="Casa completa">Casa completa</button>
+          </div>
+          <div class="step-actions">
+            <button class="btn btn-primary" type="button" data-next-step>Continuar</button>
+          </div>
+        </section>
+
+        <section class="step" data-step="2">
+          <h3>Qual a sua urgencia?</h3>
+          <div class="urgency-list" id="urgency-options">
+            <button class="radio-card" type="button" data-value="Imediata">Imediata</button>
+            <button class="radio-card" type="button" data-value="Proximos 3 meses">Proximos 3 meses</button>
+            <button class="radio-card" type="button" data-value="Apenas planejamento">Apenas planejamento</button>
+          </div>
+          <div class="step-actions">
+            <button class="btn btn-outline btn-back" type="button" data-prev-step>Voltar</button>
+            <button class="btn btn-primary" type="button" data-next-step>Continuar</button>
+          </div>
+        </section>
+
+        <section class="step" data-step="3">
+          <h3>Para onde enviamos o atendimento?</h3>
+          <div class="urgency-list">
+            <input class="field" id="lead-name" type="text" placeholder="Seu nome completo">
+            <input class="field" id="lead-phone" type="tel" placeholder="Seu WhatsApp com DDD">
+          </div>
+          <div class="step-actions">
+            <button class="btn btn-outline btn-back" type="button" data-prev-step>Voltar</button>
+            <button class="btn btn-accent" type="button" id="submit-lead">Enviar para WhatsApp</button>
+          </div>
+          <div class="status-text">Uma mensagem pronta sera aberta para o atendimento.</div>
+        </section>
+      </div>
+    </div>
+  </div>
+
+    <script src="assets/js/config.js"></script>
+  <script src="assets/js/tracking.js"></script>
+  <script src="assets/js/main.js"></script>
 </body>
 </html>
