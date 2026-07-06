@@ -1,4 +1,4 @@
-﻿    (function () {
+    (function () {
       const pageProgress = document.getElementById("page-progress");
       const siteHeader = document.getElementById("site-header");
       const faqItems = document.querySelectorAll(".faq-item");

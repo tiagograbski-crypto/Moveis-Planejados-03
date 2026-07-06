@@ -1,4 +1,4 @@
-﻿# Prompts básicos — Tendência (todas as imagens)
+# Prompts básicos — Tendência (todas as imagens)
 
 Use o **prompt negativo** em todas. Paleta: marrom `#3E3129`, terracota `#C49A6C`, creme `#E8E5E1`.
 

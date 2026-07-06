@@ -1,4 +1,4 @@
-﻿# Tendência — Móveis Planejados
+# Tendência — Móveis Planejados
 
 Landing page de alta conversão para **Tendência Móveis Planejados** — Chapecó, SC.
 Design *premium* com Glassmorphism, micro-interações de nível *high-end*, banner de curadoria de paletas e integração direta com WhatsApp.

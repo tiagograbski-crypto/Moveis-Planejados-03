@@ -1,4 +1,4 @@
-﻿/**
+/**
  * Copie este arquivo para config.js e ajuste os valores do cliente.
  * config.js é versionado com placeholders — substitua antes do deploy.
  */

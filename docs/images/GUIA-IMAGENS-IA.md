@@ -1,4 +1,4 @@
-﻿# Guia de Imagens — Tendência Landing
+# Guia de Imagens — Tendência Landing
 
 Relatório para produção de assets com IA (Essentiel / glid.ia.br).  
 Cada arquivo abaixo corresponde **exatamente** ao nome que deve ir na pasta indicada.
