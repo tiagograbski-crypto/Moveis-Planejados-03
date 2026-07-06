@@ -667,6 +667,164 @@
         updateGalleryFocusLighting();
       }
 
+      function initJourneyTimeline() {
+        const section = document.getElementById("jornada-execucao");
+        const timeline = document.getElementById("journey-timeline");
+        if (!section || !timeline) {
+          return;
+        }
+
+        const steps = Array.from(timeline.querySelectorAll(".journey-step"));
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let stepThresholds = [];
+        let journeyFrameId = 0;
+        let journeyObserver = null;
+
+        function measureThresholds() {
+          const track = timeline.querySelector(".journey-track");
+          if (!track || steps.length === 0) {
+            stepThresholds = [];
+            return;
+          }
+
+          const trackTop = track.offsetTop;
+          const trackHeight = track.offsetHeight || 1;
+
+          stepThresholds = steps.map((step) => {
+            const node = step.querySelector(".journey-node");
+            if (!node) {
+              return 1;
+            }
+
+            const nodeCenter = step.offsetTop + node.offsetTop + (node.offsetHeight / 2);
+            return Math.max(0, Math.min(1, (nodeCenter - trackTop) / trackHeight));
+          });
+        }
+
+        function applyJourneyProgress(progress) {
+          const clamped = Math.max(0, Math.min(1, progress));
+          timeline.style.setProperty("--journey-progress", String(clamped));
+
+          steps.forEach((step, index) => {
+            const threshold = stepThresholds[index] ?? 1;
+            if (clamped >= threshold - 0.12) {
+              step.classList.add("is-revealed");
+            }
+          });
+        }
+
+        function getTimelineScrollProgress() {
+          const rect = timeline.getBoundingClientRect();
+          const viewportHeight = window.innerHeight;
+          const startLine = viewportHeight * 0.94;
+          const endLine = viewportHeight * 0.38;
+          const totalDistance = rect.height + (startLine - endLine);
+
+          if (totalDistance <= 0) {
+            return 0;
+          }
+
+          const traveled = startLine - rect.top;
+          return Math.max(0, Math.min(1, traveled / totalDistance));
+        }
+
+        function updateJourneyTimeline() {
+          journeyFrameId = 0;
+
+          if (prefersReducedMotion) {
+            applyJourneyProgress(1);
+            steps.forEach((step) => step.classList.add("is-revealed"));
+            return;
+          }
+
+          const scrollProgress = getTimelineScrollProgress();
+          applyJourneyProgress(scrollProgress);
+        }
+
+        function requestJourneyUpdate() {
+          if (journeyFrameId) {
+            window.cancelAnimationFrame(journeyFrameId);
+          }
+
+          journeyFrameId = window.requestAnimationFrame(updateJourneyTimeline);
+        }
+
+        function setupJourneyObserver() {
+          if (prefersReducedMotion) {
+            applyJourneyProgress(1);
+            steps.forEach((step) => step.classList.add("is-revealed"));
+            return;
+          }
+
+          if (!("IntersectionObserver" in window)) {
+            updateJourneyTimeline();
+            return;
+          }
+
+          if (journeyObserver) {
+            journeyObserver.disconnect();
+          }
+
+          journeyObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (!entry.target.classList.contains("journey-step") || !entry.isIntersecting) {
+                return;
+              }
+
+              entry.target.classList.add("is-revealed");
+
+              const stepIndex = steps.indexOf(entry.target);
+              if (stepIndex < 0) {
+                return;
+              }
+
+              const stepThreshold = stepThresholds[stepIndex] ?? 1;
+              const currentProgress = parseFloat(
+                getComputedStyle(timeline).getPropertyValue("--journey-progress")
+              ) || 0;
+
+              if (stepThreshold > currentProgress) {
+                timeline.style.setProperty("--journey-progress", String(stepThreshold));
+              }
+            });
+
+            requestJourneyUpdate();
+          }, {
+            root: null,
+            threshold: 0.2,
+            rootMargin: "-10% 0px -10% 0px"
+          });
+
+          journeyObserver.observe(timeline);
+          steps.forEach((step) => journeyObserver.observe(step));
+        }
+
+        function onResize() {
+          measureThresholds();
+          requestJourneyUpdate();
+        }
+
+        measureThresholds();
+        setupJourneyObserver();
+        updateJourneyTimeline();
+
+        window.addEventListener("scroll", requestJourneyUpdate, { passive: true });
+        window.addEventListener("resize", onResize);
+
+        window.addEventListener("pagehide", function () {
+          window.removeEventListener("scroll", requestJourneyUpdate);
+          window.removeEventListener("resize", onResize);
+          if (journeyObserver) {
+            journeyObserver.disconnect();
+            journeyObserver = null;
+          }
+          if (journeyFrameId) {
+            window.cancelAnimationFrame(journeyFrameId);
+            journeyFrameId = 0;
+          }
+        });
+      }
+
       const curadoriaPalettes = [
         {
           name: "Terra Orgânica",
@@ -846,6 +1004,7 @@
         });
       }
 
+      initJourneyTimeline();
       initCuradoriaCores();
       initPersistentHeroUI();
 
