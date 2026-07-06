@@ -560,6 +560,30 @@
       font-size: 0.92rem;
     }
 
+    .hero-card .eyebrow,
+    .hero-card h1 {
+      color: #ffffff;
+    }
+
+    .hero-card .hero-copy {
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .hero-card .hero-note {
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .hero-actions .btn-outline {
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.52);
+    }
+
+    .hero-actions .btn-outline:hover {
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.82);
+      background: rgba(255, 255, 255, 0.1);
+    }
+
     .curadoria-cores {
       padding: clamp(2.5rem, 6vw, 3.75rem) 0;
       background: var(--surface-obsidian);
