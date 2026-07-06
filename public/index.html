@@ -58,23 +58,26 @@
 <body>
   <div class="page-progress" id="page-progress"></div>
 
-  <header class="site-header" id="site-header">
+  <header class="site-header persistent-ui persistent-ui--top" id="site-header">
     <div class="container">
       <div class="header-row">
-        <div class="brand-identity" aria-label="Marca Tendência">
+        <div class="brand-identity" aria-label="Tendência Móveis Planejados">
           <img
             class="brand-header-logo"
             src="social/logotipo-tendencia.png"
-            alt="Tendência Moveis Planejados"
+            alt="Tendência Móveis Planejados"
             width="34"
             height="34"
             loading="eager"
             decoding="async"
           >
-          <span class="brand-name">Tendência</span>
+          <div class="brand-copy">
+            <a class="brand-name" href="#hero">Tendência</a>
+            <span class="brand-tagline">Móveis planejados</span>
+          </div>
         </div>
         <div class="header-nav-shell">
-          <nav class="site-nav-desktop" id="site-nav-desktop" aria-label="Navegacao principal"></nav>
+          <nav class="site-nav-desktop" id="site-nav-desktop" aria-label="Navegação principal"></nav>
           <button
             class="menu-toggle"
             id="menu-toggle"
@@ -93,7 +96,7 @@
   </header>
 
   <main>
-    <section class="hero" id="inicio">
+    <section class="hero" id="hero">
       <picture class="hero-media">
         <source type="image/webp" media="(min-width: 768px)" srcset="hero/hero-capa-marrom.webp">
         <source media="(min-width: 768px)" srcset="hero/hero-capa-marrom.png">
@@ -110,16 +113,16 @@
 
       <div class="container">
         <div class="hero-grid">
-          <div class="hero-card">
-            <span class="eyebrow">Projeto autoral + execução premium</span>
-            <h1>O Seu Ambiente Pronto. Na Medida. No Prazo Exato.</h1>
-            <p class="hero-copy">
-              Precisao milimetrica na marcenaria e respeito absoluto a sua casa.
-              Receba o seu espaco pronto para viver, sem a ansiedade da obra.
+          <div class="hero-card hero-glass-card">
+            <span class="eyebrow animate-fade-up">Projeto autoral + execução premium</span>
+            <h1 class="animate-fade-up delay-1">O Seu Ambiente Pronto. Na Medida. No Prazo Exato.</h1>
+            <p class="hero-copy animate-fade-up delay-2">
+              Precisão milimétrica na marcenaria e respeito absoluto à sua casa.
+              Receba o seu espaço pronto para viver, sem a ansiedade da obra.
             </p>
-            <div class="hero-actions">
+            <div class="hero-actions animate-fade-up delay-3">
               <button class="btn btn-accent cta-stack" type="button" data-open-modal data-primary-action data-cta-location="hero-primary">
-                <span class="cta-main-text">Conversar com a equipe</span>
+                <span class="cta-main-text">Solicitar orçamento</span>
                 <span class="cta-presence-line" aria-hidden="true">
                   <span class="presence-dot"></span>
                   <span class="presence-copy">Chapecó</span>
@@ -127,8 +130,26 @@
               </button>
               <a class="btn btn-outline" href="#portfolio">Ver Execuções</a>
             </div>
-            <div class="hero-note">
-              O rigor tecnico e a tranquilidade que o seu projeto exige.
+
+            <div class="animate-fade-up delay-4">
+            <div class="hero-trust-badge" aria-label="Mais de 2.000 projetos executados com rigor técnico na região">
+              <div class="trust-badge__avatars" aria-hidden="true">
+                <span class="trust-avatar"></span>
+                <span class="trust-avatar"></span>
+                <span class="trust-avatar"></span>
+              </div>
+              <div class="trust-badge__content">
+                <div class="trust-badge__stars" aria-hidden="true">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+                </div>
+                <p class="trust-badge__text">+de 2.000 projetos executados com rigor técnico na região</p>
+              </div>
+            </div>
+            <div class="scroll-hint" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
             </div>
           </div>
         </div>
@@ -142,9 +163,9 @@
             <div class="section-header">
               <h2>A casa e o palco onde a vida acontece.</h2>
               <div class="manifesto-copy">
-                <p>Onde a familia se encontra, os amigos chegam e o tempo desacelera.</p>
-                <p>Cada detalhe da nossa execucao organiza a sua rotina e prepara o seu espaco para ser vivido de verdade.</p>
-                <p>A marcenaria da Tendência e desenhada para acolher, com uma presenca silenciosa e uma durabilidade que atravessa geracoes.</p>
+                <p>Onde a família se encontra, os amigos chegam e o tempo desacelera.</p>
+                <p>Cada detalhe da nossa execução organiza a sua rotina e prepara o seu espaço para ser vivido de verdade.</p>
+                <p>A marcenaria da Tendência é desenhada para acolher, com uma presença silenciosa e uma durabilidade que atravessa gerações.</p>
               </div>
             </div>
 
@@ -152,16 +173,16 @@
               <article class="feature-item">
                 <div class="feature-icon">01</div>
                 <div>
-                  <strong>Precisao Milimetrica</strong>
-                  <div>Mapeamento tecnico da circulacao e do uso real. Encaixe perfeito, do primeiro ao ultimo modulo, sem improvisos.</div>
+                  <strong>Precisão Milimétrica</strong>
+                  <div>Mapeamento técnico da circulação e do uso real. Encaixe perfeito, do primeiro ao último módulo, sem improvisos.</div>
                 </div>
               </article>
 
               <article class="feature-item">
                 <div class="feature-icon">02</div>
                 <div>
-                  <strong>O "Fio do Bigode" (Cronograma)</strong>
-                  <div>O respeito a sua casa traduzido em planejamento tatico. Instalacao com etapas claras, comunicacao direta e compromisso total com o prazo.</div>
+                  <strong>Garantia Documentada</strong>
+                  <div>Previsibilidade técnica e respeito ao seu cronograma. Prazos e garantias de execução selados em contrato.</div>
                 </div>
               </article>
 
@@ -169,7 +190,7 @@
                 <div class="feature-icon">03</div>
                 <div>
                   <strong>Engenharia Oculta</strong>
-                  <div>Uso exclusivo de ferragens e acabamentos de alta resistencia. Funcionamento suave e estrutura implacavel para o uso diario pesado.</div>
+                  <div>Uso exclusivo de ferragens e acabamentos de alta resistência. Funcionamento suave e estrutura implacável para o uso diário pesado.</div>
                 </div>
               </article>
             </div>
@@ -185,8 +206,8 @@
               decoding="async"
             >
             <div class="media-caption">
-              <strong>Detalhe que vende confiança</strong>
-              <div>Imagem local em alta qualidade para demo rápida no localhost.</div>
+              <strong>Detalhe que sustenta confiança</strong>
+              <div>Ferragens de precisão selecionadas para suavidade, durabilidade e uso intensivo no dia a dia.</div>
             </div>
           </div>
         </div>
@@ -198,7 +219,7 @@
         <div class="section-header">
           <h2>A anatomia da perfeição</h2>
           <p class="section-subtitle">
-            Um bloco responsivo com quatro pilares, adaptado para desktop e mobile sem depender de build.
+            Quatro pilares que definem cada projeto Tendência — do material à instalação.
           </p>
         </div>
 
@@ -268,7 +289,7 @@
         <div class="section-header">
           <h2>Galeria de ambientes</h2>
           <p class="section-subtitle">
-            As imagens locais da pasta do projeto agora já podem ser vistas diretamente em uma página responsiva.
+            Ambientes executados com rigor técnico e curadoria de materiais em Chapecó e região.
           </p>
         </div>
 
@@ -277,7 +298,7 @@
             <img src="execucoes/execucao-01-cozinha-gourmet-nogueira.jpg" alt="Cozinha gourmet em nogueira" width="572" height="1024" loading="lazy" decoding="async">
             <div class="portfolio-copy">
               <strong>Cozinha gourmet</strong>
-              <div>Layout de destaque para telas grandes, sem quebrar no mobile.</div>
+              <div>Nogueira com curadoria de chapas e iluminação integrada ao ambiente.</div>
             </div>
           </article>
 
@@ -288,7 +309,7 @@
             </picture>
             <div class="portfolio-copy">
               <strong>Living ripado</strong>
-              <div>Imagem local otimizada para preview imediato.</div>
+              <div>Painel ripado e marcenaria que unificam o ambiente social com precisão.</div>
             </div>
           </article>
 
@@ -296,7 +317,7 @@
             <img src="execucoes/execucao-03-closet-minimalista-lacca.jpg" alt="Closet minimalista em lacca" width="1024" height="559" loading="lazy" decoding="async">
             <div class="portfolio-copy">
               <strong>Closet minimalista</strong>
-              <div>Card compacto para navegação suave no mobile.</div>
+              <div>Lacca e organização interna pensadas para o uso diário sem ruído visual.</div>
             </div>
           </article>
         </div>
@@ -308,27 +329,30 @@
         <div class="section-header">
           <h2>Experiência sem surpresas</h2>
           <p class="section-subtitle">
-            Bloco de prova social pronto para apresentação comercial local.
+            Depoimentos de quem já viveu a experiência Tendência — do projeto à entrega.
           </p>
         </div>
 
         <div class="testimonial-grid">
           <article class="testimonial-card">
             <div class="stars">★★★★★</div>
-            <p>"O visual ficou elegante no notebook e no celular. Excelente para mostrar o portfólio em reunião."</p>
-            <strong>Cliente residencial</strong>
+            <p>"Rigor na entrega e acabamento impecável na nossa cozinha. Cumpriram o cronograma à risca."</p>
+            <strong>Marcelo F.</strong>
+            <span class="testimonial-meta">Chapecó</span>
           </article>
 
           <article class="testimonial-card">
             <div class="stars">★★★★★</div>
-            <p>"A navegação está leve e clara. Os CTAs para WhatsApp ficaram muito mais diretos."</p>
-            <strong>Arquiteta parceira</strong>
+            <p>"A precisão nos detalhes do meu consultório foi o que mais chamou atenção. Profissionalismo do início ao fim."</p>
+            <strong>Dra. Helena</strong>
+            <span class="testimonial-meta">Xanxerê</span>
           </article>
 
           <article class="testimonial-card">
             <div class="stars">★★★★★</div>
-            <p>"As imagens locais carregam rápido e a página abre sem precisar de framework nem build."</p>
-            <strong>Equipe comercial</strong>
+            <p>"Transformaram nosso living. A curadoria de materiais fez toda a diferença no resultado final."</p>
+            <strong>Ricardo e Amanda</strong>
+            <span class="testimonial-meta">Chapecó</span>
           </article>
         </div>
       </div>
@@ -339,38 +363,48 @@
         <div class="section-header">
           <h2>Dúvidas frequentes</h2>
           <p class="section-subtitle">
-            Uma seção simples para a apresentação local funcionar bem em qualquer dispositivo.
+            Respostas objetivas para quem está decidindo investir em móveis planejados.
           </p>
         </div>
 
         <div class="faq">
           <article class="faq-item">
             <button class="faq-question" type="button" id="faq-question-1" aria-expanded="false" aria-controls="faq-answer-1">
-              <span>Como abrir no computador?</span>
+              <span>Qual a área de atendimento da Tendência?</span>
               <span>+</span>
             </button>
             <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-question-1" aria-hidden="true">
-              Rode um servidor estático na pasta do projeto e abra <strong>http://localhost:8080</strong> no navegador.
+              Nosso estúdio base fica em Chapecó - SC, com estrutura logística e técnica para executar projetos em todo o Oeste Catarinense.
             </div>
           </article>
 
           <article class="faq-item">
             <button class="faq-question" type="button" id="faq-question-2" aria-expanded="false" aria-controls="faq-answer-2">
-              <span>Como ver no celular?</span>
+              <span>Como funciona o acompanhamento do projeto?</span>
               <span>+</span>
             </button>
             <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-question-2" aria-hidden="true">
-              Com o computador e o celular na mesma rede Wi-Fi, acesse <strong>http://SEU-IP:8080</strong>.
+              Trabalhamos com precisão milimétrica. Do projeto 3D à instalação final, você tem previsibilidade total de prazos e materiais.
             </div>
           </article>
 
           <article class="faq-item">
             <button class="faq-question" type="button" id="faq-question-3" aria-expanded="false" aria-controls="faq-answer-3">
-              <span>Precisa instalar framework?</span>
+              <span>Qual o prazo médio para execução?</span>
               <span>+</span>
             </button>
             <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-question-3" aria-hidden="true">
-              Nao. Esta versao usa apenas HTML, CSS e JavaScript puros com imagens locais da pasta.
+              Cada projeto exige um rigor técnico único. Prazos são definidos no cronograma oficial entregue após a aprovação do design.
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <button class="faq-question" type="button" id="faq-question-4" aria-expanded="false" aria-controls="faq-answer-4">
+              <span>Como agendar uma avaliação técnica?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-question-4" aria-hidden="true">
+              Basta iniciar uma conversa com nossa equipe via WhatsApp. Entenderemos o escopo do seu ambiente e direcionaremos o próximo passo.
             </div>
           </article>
         </div>
@@ -386,7 +420,7 @@
             <img
               class="footer-brand-logo"
               src="social/logotipo-tendencia.png"
-              alt="Tendência Moveis Planejados"
+              alt="Tendência Móveis Planejados"
               width="44"
               height="44"
               loading="lazy"
@@ -395,23 +429,23 @@
             <span>TENDÊNCIA</span>
           </div>
           <p>
-            Apresentacao local do portfolio de moveis planejados, pronta para atendimento em desktop e mobile.
+            Estúdio de móveis planejados em Chapecó. Rigor técnico, curadoria de materiais e execução com previsibilidade de prazos.
           </p>
         </div>
 
         <div>
-          <div class="footer-title">Navegacao</div>
+          <div class="footer-title">Navegação</div>
           <div class="footer-list">
-            <a href="#solucao">A Solucao</a>
+            <a href="#solucao">A Solução</a>
             <a href="#diferenciais">Diferenciais</a>
-            <a href="#portfolio">Portfolio</a>
+            <a href="#portfolio">Portfólio</a>
           </div>
         </div>
 
         <div>
           <div class="footer-title">Contato</div>
           <div class="footer-list">
-            <span>Chapeco - SC</span>
+            <span>Chapecó - SC</span>
             <a href="tel:+5549999508884">+55 49 99950-8884</a>
             <a href="mailto:projetos@tendenciamoveis.com.br">projetos@tendenciamoveis.com.br</a>
           </div>
@@ -420,9 +454,8 @@
         <div>
           <div class="footer-title">Atendimento</div>
           <div class="footer-list">
-            <span>O rigor tecnico e a tranquilidade que o seu projeto exige.</span>
             <button class="btn btn-accent cta-stack" type="button" data-open-modal data-primary-action data-cta-location="footer-primary">
-              <span class="cta-main-text">Conversar com a equipe</span>
+              <span class="cta-main-text">Solicitar orçamento</span>
               <span class="cta-presence-line" aria-hidden="true">
                 <span class="presence-dot"></span>
                 <span class="presence-copy">Chapecó</span>
@@ -432,8 +465,21 @@
         </div>
       </div>
 
+      <div class="footer-map">
+        <div class="footer-title">Onde estamos</div>
+        <div class="footer-map-frame">
+          <iframe
+            title="Mapa — Tendência Móveis Planejados, Chapecó SC"
+            src="https://maps.google.com/maps?q=Av.+Get%C3%BAlio+Vargas,+1200,+Chapec%C3%B3+-+SC,+89800-000&amp;hl=pt-BR&amp;z=15&amp;output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen
+          ></iframe>
+        </div>
+      </div>
+
       <div class="footer-bottom">
-        <span>&copy; 2026 Tendência Moveis Planejados.</span>
+        <span>&copy; 2026 Tendência Móveis Planejados.</span>
         <span class="footer-credit">
           Desenvolvido por:
           <a href="https://www.glid.ia.br" target="_blank" rel="noopener noreferrer">www.glid.ia.br</a>
@@ -442,15 +488,15 @@
     </div>
   </footer>
 
-  <div class="bottom-action-bar" role="group" aria-label="Acoes rapidas">
-    <a class="bottom-action-btn secondary" href="#portfolio" aria-label="Ver execucoes">
+  <div class="bottom-action-bar persistent-ui persistent-ui--bottom" role="group" aria-label="Ações rápidas">
+    <a class="bottom-action-btn secondary" href="#portfolio" aria-label="Ver execuções">
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path
           fill="currentColor"
           d="M6 6.5A2.5 2.5 0 0 1 8.5 4h7A2.5 2.5 0 0 1 18 6.5V8h1a2 2 0 0 1 2 2v7.5A2.5 2.5 0 0 1 18.5 20h-13A2.5 2.5 0 0 1 3 17.5V10a2 2 0 0 1 2-2h1V6.5Zm2.5-1a1 1 0 0 0-1 1V8h9V6.5a1 1 0 0 0-1-1h-7ZM5 10v7.5c0 .83.67 1.5 1.5 1.5h11c.83 0 1.5-.67 1.5-1.5V10H5Zm7 1.7a3.3 3.3 0 1 1 0 6.6 3.3 3.3 0 0 1 0-6.6Zm0 1.5a1.8 1.8 0 1 0 0 3.6 1.8 1.8 0 0 0 0-3.6Z"
         />
       </svg>
-      <span>Ver Execucoes</span>
+      <span>Ver Execuções</span>
     </a>
 
     <span class="bar-divider" aria-hidden="true"></span>
@@ -459,13 +505,13 @@
       class="bottom-action-btn primary"
       data-primary-action
       data-cta-location="bottom-bar-primary"
-      href="https://wa.me/5549999508884?text=Ola%2C%20quero%20conversar%20com%20a%20equipe."
+      href="https://wa.me/5549999508884?text=Ol%C3%A1%2C%20quero%20agendar%20um%20atendimento%20para%20m%C3%B3veis%20planejados."
       target="_blank"
       rel="noreferrer"
-      aria-label="Conversar com a equipe no WhatsApp"
+      aria-label="Agendar atendimento no WhatsApp"
     >
       <span class="cta-stack">
-        <span class="cta-main-text">Conversar com a equipe</span>
+        <span class="cta-main-text">Agendar atendimento</span>
         <span class="cta-presence-line" aria-hidden="true">
           <span class="presence-dot"></span>
           <span class="presence-copy">Chapecó</span>
@@ -477,11 +523,10 @@
   <div class="menu-backdrop" id="menu-backdrop" data-close-menu></div>
   <aside class="menu-drawer" id="site-menu-drawer" aria-hidden="true" aria-labelledby="menu-drawer-title">
     <div class="menu-drawer-header">
-      <strong id="menu-drawer-title">Navegacao</strong>
+      <strong id="menu-drawer-title">Navegação</strong>
       <button class="menu-close" type="button" data-close-menu aria-label="Fechar menu">×</button>
     </div>
     <nav class="menu-drawer-nav" id="site-nav-drawer" aria-label="Menu mobile"></nav>
-    <div class="menu-watermark">gl.it.ya.br</div>
   </aside>
 
   <audio id="premium-click" preload="auto" aria-hidden="true">
@@ -495,18 +540,18 @@
       <button class="modal-close" type="button" data-close-modal aria-label="Fechar">×</button>
 
       <div class="modal-header">
-        <strong id="modal-title">Solicitar atendimento</strong>
+        <strong id="modal-title">Solicitar orçamento</strong>
         <div class="modal-progress"><span id="modal-progress-fill"></span></div>
         <div class="status-text" id="step-indicator">Passo 1 de 3</div>
       </div>
 
       <div class="modal-body">
         <section class="step active" data-step="1">
-          <h3>Quais ambientes voce deseja planejar?</h3>
+          <h3>Quais ambientes você deseja planejar?</h3>
           <div class="choice-grid" id="environment-options">
             <button class="chip" type="button" data-value="Cozinha">Cozinha</button>
             <button class="chip" type="button" data-value="Living/Sala">Living/Sala</button>
-            <button class="chip" type="button" data-value="Dormitorio">Dormitorio</button>
+            <button class="chip" type="button" data-value="Dormitório">Dormitório</button>
             <button class="chip" type="button" data-value="Banheiro">Banheiro</button>
             <button class="chip" type="button" data-value="Casa completa">Casa completa</button>
           </div>
@@ -516,10 +561,10 @@
         </section>
 
         <section class="step" data-step="2">
-          <h3>Qual a sua urgencia?</h3>
+          <h3>Qual a sua urgência?</h3>
           <div class="urgency-list" id="urgency-options">
             <button class="radio-card" type="button" data-value="Imediata">Imediata</button>
-            <button class="radio-card" type="button" data-value="Proximos 3 meses">Proximos 3 meses</button>
+            <button class="radio-card" type="button" data-value="Próximos 3 meses">Próximos 3 meses</button>
             <button class="radio-card" type="button" data-value="Apenas planejamento">Apenas planejamento</button>
           </div>
           <div class="step-actions">
@@ -538,7 +583,7 @@
             <button class="btn btn-outline btn-back" type="button" data-prev-step>Voltar</button>
             <button class="btn btn-accent" type="button" id="submit-lead">Enviar para WhatsApp</button>
           </div>
-          <div class="status-text">Uma mensagem pronta sera aberta para o atendimento.</div>
+          <div class="status-text">Uma mensagem pronta será aberta para o atendimento.</div>
         </section>
       </div>
     </div>

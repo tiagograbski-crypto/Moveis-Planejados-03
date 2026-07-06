@@ -17,6 +17,10 @@
       const environmentButtons = Array.from(document.querySelectorAll("#environment-options .chip"));
       const urgencyButtons = Array.from(document.querySelectorAll("#urgency-options .radio-card"));
       const featureCards = Array.from(document.querySelectorAll(".feature-item"));
+      const solucaoSection = document.getElementById("solucao");
+      const solucaoMediaFrame = solucaoSection
+        ? solucaoSection.querySelector(".media-frame.sensory-visual-target")
+        : null;
       const leadName = document.getElementById("lead-name");
       const leadPhone = document.getElementById("lead-phone");
       const appConfig = window.APP_CONFIG || {};
@@ -83,8 +87,31 @@
         };
       }
 
+      function isDesktopScrollLighting() {
+        return window.matchMedia("(min-width: 64em)").matches;
+      }
+
+      function isSolucaoInLightingZone() {
+        if (!solucaoSection) {
+          return false;
+        }
+
+        const rect = solucaoSection.getBoundingClientRect();
+        const viewportHeight = window.innerHeight;
+        return rect.top < viewportHeight * 0.84 && rect.bottom > viewportHeight * 0.16;
+      }
+
+      function setSolucaoPanelLit(isLit) {
+        if (!solucaoMediaFrame) {
+          return;
+        }
+
+        solucaoMediaFrame.classList.toggle("is-in-view", isLit);
+        solucaoMediaFrame.classList.toggle("is-panel-lit", isLit);
+      }
+
       function setActiveFeatureCard(nextCard) {
-        if (!nextCard || nextCard === activeFeatureCard) {
+        if (nextCard === activeFeatureCard) {
           return;
         }
 
@@ -103,6 +130,7 @@
         let bestCard = null;
         let bestDistance = Infinity;
         let intersectsCenter = false;
+        const useCenterBandOnly = isDesktopScrollLighting();
 
         featureCards.forEach((card) => {
           const rect = card.getBoundingClientRect();
@@ -119,15 +147,34 @@
             return;
           }
 
-          if (!intersectsCenter && distance < bestDistance) {
+          if (!useCenterBandOnly && !intersectsCenter && distance < bestDistance) {
             bestDistance = distance;
             bestCard = card;
           }
         });
 
+        if (useCenterBandOnly) {
+          setActiveFeatureCard(intersectsCenter ? bestCard : null);
+          return;
+        }
+
         if (bestCard) {
           setActiveFeatureCard(bestCard);
         }
+      }
+
+      function updateScrollLighting() {
+        if (isDesktopScrollLighting() && solucaoSection) {
+          const inLightingZone = isSolucaoInLightingZone();
+          setSolucaoPanelLit(inLightingZone);
+
+          if (!inLightingZone) {
+            setActiveFeatureCard(null);
+            return;
+          }
+        }
+
+        updateActiveFeatureFromViewportCenter();
       }
 
       function requestFeatureActivationUpdate() {
@@ -137,7 +184,7 @@
 
         featureActivationFrameId = window.requestAnimationFrame(function () {
           featureActivationFrameId = 0;
-          updateActiveFeatureFromViewportCenter();
+          updateScrollLighting();
         });
       }
 
@@ -383,7 +430,7 @@
         }
 
         if (step === 2 && !formState.urgency) {
-          alert("Selecione a urgencia.");
+          alert("Selecione a urgência.");
           return false;
         }
 
@@ -406,12 +453,12 @@
         }
 
         const message = [
-          "Ola, quero atendimento para moveis planejados.",
+          "Olá, quero solicitar orçamento para móveis planejados.",
           "",
           "Nome: " + formState.name,
           "WhatsApp: " + formState.phone,
           "Ambientes: " + formState.environments.join(", "),
-          "Urgencia: " + formState.urgency
+          "Urgência: " + formState.urgency
         ].join("\n");
 
         const url = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
@@ -431,9 +478,8 @@
           return;
         }
 
-        setActiveFeatureCard(featureCards[0]);
-
         if (!("IntersectionObserver" in window)) {
+          requestFeatureActivationUpdate();
           return;
         }
 
@@ -449,20 +495,26 @@
         }, {
           root: null,
           threshold: [0, 0.25, 0.5, 0.75, 1],
-          rootMargin: getObserverCenterRootMargin()
+          rootMargin: isDesktopScrollLighting() ? "-10% 0px -10% 0px" : getObserverCenterRootMargin()
         });
+
+        if (solucaoSection) {
+          featureCardObserver.observe(solucaoSection);
+        }
 
         featureCards.forEach((card) => featureCardObserver.observe(card));
         requestFeatureActivationUpdate();
       }
 
       function setupSensoryVisualObserver() {
-        if (sensoryVisualTargets.length === 0) {
+        const scrollLitTargets = sensoryVisualTargets.filter((target) => target !== solucaoMediaFrame);
+
+        if (scrollLitTargets.length === 0) {
           return;
         }
 
         if (!("IntersectionObserver" in window)) {
-          sensoryVisualTargets.forEach((target) => target.classList.add("is-in-view"));
+          scrollLitTargets.forEach((target) => target.classList.add("is-in-view"));
           return;
         }
 
@@ -470,17 +522,20 @@
           sensoryVisualObserver.disconnect();
         }
 
+        const desktopLighting = isDesktopScrollLighting();
+
         sensoryVisualObserver = new IntersectionObserver(function (entries) {
           entries.forEach((entry) => {
             entry.target.classList.toggle("is-in-view", entry.isIntersecting);
+            entry.target.classList.toggle("is-scroll-lit", entry.isIntersecting);
           });
         }, {
           root: null,
-          threshold: 0.5,
-          rootMargin: getObserverCenterRootMargin()
+          threshold: desktopLighting ? [0, 0.12, 0.28, 0.45] : 0.5,
+          rootMargin: desktopLighting ? "-8% 0px -8% 0px" : getObserverCenterRootMargin()
         });
 
-        sensoryVisualTargets.forEach((target) => sensoryVisualObserver.observe(target));
+        scrollLitTargets.forEach((target) => sensoryVisualObserver.observe(target));
       }
 
       const curadoriaPalettes = [
@@ -603,7 +658,62 @@
         });
       }
 
+      function initPersistentHeroUI() {
+        const heroSection = document.getElementById("hero");
+        const persistentNodes = Array.from(document.querySelectorAll(".persistent-ui"));
+        let heroInView = true;
+
+        if (!heroSection || persistentNodes.length === 0) {
+          return;
+        }
+
+        function setPersistentVisible(isVisible) {
+          persistentNodes.forEach(function (node) {
+            if (node.classList.contains("persistent-ui--top")) {
+              node.classList.add("is-active");
+              return;
+            }
+
+            node.classList.toggle("is-active", isVisible);
+          });
+        }
+
+        function syncPersistentFromHero() {
+          setPersistentVisible(!heroInView);
+
+          if (siteHeader) {
+            siteHeader.classList.toggle("site-header--hero", heroInView);
+          }
+        }
+
+        if (!("IntersectionObserver" in window)) {
+          setPersistentVisible(true);
+          return;
+        }
+
+        const heroObserver = new IntersectionObserver(function (entries) {
+          entries.forEach(function (entry) {
+            heroInView = entry.isIntersecting;
+            syncPersistentFromHero();
+          });
+        }, {
+          root: null,
+          threshold: 0
+        });
+
+        heroObserver.observe(heroSection);
+        syncPersistentFromHero();
+
+        window.addEventListener("resize", syncPersistentFromHero);
+
+        window.addEventListener("pagehide", function () {
+          heroObserver.disconnect();
+          window.removeEventListener("resize", syncPersistentFromHero);
+        });
+      }
+
       initCuradoriaCores();
+      initPersistentHeroUI();
 
       window.addEventListener("scroll", updateScrollUI, { passive: true });
       window.addEventListener("scroll", requestFeatureActivationUpdate, { passive: true });
