@@ -483,7 +483,7 @@
         sensoryVisualTargets.forEach((target) => sensoryVisualObserver.observe(target));
       }
 
-      const paletteSets = [
+      const curadoriaPalettes = [
         {
           name: "Terra Orgânica",
           phrase: "Acolhimento na forma bruta",
@@ -501,36 +501,109 @@
         }
       ];
 
-      function initPaletteDisplay() {
-        const display = document.getElementById("palette-display");
-        const caption = document.getElementById("palette-caption");
-        const swatches = display ? Array.from(display.querySelectorAll(".color-swatch")) : [];
+      function initCuradoriaCores() {
+        const section = document.getElementById("curadoria-cores");
+        const prism = document.getElementById("curadoria-cores-prism");
+        const caption = document.getElementById("curadoria-cores-caption");
 
-        if (!display || !caption || swatches.length < 3 || paletteSets.length === 0) {
+        if (!section || !prism || !caption || curadoriaPalettes.length === 0) {
           return;
         }
 
         let activeIndex = 0;
+        let paletteIntervalId = 0;
+        let absorptionTimerId = 0;
+        let absorptionObserver = null;
+        const absorptionStorageKey = "tendencia_brand_absorption_curation_prism";
 
         function applyPalette(index) {
-          const palette = paletteSets[index];
-          display.style.setProperty("--color-1", palette.colors[0]);
-          display.style.setProperty("--color-2", palette.colors[1]);
-          display.style.setProperty("--color-3", palette.colors[2]);
-          swatches.forEach(function (swatch, swatchIndex) {
-            swatch.style.backgroundColor = palette.colors[swatchIndex];
-          });
+          const palette = curadoriaPalettes[index];
+          prism.style.setProperty("--curadoria-1", palette.colors[0]);
+          prism.style.setProperty("--curadoria-2", palette.colors[1]);
+          prism.style.setProperty("--curadoria-3", palette.colors[2]);
           caption.textContent = "Paleta " + palette.name + " — " + palette.phrase;
           activeIndex = index;
         }
 
+        function pushBrandAbsorptionEvent() {
+          if (sessionStorage.getItem(absorptionStorageKey) === "1") {
+            return;
+          }
+
+          window.dataLayer = window.dataLayer || [];
+          window.dataLayer.push({
+            event: "brand_absorption",
+            component: "curation_prism",
+            time_viewed: "4_seconds_plus"
+          });
+          sessionStorage.setItem(absorptionStorageKey, "1");
+        }
+
+        function setupBrandAbsorptionObserver() {
+          if (!("IntersectionObserver" in window)) {
+            return;
+          }
+
+          if (sessionStorage.getItem(absorptionStorageKey) === "1") {
+            return;
+          }
+
+          absorptionObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.target !== section) {
+                return;
+              }
+
+              if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+                if (!absorptionTimerId) {
+                  absorptionTimerId = window.setTimeout(function () {
+                    pushBrandAbsorptionEvent();
+                    absorptionTimerId = 0;
+                    if (absorptionObserver) {
+                      absorptionObserver.disconnect();
+                      absorptionObserver = null;
+                    }
+                  }, 4000);
+                }
+                return;
+              }
+
+              if (absorptionTimerId) {
+                window.clearTimeout(absorptionTimerId);
+                absorptionTimerId = 0;
+              }
+            });
+          }, {
+            root: null,
+            threshold: [0, 0.5, 1]
+          });
+
+          absorptionObserver.observe(section);
+        }
+
         applyPalette(activeIndex);
-        window.setInterval(function () {
-          applyPalette((activeIndex + 1) % paletteSets.length);
+        paletteIntervalId = window.setInterval(function () {
+          applyPalette((activeIndex + 1) % curadoriaPalettes.length);
         }, 5000);
+        setupBrandAbsorptionObserver();
+
+        window.addEventListener("pagehide", function () {
+          if (paletteIntervalId) {
+            window.clearInterval(paletteIntervalId);
+            paletteIntervalId = 0;
+          }
+          if (absorptionTimerId) {
+            window.clearTimeout(absorptionTimerId);
+            absorptionTimerId = 0;
+          }
+          if (absorptionObserver) {
+            absorptionObserver.disconnect();
+            absorptionObserver = null;
+          }
+        });
       }
 
-      initPaletteDisplay();
+      initCuradoriaCores();
 
       window.addEventListener("scroll", updateScrollUI, { passive: true });
       window.addEventListener("scroll", requestFeatureActivationUpdate, { passive: true });
