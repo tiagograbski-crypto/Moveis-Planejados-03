@@ -7,7 +7,7 @@ $Config = Get-Content $ConfigPath -Raw | ConvertFrom-Json
 
 $DesktopPath = $Config.portfolio.desktopPath -replace '^~', $env:USERPROFILE
 $PortfolioRoot = $DesktopPath
-$SiteImages = Join-Path $ProjectRoot "public\assets\images"
+$SiteImages = Join-Path $ProjectRoot "public"
 $Sections = @($Config.images.sections)
 
 if (-not (Test-Path $PortfolioRoot)) {

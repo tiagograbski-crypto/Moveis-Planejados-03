@@ -1,4 +1,4 @@
-# Guia de Imagens — Sartoria Landing
+﻿# Guia de Imagens — Tendência Landing
 
 Relatório para produção de assets com IA (Essentiel / glid.ia.br).  
 Cada arquivo abaixo corresponde **exatamente** ao nome que deve ir na pasta indicada.
@@ -341,4 +341,4 @@ style="background-image: url('/assets/images/01-hero/hero-capa-marrom.webp');"
 
 ---
 
-*Projeto Essentiel · glid.ia.br · Sartoria Landing*
+*Projeto Essentiel · glid.ia.br · Tendência Landing*

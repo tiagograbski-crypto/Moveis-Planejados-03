@@ -1,4 +1,4 @@
-const http = require('http');
+﻿const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const os = require('os');
@@ -69,9 +69,10 @@ const server = http.createServer((req, res) => {
         }
 
         const ext = path.extname(filePath).toLowerCase();
+        const isDevAsset = ext === '.js' || ext === '.css' || ext === '.html';
         res.writeHead(200, {
             'Content-Type': MIME[ext] || 'application/octet-stream',
-            'Cache-Control': ext === '.html' ? 'no-cache' : 'public, max-age=3600',
+            'Cache-Control': isDevAsset ? 'no-cache' : 'public, max-age=3600',
         });
         res.end(data);
     });
@@ -80,7 +81,7 @@ const server = http.createServer((req, res) => {
 server.listen(PORT, HOST, () => {
     const ips = getLocalIPs();
     console.log('');
-    console.log('  Sartoria Landing — servidor de desenvolvimento');
+    console.log('  Tendência Landing — servidor de desenvolvimento');
     console.log('  =============================================');
     console.log(`  Desktop:  http://localhost:${PORT}`);
     ips.forEach((ip) => console.log(`  Mobile:   http://${ip}:${PORT}`));

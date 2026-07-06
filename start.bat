@@ -1,6 +1,6 @@
-@echo off
+﻿@echo off
 cd /d "%~dp0"
 echo.
-echo  Sartoria Landing - iniciando servidor...
+echo  Tendência Landing - iniciando servidor...
 echo.
 npm start

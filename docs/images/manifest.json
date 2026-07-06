@@ -1,6 +1,6 @@
-{
+﻿{
   "version": 2,
-  "brand": "Sartoria Móveis Planejados",
+  "brand": "Tendência Móveis Planejados",
   "portfolioSource": "~/Desktop/Portifolio Moveis Planejados",
   "syncCommand": "npm run images:sync",
   "colorReference": {

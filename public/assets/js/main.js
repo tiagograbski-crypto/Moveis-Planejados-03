@@ -483,6 +483,55 @@
         sensoryVisualTargets.forEach((target) => sensoryVisualObserver.observe(target));
       }
 
+      const paletteSets = [
+        {
+          name: "Terra Orgânica",
+          phrase: "Acolhimento na forma bruta",
+          colors: ["#9E6E56", "#D2B48C", "#3E2A22"]
+        },
+        {
+          name: "Cinza Atemporal",
+          phrase: "Elegância terrosa para viver bem",
+          colors: ["#2C2C2C", "#707070", "#8A9A8B"]
+        },
+        {
+          name: "Sereno Essencial",
+          phrase: "Calma orgânica com assinatura premium",
+          colors: ["#F5F5DC", "#36454F", "#CD7F32"]
+        }
+      ];
+
+      function initPaletteDisplay() {
+        const display = document.getElementById("palette-display");
+        const caption = document.getElementById("palette-caption");
+        const swatches = display ? Array.from(display.querySelectorAll(".color-swatch")) : [];
+
+        if (!display || !caption || swatches.length < 3 || paletteSets.length === 0) {
+          return;
+        }
+
+        let activeIndex = 0;
+
+        function applyPalette(index) {
+          const palette = paletteSets[index];
+          display.style.setProperty("--color-1", palette.colors[0]);
+          display.style.setProperty("--color-2", palette.colors[1]);
+          display.style.setProperty("--color-3", palette.colors[2]);
+          swatches.forEach(function (swatch, swatchIndex) {
+            swatch.style.backgroundColor = palette.colors[swatchIndex];
+          });
+          caption.textContent = "Paleta " + palette.name + " — " + palette.phrase;
+          activeIndex = index;
+        }
+
+        applyPalette(activeIndex);
+        window.setInterval(function () {
+          applyPalette((activeIndex + 1) % paletteSets.length);
+        }, 5000);
+      }
+
+      initPaletteDisplay();
+
       window.addEventListener("scroll", updateScrollUI, { passive: true });
       window.addEventListener("scroll", requestFeatureActivationUpdate, { passive: true });
       window.addEventListener("resize", function () {

@@ -1,4 +1,4 @@
-User-agent: *
+﻿User-agent: *
 Allow: /
 
-Sitemap: https://www.sartoriamoveis.com.br/sitemap.xml
+Sitemap: https://www.tendenciamoveis.com.br/sitemap.xml

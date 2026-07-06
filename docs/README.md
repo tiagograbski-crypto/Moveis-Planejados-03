@@ -1,4 +1,4 @@
-# Documentação — Sartoria Landing
+﻿# Documentação — Tendência Landing
 
 Índice da documentação interna do projeto. Estes arquivos **não** são publicados no site.
 

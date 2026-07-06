@@ -103,30 +103,22 @@
       </div>
     </section>
 
-    <section class="curation-banner-section" aria-label="Banner de curadoria de paletas">
+    <section class="curation-banner-section" aria-labelledby="palette-caption">
       <div class="container">
-        <div class="curation-banner">
-          <span class="sr-only">Curadoria ativa de paletas de design da Tendência.</span>
-          <div class="curation-icon" aria-hidden="true">
-            <svg viewBox="0 0 48 48" focusable="false">
-              <path d="M11 27c0-3.9 3.1-7 7-7h4l3-4c1.4-1.9 4.2-2.2 6.1-.7 1.9 1.4 2.2 4.2.7 6.1l-4.2 5.6A8 8 0 0 1 21.2 30H18a7 7 0 0 1-7-7Z" />
-              <path d="M37 27c0-3.9-3.1-7-7-7h-4l-3-4c-1.4-1.9-4.2-2.2-6.1-.7-1.9 1.4-2.2 4.2-.7 6.1l4.2 5.6A8 8 0 0 0 26.8 30H30a7 7 0 0 0 7-7Z" />
-              <path d="M15 35h18" />
-            </svg>
+        <div class="curation-stage">
+          <div
+            class="palette-display"
+            id="palette-display"
+            tabindex="0"
+            aria-label="Curadoria de cores Tendência"
+          >
+            <div class="color-swatch" aria-hidden="true"></div>
+            <div class="color-swatch" aria-hidden="true"></div>
+            <div class="color-swatch" aria-hidden="true"></div>
           </div>
-
-          <div class="palette-loop">
-            <div class="palette-dots" aria-hidden="true">
-              <span class="palette-dot palette-dot-1"></span>
-              <span class="palette-dot palette-dot-2"></span>
-              <span class="palette-dot palette-dot-3"></span>
-            </div>
-            <div class="palette-copy" aria-hidden="true">
-              <span class="palette-copy-item palette-copy-1">Acolhimento na forma bruta</span>
-              <span class="palette-copy-item palette-copy-2">Elegancia terrosa para viver bem</span>
-              <span class="palette-copy-item palette-copy-3">Calma organica com assinatura premium</span>
-            </div>
-          </div>
+          <p class="palette-caption" id="palette-caption" aria-live="polite">
+            Paleta Terra Orgânica — Acolhimento na forma bruta
+          </p>
         </div>
       </div>
     </section>
@@ -514,6 +506,6 @@
 
     <script src="assets/js/config.js"></script>
   <script src="assets/js/tracking.js"></script>
-  <script src="assets/js/main.js"></script>
+  <script src="assets/js/main.js?v=palette-display"></script>
 </body>
 </html>

@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 /**
  * Valida estrutura do projeto antes de commit ou deploy (Vercel/Netlify).
  */
@@ -66,9 +66,9 @@ function checkStructure(config) {
     }
 
     for (const section of config.images.sections) {
-        const sectionDir = path.join(IMAGES_DIR, section);
+        const sectionDir = path.join(PUBLIC_DIR, section);
         if (!fs.existsSync(sectionDir)) {
-            fail(`Pasta de imagens ausente: public/assets/images/${section}`);
+            fail(`Pasta de imagens ausente: public/${section}`);
         }
     }
 }
@@ -84,7 +84,7 @@ function checkManifestAssets(manifest) {
         if (seen.has(key)) continue;
         seen.add(key);
 
-        const filePath = path.join(IMAGES_DIR, asset.section, asset.filename);
+        const filePath = path.join(PUBLIC_DIR, asset.section.replace(/^\d+-/, ''), asset.filename);
         if (fs.existsSync(filePath)) ok(key);
         else fail(`Imagem esperada ausente: ${key}`);
     }
@@ -115,7 +115,7 @@ function checkNoDocsInPublic() {
 }
 
 function main() {
-    console.log('Sartoria Landing — validação');
+    console.log('Tendência Landing — validação');
     console.log('============================');
 
     const config = loadProjectConfig();

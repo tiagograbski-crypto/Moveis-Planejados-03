@@ -1,7 +1,7 @@
-{
+﻿{
   "name": "moveis-planejados-03",
   "version": "1.0.0",
-  "description": "Landing page Sartoria Móveis Planejados — conversão, portfólio e WhatsApp",
+  "description": "Landing page Tendência Móveis Planejados — Chapecó SC. Design premium, CRO e integração WhatsApp",
   "private": true,
   "repository": {
     "type": "git",
@@ -22,7 +22,7 @@
   "keywords": [
     "landing-page",
     "moveis-planejados",
-    "sartoria"
+    "Tendência"
   ],
   "license": "UNLICENSED"
 }

@@ -1,21 +1,21 @@
-/**
+﻿/**
  * Copie este arquivo para config.js e ajuste os valores do cliente.
  * config.js é versionado com placeholders — substitua antes do deploy.
  */
 const SITE_CONFIG = {
-    brand: 'SARTORIA',
+    brand: 'Tendência',
     tagline: 'Móveis Planejados de Alto Padrão',
     whatsapp: '5549999999999',
     phone: '+5549999999999',
     phoneDisplay: '+55 49 99999-9999',
-    email: 'projetos@sartoriamoveis.com.br',
+    email: 'projetos@tendenciamoveis.com.br',
     address: {
         line1: 'Av. Getúlio Vargas, 1200',
         city: 'Chapecó - SC, Brasil',
         footerRegion: 'Brasil',
     },
-    defaultMessage: 'Olá! Vim pelo site da Sartoria e gostaria de solicitar uma consultoria privada de móveis planejados.',
-    siteUrl: 'https://www.sartoriamoveis.com.br',
+    defaultMessage: 'Olá! Vim pelo site da Tendência e gostaria de solicitar uma consultoria privada de móveis planejados.',
+    siteUrl: 'https://www.tendenciamoveis.com.br',
 };
 
 const PLACEHOLDER_WHATSAPP = '5549999999999';
