@@ -45,6 +45,10 @@
       let resizeReflowTimerId = 0;
       let featureCardObserver = null;
       let sensoryVisualObserver = null;
+      let galleryFocusObserver = null;
+      const portfolioFocusCards = Array.from(
+        document.querySelectorAll("#portfolio .portfolio-card.sensory-visual-target")
+      );
 
       function getObserverCenterRootMargin() {
         const centerBand = Math.max(120, Math.round(window.innerHeight * 0.4));
@@ -98,7 +102,7 @@
 
         const rect = solucaoSection.getBoundingClientRect();
         const viewportHeight = window.innerHeight;
-        return rect.top < viewportHeight * 0.84 && rect.bottom > viewportHeight * 0.16;
+        return rect.top < viewportHeight * 0.9 && rect.bottom > viewportHeight * 0.1;
       }
 
       function setSolucaoPanelLit(isLit) {
@@ -126,19 +130,21 @@
           return;
         }
 
+        const useCenterBandOnly = isDesktopScrollLighting();
         const centerY = window.innerHeight / 2;
+        const activationHalfBand = window.innerHeight * (useCenterBandOnly ? 0.24 : 0.4);
         let bestCard = null;
         let bestDistance = Infinity;
         let intersectsCenter = false;
-        const useCenterBandOnly = isDesktopScrollLighting();
 
         featureCards.forEach((card) => {
           const rect = card.getBoundingClientRect();
           const cardCenterY = rect.top + (rect.height / 2);
           const distance = Math.abs(cardCenterY - centerY);
-          const isCrossingCenter = rect.top <= centerY && rect.bottom >= centerY;
+          const isInActivationBand = rect.bottom >= centerY - activationHalfBand
+            && rect.top <= centerY + activationHalfBand;
 
-          if (isCrossingCenter) {
+          if (useCenterBandOnly ? isInActivationBand : rect.top <= centerY && rect.bottom >= centerY) {
             if (!intersectsCenter || distance < bestDistance) {
               intersectsCenter = true;
               bestDistance = distance;
@@ -163,6 +169,82 @@
         }
       }
 
+      function updateSensoryVisualLighting() {
+        const scrollLitTargets = sensoryVisualTargets.filter((target) => {
+          return target !== solucaoMediaFrame && portfolioFocusCards.indexOf(target) === -1;
+        });
+
+        if (scrollLitTargets.length === 0 && portfolioFocusCards.length === 0) {
+          return;
+        }
+
+        const viewportHeight = window.innerHeight;
+        const focusTop = viewportHeight * 0.14;
+        const focusBottom = viewportHeight * 0.86;
+        const minFocusRatio = isDesktopScrollLighting() ? 0.18 : 0.34;
+
+        scrollLitTargets.forEach((target) => {
+          const rect = target.getBoundingClientRect();
+          const visibleInFocus = Math.min(rect.bottom, focusBottom) - Math.max(rect.top, focusTop);
+          const focusRatio = Math.max(0, visibleInFocus) / Math.max(rect.height, 1);
+          const inFocus = focusRatio >= minFocusRatio && rect.bottom > focusTop && rect.top < focusBottom;
+
+          target.classList.toggle("is-in-view", inFocus);
+          target.classList.toggle("is-scroll-lit", inFocus);
+        });
+
+        if (!isDesktopScrollLighting()) {
+          portfolioFocusCards.forEach((target) => {
+            const rect = target.getBoundingClientRect();
+            const visibleInFocus = Math.min(rect.bottom, focusBottom) - Math.max(rect.top, focusTop);
+            const focusRatio = Math.max(0, visibleInFocus) / Math.max(rect.height, 1);
+            const inFocus = focusRatio >= minFocusRatio && rect.bottom > focusTop && rect.top < focusBottom;
+
+            target.classList.toggle("is-in-view", inFocus);
+            target.classList.toggle("is-scroll-lit", inFocus);
+          });
+        }
+      }
+
+      function resetPortfolioFocusClasses() {
+        portfolioFocusCards.forEach((card) => {
+          card.classList.remove("is-in-view", "is-scroll-lit");
+        });
+      }
+
+      function updateGalleryFocusLighting() {
+        if (!isDesktopScrollLighting() || portfolioFocusCards.length === 0) {
+          return;
+        }
+
+        const viewportCenterY = window.innerHeight / 2;
+        const bandTop = window.innerHeight * 0.3;
+        const bandBottom = window.innerHeight * 0.7;
+        let bestCard = null;
+        let bestDistance = Infinity;
+
+        portfolioFocusCards.forEach((card) => {
+          const rect = card.getBoundingClientRect();
+          const cardCenterY = rect.top + (rect.height / 2);
+
+          if (cardCenterY < bandTop || cardCenterY > bandBottom) {
+            return;
+          }
+
+          const distance = Math.abs(cardCenterY - viewportCenterY);
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            bestCard = card;
+          }
+        });
+
+        portfolioFocusCards.forEach((card) => {
+          const focused = card === bestCard;
+          card.classList.toggle("is-in-view", focused);
+          card.classList.toggle("is-scroll-lit", focused);
+        });
+      }
+
       function updateScrollLighting() {
         if (isDesktopScrollLighting() && solucaoSection) {
           const inLightingZone = isSolucaoInLightingZone();
@@ -170,11 +252,15 @@
 
           if (!inLightingZone) {
             setActiveFeatureCard(null);
+            updateSensoryVisualLighting();
+            updateGalleryFocusLighting();
             return;
           }
         }
 
         updateActiveFeatureFromViewportCenter();
+        updateSensoryVisualLighting();
+        updateGalleryFocusLighting();
       }
 
       function requestFeatureActivationUpdate() {
@@ -255,8 +341,14 @@
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
         const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
 
-        pageProgress.style.width = progress + "%";
-        siteHeader.classList.toggle("scrolled", scrollTop > 12);
+        if (pageProgress) {
+          pageProgress.style.width = progress + "%";
+        }
+
+        if (siteHeader) {
+          const onHero = siteHeader.classList.contains("site-header--hero");
+          siteHeader.classList.toggle("scrolled", scrollTop > 12 && !onHero);
+        }
         if (window.AppTracking && typeof window.AppTracking.trackScrollDepth === "function") {
           window.AppTracking.trackScrollDepth(progress);
         }
@@ -495,7 +587,7 @@
         }, {
           root: null,
           threshold: [0, 0.25, 0.5, 0.75, 1],
-          rootMargin: isDesktopScrollLighting() ? "-10% 0px -10% 0px" : getObserverCenterRootMargin()
+          rootMargin: isDesktopScrollLighting() ? "-4% 0px -4% 0px" : getObserverCenterRootMargin()
         });
 
         if (solucaoSection) {
@@ -507,7 +599,18 @@
       }
 
       function setupSensoryVisualObserver() {
-        const scrollLitTargets = sensoryVisualTargets.filter((target) => target !== solucaoMediaFrame);
+        const desktopLighting = isDesktopScrollLighting();
+        const scrollLitTargets = sensoryVisualTargets.filter((target) => {
+          if (target === solucaoMediaFrame) {
+            return false;
+          }
+
+          if (desktopLighting && portfolioFocusCards.indexOf(target) !== -1) {
+            return false;
+          }
+
+          return true;
+        });
 
         if (scrollLitTargets.length === 0) {
           return;
@@ -522,20 +625,46 @@
           sensoryVisualObserver.disconnect();
         }
 
-        const desktopLighting = isDesktopScrollLighting();
-
-        sensoryVisualObserver = new IntersectionObserver(function (entries) {
-          entries.forEach((entry) => {
-            entry.target.classList.toggle("is-in-view", entry.isIntersecting);
-            entry.target.classList.toggle("is-scroll-lit", entry.isIntersecting);
-          });
+        sensoryVisualObserver = new IntersectionObserver(function () {
+          requestFeatureActivationUpdate();
         }, {
           root: null,
-          threshold: desktopLighting ? [0, 0.12, 0.28, 0.45] : 0.5,
-          rootMargin: desktopLighting ? "-8% 0px -8% 0px" : getObserverCenterRootMargin()
+          threshold: desktopLighting ? [0, 0.08, 0.18, 0.32, 0.5] : 0.5,
+          rootMargin: desktopLighting ? "0px" : getObserverCenterRootMargin()
         });
 
         scrollLitTargets.forEach((target) => sensoryVisualObserver.observe(target));
+      }
+
+      function setupGalleryFocusObserver() {
+        if (galleryFocusObserver) {
+          galleryFocusObserver.disconnect();
+          galleryFocusObserver = null;
+        }
+
+        if (!isDesktopScrollLighting() || portfolioFocusCards.length === 0) {
+          if (!isDesktopScrollLighting()) {
+            resetPortfolioFocusClasses();
+            requestFeatureActivationUpdate();
+          }
+          return;
+        }
+
+        if (!("IntersectionObserver" in window)) {
+          updateGalleryFocusLighting();
+          return;
+        }
+
+        galleryFocusObserver = new IntersectionObserver(function () {
+          requestFeatureActivationUpdate();
+        }, {
+          root: null,
+          rootMargin: "-30% 0px -30% 0px",
+          threshold: [0.1, 0.5]
+        });
+
+        portfolioFocusCards.forEach((card) => galleryFocusObserver.observe(card));
+        updateGalleryFocusLighting();
       }
 
       const curadoriaPalettes = [
@@ -684,10 +813,15 @@
           if (siteHeader) {
             siteHeader.classList.toggle("site-header--hero", heroInView);
           }
+
+          updateScrollUI();
         }
 
         if (!("IntersectionObserver" in window)) {
-          setPersistentVisible(true);
+          setPersistentVisible(false);
+          if (siteHeader) {
+            siteHeader.classList.add("site-header--hero");
+          }
           return;
         }
 
@@ -729,6 +863,7 @@
         resizeReflowTimerId = window.setTimeout(function () {
           setupFeatureCardScrollTelling();
           setupSensoryVisualObserver();
+          setupGalleryFocusObserver();
           requestFeatureActivationUpdate();
           updateScrollUI();
           resizeReflowTimerId = 0;
@@ -749,6 +884,12 @@
       setupMenu();
       setupFeatureCardScrollTelling();
       setupSensoryVisualObserver();
+      setupGalleryFocusObserver();
+
+      const portfolioGrid = document.querySelector("#portfolio .portfolio-grid");
+      if (portfolioGrid) {
+        portfolioGrid.addEventListener("scroll", requestFeatureActivationUpdate, { passive: true });
+      }
 
       document.querySelectorAll("[data-primary-action]").forEach((button) => {
         button.addEventListener("click", function (event) {
