@@ -5,6 +5,10 @@ window.APP_CONFIG = Object.assign(
     menuItems: [
       { label: "Início", href: "#hero" },
       { label: "Método Tendência", href: "#solucao" },
+      { label: "Diferenciais", href: "#diferenciais" },
+      { label: "Jornada", href: "#jornada-execucao" },
+      { label: "Sobre", href: "#sobre" },
+      { label: "Materiais", href: "#estacao-materiais" },
       { label: "Projetos Executados", href: "#portfolio" },
       { label: "FAQ", href: "#faq" }
     ],

@@ -23,6 +23,12 @@
         : null;
       const leadName = document.getElementById("lead-name");
       const leadPhone = document.getElementById("lead-phone");
+      const submitLeadButton = document.getElementById("submit-lead");
+      const stepErrors = {
+        1: document.getElementById("step-1-error"),
+        2: document.getElementById("step-2-error"),
+        3: document.getElementById("step-3-error")
+      };
       const appConfig = window.APP_CONFIG || {};
       const whatsappNumber = appConfig.whatsappNumber || "5549999508884";
       const menuEnabled = Boolean(appConfig.menuEnabled);
@@ -41,8 +47,10 @@
       let modalLastFocusedElement = null;
       let menuLastFocusedElement = null;
       let activeFeatureCard = null;
+      const FEATURE_ACTIVATION_HYSTERESIS_PX = 32;
       let featureActivationFrameId = 0;
       let resizeReflowTimerId = 0;
+      let isSubmittingLead = false;
       let featureCardObserver = null;
       let sensoryVisualObserver = null;
       let galleryFocusObserver = null;
@@ -125,65 +133,152 @@
         });
       }
 
+      function getFeatureCardLayoutRect(card) {
+        const list = card.parentElement;
+        if (!list) {
+          const fallback = card.getBoundingClientRect();
+          return {
+            top: fallback.top,
+            bottom: fallback.bottom,
+            centerY: fallback.top + (card.offsetHeight / 2)
+          };
+        }
+
+        const listTop = list.getBoundingClientRect().top;
+        const top = listTop + card.offsetTop;
+        const height = card.offsetHeight;
+
+        return {
+          top: top,
+          bottom: top + height,
+          centerY: top + (height / 2)
+        };
+      }
+
+      function resolveFeatureCardCandidate(spanningCard, nearestCard, activationY, viewportHeight) {
+        if (spanningCard) {
+          return spanningCard;
+        }
+
+        if (activeFeatureCard) {
+          const activeIndex = featureCards.indexOf(activeFeatureCard);
+          const activeRect = getFeatureCardLayoutRect(activeFeatureCard);
+          const nextCard = featureCards[activeIndex + 1];
+          const prevCard = featureCards[activeIndex - 1];
+
+          if (activeRect.bottom > activationY && activeRect.top < viewportHeight) {
+            if (nextCard) {
+              const nextRect = getFeatureCardLayoutRect(nextCard);
+              if (activationY < nextRect.top) {
+                return activeFeatureCard;
+              }
+            } else {
+              return activeFeatureCard;
+            }
+          }
+
+          if (prevCard && activationY < activeRect.top) {
+            const prevRect = getFeatureCardLayoutRect(prevCard);
+            if (activationY > prevRect.bottom) {
+              return activeFeatureCard;
+            }
+          }
+        }
+
+        if (!nearestCard) {
+          return activeFeatureCard;
+        }
+
+        if (activeFeatureCard && nearestCard !== activeFeatureCard) {
+          const activeCenterY = getFeatureCardLayoutRect(activeFeatureCard).centerY;
+          const nearestCenterY = getFeatureCardLayoutRect(nearestCard).centerY;
+          const activeDistance = Math.abs(activeCenterY - activationY);
+          const nearestDistance = Math.abs(nearestCenterY - activationY);
+
+          if (nearestDistance + FEATURE_ACTIVATION_HYSTERESIS_PX > activeDistance) {
+            return activeFeatureCard;
+          }
+        }
+
+        return nearestCard;
+      }
+
       function updateActiveFeatureFromViewportCenter() {
         if (featureCards.length === 0) {
           return;
         }
 
-        const useCenterBandOnly = isDesktopScrollLighting();
-        const centerY = window.innerHeight / 2;
-        const activationHalfBand = window.innerHeight * (useCenterBandOnly ? 0.24 : 0.4);
-        let bestCard = null;
-        let bestDistance = Infinity;
-        let intersectsCenter = false;
+        const viewportHeight = window.innerHeight;
+        const activationY = viewportHeight * (isDesktopScrollLighting() ? 0.4 : 0.5);
+        let spanningCard = null;
+        let spanningDistance = Infinity;
+        let nearestCard = null;
+        let nearestDistance = Infinity;
 
         featureCards.forEach((card) => {
-          const rect = card.getBoundingClientRect();
-          const cardCenterY = rect.top + (rect.height / 2);
-          const distance = Math.abs(cardCenterY - centerY);
-          const isInActivationBand = rect.bottom >= centerY - activationHalfBand
-            && rect.top <= centerY + activationHalfBand;
+          const rect = getFeatureCardLayoutRect(card);
 
-          if (useCenterBandOnly ? isInActivationBand : rect.top <= centerY && rect.bottom >= centerY) {
-            if (!intersectsCenter || distance < bestDistance) {
-              intersectsCenter = true;
-              bestDistance = distance;
-              bestCard = card;
-            }
+          if (rect.bottom <= 0 || rect.top >= viewportHeight) {
             return;
           }
 
-          if (!useCenterBandOnly && !intersectsCenter && distance < bestDistance) {
-            bestDistance = distance;
-            bestCard = card;
+          const distance = Math.abs(rect.centerY - activationY);
+          const spansActivationLine = rect.top <= activationY && rect.bottom >= activationY;
+
+          if (spansActivationLine && distance < spanningDistance) {
+            spanningDistance = distance;
+            spanningCard = card;
+          }
+
+          if (distance < nearestDistance) {
+            nearestDistance = distance;
+            nearestCard = card;
           }
         });
 
-        if (useCenterBandOnly) {
-          setActiveFeatureCard(intersectsCenter ? bestCard : null);
-          return;
+        const candidate = resolveFeatureCardCandidate(
+          spanningCard,
+          nearestCard,
+          activationY,
+          viewportHeight
+        );
+
+        if (candidate) {
+          setActiveFeatureCard(candidate);
+        }
+      }
+
+      function shouldExcludeFromSensoryLighting(target) {
+        if (target === solucaoMediaFrame && isDesktopScrollLighting()) {
+          return true;
         }
 
-        if (bestCard) {
-          setActiveFeatureCard(bestCard);
+        if (portfolioFocusCards.indexOf(target) !== -1 && isDesktopScrollLighting()) {
+          return true;
         }
+
+        return false;
       }
 
       function updateSensoryVisualLighting() {
         const scrollLitTargets = sensoryVisualTargets.filter((target) => {
-          return target !== solucaoMediaFrame && portfolioFocusCards.indexOf(target) === -1;
+          return !shouldExcludeFromSensoryLighting(target);
         });
 
-        if (scrollLitTargets.length === 0 && portfolioFocusCards.length === 0) {
+        const portfolioMobileTargets = !isDesktopScrollLighting() ? portfolioFocusCards : [];
+
+        if (scrollLitTargets.length === 0 && portfolioMobileTargets.length === 0) {
           return;
         }
 
         const viewportHeight = window.innerHeight;
         const focusTop = viewportHeight * 0.14;
         const focusBottom = viewportHeight * 0.86;
-        const minFocusRatio = isDesktopScrollLighting() ? 0.18 : 0.34;
+        const desktopMinFocusRatio = 0.18;
+        const mobileMinFocusRatio = 0.34;
+        const mobileMediaMinFocusRatio = 0.22;
 
-        scrollLitTargets.forEach((target) => {
+        function applyFocusLighting(target, minFocusRatio) {
           const rect = target.getBoundingClientRect();
           const visibleInFocus = Math.min(rect.bottom, focusBottom) - Math.max(rect.top, focusTop);
           const focusRatio = Math.max(0, visibleInFocus) / Math.max(rect.height, 1);
@@ -191,17 +286,23 @@
 
           target.classList.toggle("is-in-view", inFocus);
           target.classList.toggle("is-scroll-lit", inFocus);
+
+          if (target === solucaoMediaFrame && !isDesktopScrollLighting()) {
+            target.classList.remove("is-panel-lit");
+          }
+        }
+
+        scrollLitTargets.forEach((target) => {
+          const minFocusRatio = target === solucaoMediaFrame
+            ? mobileMediaMinFocusRatio
+            : (isDesktopScrollLighting() ? desktopMinFocusRatio : mobileMinFocusRatio);
+
+          applyFocusLighting(target, minFocusRatio);
         });
 
         if (!isDesktopScrollLighting()) {
           portfolioFocusCards.forEach((target) => {
-            const rect = target.getBoundingClientRect();
-            const visibleInFocus = Math.min(rect.bottom, focusBottom) - Math.max(rect.top, focusTop);
-            const focusRatio = Math.max(0, visibleInFocus) / Math.max(rect.height, 1);
-            const inFocus = focusRatio >= minFocusRatio && rect.bottom > focusTop && rect.top < focusBottom;
-
-            target.classList.toggle("is-in-view", inFocus);
-            target.classList.toggle("is-scroll-lit", inFocus);
+            applyFocusLighting(target, mobileMinFocusRatio);
           });
         }
       }
@@ -250,12 +351,13 @@
           const inLightingZone = isSolucaoInLightingZone();
           setSolucaoPanelLit(inLightingZone);
 
-          if (!inLightingZone) {
-            setActiveFeatureCard(null);
-            updateSensoryVisualLighting();
-            updateGalleryFocusLighting();
-            return;
+          if (inLightingZone) {
+            updateActiveFeatureFromViewportCenter();
           }
+
+          updateSensoryVisualLighting();
+          updateGalleryFocusLighting();
+          return;
         }
 
         updateActiveFeatureFromViewportCenter();
@@ -354,8 +456,45 @@
         }
       }
 
+      function clearStepError(step) {
+        const errorNode = stepErrors[step];
+        if (errorNode) {
+          errorNode.hidden = true;
+        }
+
+        if (step === 3) {
+          leadName.classList.remove("is-invalid");
+          leadPhone.classList.remove("is-invalid");
+        }
+      }
+
+      function showStepError(step, message) {
+        const errorNode = stepErrors[step];
+        if (!errorNode) {
+          return;
+        }
+
+        if (message) {
+          errorNode.textContent = message;
+        }
+
+        errorNode.hidden = false;
+      }
+
+      function clearAllStepErrors() {
+        Object.keys(stepErrors).forEach(function (step) {
+          clearStepError(Number(step));
+        });
+      }
+
+      function isValidLeadPhone(value) {
+        const digits = String(value || "").replace(/\D/g, "");
+        return digits.length >= 10 && digits.length <= 13;
+      }
+
       function setStep(step) {
         currentStep = step;
+        clearAllStepErrors();
         steps.forEach((item) => {
           item.classList.toggle("active", Number(item.dataset.step) === step);
         });
@@ -371,8 +510,19 @@
         formState.phone = "";
         leadName.value = "";
         leadPhone.value = "";
-        environmentButtons.forEach((button) => button.classList.remove("active"));
-        urgencyButtons.forEach((button) => button.classList.remove("active"));
+        isSubmittingLead = false;
+        if (submitLeadButton) {
+          submitLeadButton.disabled = false;
+        }
+        clearAllStepErrors();
+        environmentButtons.forEach((button) => {
+          button.classList.remove("active");
+          button.setAttribute("aria-pressed", "false");
+        });
+        urgencyButtons.forEach((button) => {
+          button.classList.remove("active");
+          button.setAttribute("aria-checked", "false");
+        });
       }
 
       function openModal() {
@@ -516,13 +666,15 @@
       }
 
       function validateStep(step) {
+        clearStepError(step);
+
         if (step === 1 && formState.environments.length === 0) {
-          alert("Selecione pelo menos um ambiente.");
+          showStepError(1);
           return false;
         }
 
         if (step === 2 && !formState.urgency) {
-          alert("Selecione a urgência.");
+          showStepError(2);
           return false;
         }
 
@@ -530,8 +682,15 @@
           formState.name = leadName.value.trim();
           formState.phone = leadPhone.value.trim();
 
-          if (!formState.name || !formState.phone) {
-            alert("Preencha nome e WhatsApp.");
+          if (!formState.name) {
+            leadName.classList.add("is-invalid");
+            showStepError(3, "Informe seu nome completo.");
+            return false;
+          }
+
+          if (!isValidLeadPhone(formState.phone)) {
+            leadPhone.classList.add("is-invalid");
+            showStepError(3, "Informe um WhatsApp válido com DDD.");
             return false;
           }
         }
@@ -540,8 +699,17 @@
       }
 
       function submitLead() {
+        if (isSubmittingLead) {
+          return;
+        }
+
         if (!validateStep(3)) {
           return;
+        }
+
+        isSubmittingLead = true;
+        if (submitLeadButton) {
+          submitLeadButton.disabled = true;
         }
 
         const message = [
@@ -601,15 +769,7 @@
       function setupSensoryVisualObserver() {
         const desktopLighting = isDesktopScrollLighting();
         const scrollLitTargets = sensoryVisualTargets.filter((target) => {
-          if (target === solucaoMediaFrame) {
-            return false;
-          }
-
-          if (desktopLighting && portfolioFocusCards.indexOf(target) !== -1) {
-            return false;
-          }
-
-          return true;
+          return !shouldExcludeFromSensoryLighting(target);
         });
 
         if (scrollLitTargets.length === 0) {
@@ -665,6 +825,290 @@
 
         portfolioFocusCards.forEach((card) => galleryFocusObserver.observe(card));
         updateGalleryFocusLighting();
+      }
+
+      const HERO_THEME_POOL = [
+        {
+          poolIndex: 0,
+          id: "ripado",
+          label: "Painel ripado",
+          images: [
+            {
+              src: "hero/hero-capa-marrom.webp",
+              alt: "Living com painel ripado e marcenaria integrada Tendência",
+              focus: "ripado"
+            }
+          ]
+        },
+        {
+          poolIndex: 1,
+          id: "closet",
+          label: "Closet aberto",
+          images: [
+            {
+              src: "execucoes/execucao-03-closet-minimalista-lacca.jpg",
+              alt: "Closet aberto em lacca com organização técnica",
+              focus: "closet"
+            }
+          ]
+        },
+        {
+          poolIndex: 2,
+          id: "banheiro",
+          label: "Banheiro técnico",
+          mobileOnly: true,
+          images: [
+            {
+              src: "assets/images/banheiro.jpeg",
+              alt: "Banheiro planejado com bancada em pedra e marcenaria flutuante",
+              focus: "banheiro"
+            }
+          ]
+        }
+      ];
+
+      function isHeroMobileViewport() {
+        return window.matchMedia("(max-width: 47.9375em)").matches;
+      }
+
+      function getHeroThemes() {
+        const mobile = isHeroMobileViewport();
+
+        return HERO_THEME_POOL.filter(function (theme) {
+          return !theme.mobileOnly || mobile;
+        }).map(function (theme, index) {
+          return {
+            id: theme.id,
+            label: theme.label,
+            poolIndex: theme.poolIndex,
+            themeIndex: index,
+            images: theme.images
+          };
+        });
+      }
+
+      function initHeroCinema() {
+        const cinema = document.getElementById("hero-cinema");
+        const themeLines = document.getElementById("hero-theme-lines");
+        if (!cinema || !themeLines || HERO_THEME_POOL.length === 0) {
+          return;
+        }
+
+        const layers = Array.from(cinema.querySelectorAll(".hero-cinema__layer"));
+        const themeButtons = Array.from(themeLines.querySelectorAll(".hero-theme-line"));
+        const loadedSources = new Set();
+        const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let activeThemeIndex = 0;
+        let slideTimerId = 0;
+        let isTransitioning = false;
+        let resizeTimerId = 0;
+
+        if (layers.length < 2) {
+          return;
+        }
+
+        loadedSources.add(HERO_THEME_POOL[0].images[0].src);
+
+        function updateThemeLines() {
+          const themes = getHeroThemes();
+          const activeTheme = themes[activeThemeIndex];
+          const activePoolIndex = activeTheme ? activeTheme.poolIndex : 0;
+
+          themeButtons.forEach(function (button) {
+            const poolIndex = Number(button.getAttribute("data-theme-index"));
+            const isAvailable = themes.some(function (theme) {
+              return theme.poolIndex === poolIndex;
+            });
+
+            button.hidden = !isAvailable;
+            button.classList.toggle("is-active", poolIndex === activePoolIndex);
+            button.setAttribute("aria-selected", poolIndex === activePoolIndex ? "true" : "false");
+          });
+        }
+
+        function preloadImage(imageData) {
+          if (loadedSources.has(imageData.src)) {
+            return Promise.resolve(imageData);
+          }
+
+          return new Promise(function (resolve, reject) {
+            const loader = new Image();
+            loader.decoding = "async";
+            loader.onload = function () {
+              loadedSources.add(imageData.src);
+              resolve(imageData);
+            };
+            loader.onerror = function () {
+              reject(new Error("hero_image_load_failed"));
+            };
+            loader.src = imageData.src;
+          });
+        }
+
+        function getInactiveLayer() {
+          return layers.find(function (layer) {
+            return !layer.classList.contains("is-active");
+          }) || layers[1];
+        }
+
+        function getActiveLayer() {
+          return layers.find(function (layer) {
+            return layer.classList.contains("is-active");
+          }) || layers[0];
+        }
+
+        function applySlide(themeIndex) {
+          const themes = getHeroThemes();
+          const theme = themes[themeIndex];
+          if (!theme) {
+            return;
+          }
+
+          const imageData = theme.images[0];
+          const activeLayer = getActiveLayer();
+          const inactiveLayer = getInactiveLayer();
+          const inactiveImage = inactiveLayer.querySelector("img");
+
+          if (!inactiveImage) {
+            return;
+          }
+
+          inactiveImage.src = imageData.src;
+          inactiveImage.alt = imageData.alt;
+
+          if (imageData.focus) {
+            inactiveImage.setAttribute("data-hero-focus", imageData.focus);
+          } else {
+            inactiveImage.removeAttribute("data-hero-focus");
+          }
+
+          inactiveLayer.classList.add("is-active");
+          activeLayer.classList.remove("is-active");
+          activeThemeIndex = themeIndex;
+          updateThemeLines();
+        }
+
+        function showSlide(themeIndex) {
+          const themes = getHeroThemes();
+          const theme = themes[themeIndex];
+          const imageData = theme && theme.images[0];
+
+          if (!imageData || isTransitioning) {
+            return Promise.resolve();
+          }
+
+          isTransitioning = true;
+
+          return preloadImage(imageData).then(function () {
+            applySlide(themeIndex);
+            window.setTimeout(function () {
+              isTransitioning = false;
+            }, prefersReducedMotion ? 0 : 1500);
+          }).catch(function () {
+            isTransitioning = false;
+          });
+        }
+
+        function scheduleAutoAdvance() {
+          if (prefersReducedMotion) {
+            return;
+          }
+
+          if (slideTimerId) {
+            window.clearInterval(slideTimerId);
+          }
+
+          slideTimerId = window.setInterval(function () {
+            const themes = getHeroThemes();
+            if (themes.length === 0) {
+              return;
+            }
+
+            const nextThemeIndex = (activeThemeIndex + 1) % themes.length;
+            showSlide(nextThemeIndex);
+          }, 6500);
+        }
+
+        function selectThemeByPoolIndex(poolIndex) {
+          const themes = getHeroThemes();
+          const themeIndex = themes.findIndex(function (theme) {
+            return theme.poolIndex === poolIndex;
+          });
+
+          if (themeIndex < 0) {
+            return;
+          }
+
+          if (themeIndex === activeThemeIndex) {
+            return;
+          }
+
+          showSlide(themeIndex).then(function () {
+            scheduleAutoAdvance();
+          });
+        }
+
+        function preloadSecondaryImages() {
+          getHeroThemes().forEach(function (theme) {
+            theme.images.forEach(function (imageData) {
+              const schedulePreload = window.requestIdleCallback || function (callback) {
+                return window.setTimeout(callback, 120);
+              };
+
+              schedulePreload(function () {
+                preloadImage(imageData).catch(function () {});
+              });
+            });
+          });
+        }
+
+        function onHeroResize() {
+          if (resizeTimerId) {
+            window.clearTimeout(resizeTimerId);
+          }
+
+          resizeTimerId = window.setTimeout(function () {
+            const themes = getHeroThemes();
+            const currentTheme = themes[activeThemeIndex];
+
+            if (!currentTheme || activeThemeIndex >= themes.length) {
+              showSlide(0);
+            } else {
+              updateThemeLines();
+            }
+
+            resizeTimerId = 0;
+          }, 140);
+        }
+
+        themeButtons.forEach(function (button) {
+          button.addEventListener("click", function () {
+            const poolIndex = Number(button.getAttribute("data-theme-index"));
+            if (Number.isNaN(poolIndex)) {
+              return;
+            }
+
+            selectThemeByPoolIndex(poolIndex);
+          });
+        });
+
+        updateThemeLines();
+        preloadSecondaryImages();
+        scheduleAutoAdvance();
+
+        window.addEventListener("resize", onHeroResize);
+
+        window.addEventListener("pagehide", function () {
+          window.removeEventListener("resize", onHeroResize);
+          if (slideTimerId) {
+            window.clearInterval(slideTimerId);
+            slideTimerId = 0;
+          }
+          if (resizeTimerId) {
+            window.clearTimeout(resizeTimerId);
+            resizeTimerId = 0;
+          }
+        });
       }
 
       function initJourneyTimeline() {
@@ -825,46 +1269,25 @@
         });
       }
 
-      const curadoriaPalettes = [
-        {
-          name: "Terra Orgânica",
-          phrase: "Acolhimento na forma bruta",
-          colors: ["#9E6E56", "#D2B48C", "#3E2A22"]
-        },
-        {
-          name: "Cinza Atemporal",
-          phrase: "Elegância terrosa para viver bem",
-          colors: ["#2C2C2C", "#707070", "#8A9A8B"]
-        },
-        {
-          name: "Sereno Essencial",
-          phrase: "Calma orgânica com assinatura premium",
-          colors: ["#F5F5DC", "#36454F", "#CD7F32"]
-        }
-      ];
-
-      function initCuradoriaCores() {
-        const section = document.getElementById("curadoria-cores");
-        const prism = document.getElementById("curadoria-cores-prism");
-        const caption = document.getElementById("curadoria-cores-caption");
-
-        if (!section || !prism || !caption || curadoriaPalettes.length === 0) {
+      function initMaterialStation() {
+        const section = document.getElementById("estacao-materiais");
+        const grid = document.getElementById("material-station-grid");
+        if (!section || !grid) {
           return;
         }
 
-        let activeIndex = 0;
-        let paletteIntervalId = 0;
+        const swatches = Array.from(grid.querySelectorAll(".material-swatch"));
+        let inviteObserver = null;
         let absorptionTimerId = 0;
         let absorptionObserver = null;
-        const absorptionStorageKey = "tendencia_brand_absorption_curation_prism";
+        const absorptionStorageKey = "tendencia_brand_absorption_material_station";
 
-        function applyPalette(index) {
-          const palette = curadoriaPalettes[index];
-          prism.style.setProperty("--curadoria-1", palette.colors[0]);
-          prism.style.setProperty("--curadoria-2", palette.colors[1]);
-          prism.style.setProperty("--curadoria-3", palette.colors[2]);
-          caption.textContent = "Paleta " + palette.name + " — " + palette.phrase;
-          activeIndex = index;
+        function setActiveSwatch(activeSwatch) {
+          swatches.forEach((swatch) => {
+            const isActive = swatch === activeSwatch;
+            swatch.classList.toggle("is-active", isActive);
+            swatch.setAttribute("aria-expanded", isActive ? "true" : "false");
+          });
         }
 
         function pushBrandAbsorptionEvent() {
@@ -875,10 +1298,41 @@
           window.dataLayer = window.dataLayer || [];
           window.dataLayer.push({
             event: "brand_absorption",
-            component: "curation_prism",
+            component: "material_station",
             time_viewed: "4_seconds_plus"
           });
           sessionStorage.setItem(absorptionStorageKey, "1");
+        }
+
+        function setupInviteObserver() {
+          if (section.classList.contains("is-invited")) {
+            return;
+          }
+
+          if (!("IntersectionObserver" in window)) {
+            section.classList.add("is-invited");
+            return;
+          }
+
+          inviteObserver = new IntersectionObserver(function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.target !== section || !entry.isIntersecting) {
+                return;
+              }
+
+              section.classList.add("is-invited");
+              if (inviteObserver) {
+                inviteObserver.disconnect();
+                inviteObserver = null;
+              }
+            });
+          }, {
+            root: null,
+            threshold: 0.2,
+            rootMargin: "-10% 0px -10% 0px"
+          });
+
+          inviteObserver.observe(section);
         }
 
         function setupBrandAbsorptionObserver() {
@@ -923,16 +1377,41 @@
           absorptionObserver.observe(section);
         }
 
-        applyPalette(activeIndex);
-        paletteIntervalId = window.setInterval(function () {
-          applyPalette((activeIndex + 1) % curadoriaPalettes.length);
-        }, 5000);
+        swatches.forEach(function (swatch) {
+          swatch.addEventListener("click", function () {
+            if (swatch.classList.contains("is-active")) {
+              setActiveSwatch(null);
+              return;
+            }
+
+            setActiveSwatch(swatch);
+          });
+        });
+
+        grid.addEventListener("keydown", function (event) {
+          if (event.key !== "Escape") {
+            return;
+          }
+
+          setActiveSwatch(null);
+        });
+
+        function onDocumentClick(event) {
+          if (!grid.contains(event.target)) {
+            setActiveSwatch(null);
+          }
+        }
+
+        document.addEventListener("click", onDocumentClick);
+
+        setupInviteObserver();
         setupBrandAbsorptionObserver();
 
         window.addEventListener("pagehide", function () {
-          if (paletteIntervalId) {
-            window.clearInterval(paletteIntervalId);
-            paletteIntervalId = 0;
+          document.removeEventListener("click", onDocumentClick);
+          if (inviteObserver) {
+            inviteObserver.disconnect();
+            inviteObserver = null;
           }
           if (absorptionTimerId) {
             window.clearTimeout(absorptionTimerId);
@@ -955,6 +1434,8 @@
         }
 
         function setPersistentVisible(isVisible) {
+          document.body.classList.toggle("bottom-bar-visible", isVisible);
+
           persistentNodes.forEach(function (node) {
             if (node.classList.contains("persistent-ui--top")) {
               node.classList.add("is-active");
@@ -977,6 +1458,7 @@
 
         if (!("IntersectionObserver" in window)) {
           setPersistentVisible(false);
+          document.body.classList.remove("bottom-bar-visible");
           if (siteHeader) {
             siteHeader.classList.add("site-header--hero");
           }
@@ -1004,8 +1486,9 @@
         });
       }
 
+      initHeroCinema();
       initJourneyTimeline();
-      initCuradoriaCores();
+      initMaterialStation();
       initPersistentHeroUI();
 
       window.addEventListener("scroll", updateScrollUI, { passive: true });
@@ -1102,20 +1585,43 @@
           if (index >= 0) {
             formState.environments.splice(index, 1);
             button.classList.remove("active");
+            button.setAttribute("aria-pressed", "false");
           } else {
             formState.environments.push(value);
             button.classList.add("active");
+            button.setAttribute("aria-pressed", "true");
           }
+
+          clearStepError(1);
         });
       });
 
       urgencyButtons.forEach((button) => {
         button.addEventListener("click", function () {
           formState.urgency = button.dataset.value;
-          urgencyButtons.forEach((entry) => entry.classList.remove("active"));
+          urgencyButtons.forEach((entry) => {
+            entry.classList.remove("active");
+            entry.setAttribute("aria-checked", "false");
+          });
           button.classList.add("active");
+          button.setAttribute("aria-checked", "true");
+          clearStepError(2);
         });
       });
+
+      if (leadName) {
+        leadName.addEventListener("input", function () {
+          leadName.classList.remove("is-invalid");
+          clearStepError(3);
+        });
+      }
+
+      if (leadPhone) {
+        leadPhone.addEventListener("input", function () {
+          leadPhone.classList.remove("is-invalid");
+          clearStepError(3);
+        });
+      }
 
       document.querySelectorAll("[data-next-step]").forEach((button) => {
         button.addEventListener("click", function () {

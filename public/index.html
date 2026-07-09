@@ -15,7 +15,7 @@
   <meta property="og:image" content="https://www.tendenciamoveis.com.br/social/social-og-compartilhamento.webp">
   <meta property="og:locale" content="pt_BR">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="theme-color" content="#0D0B0A">
+  <meta name="theme-color" content="#12100E">
   <script type="application/ld+json">
     {
       "@context": "https://schema.org",
@@ -50,7 +50,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@300;400;600&display=swap"
     rel="stylesheet"
   >
     <link rel="stylesheet" href="assets/css/main.css">
@@ -62,15 +62,17 @@
     <div class="container">
       <div class="header-row">
         <div class="brand-identity" aria-label="Tendência Móveis Planejados">
-          <img
-            class="brand-header-logo"
-            src="social/logotipo-tendencia.png"
-            alt="Tendência Móveis Planejados"
-            width="34"
-            height="34"
-            loading="eager"
-            decoding="async"
-          >
+          <div class="brand-logo-wrap">
+            <img
+              class="brand-header-logo"
+              src="social/logotipo-tendencia.png?v=2"
+              alt="Tendência Móveis Planejados"
+              width="40"
+              height="40"
+              loading="eager"
+              decoding="async"
+            >
+          </div>
           <div class="brand-copy">
             <a class="brand-name" href="#hero">Tendência</a>
             <span class="brand-tagline">Móveis planejados</span>
@@ -97,59 +99,70 @@
 
   <main>
     <section class="hero" id="hero">
-      <picture class="hero-media">
-        <source type="image/webp" media="(min-width: 768px)" srcset="hero/hero-capa-marrom.webp">
-        <source media="(min-width: 768px)" srcset="hero/hero-capa-marrom.png">
-        <img
-          src="hero/hero-capa-marrom.webp"
-          alt="Ambiente planejado em madeira nobre Tendência"
-          width="2816"
-          height="1536"
-          fetchpriority="high"
-          loading="eager"
-          decoding="sync"
-        >
-      </picture>
+      <div class="hero-cinema" id="hero-cinema" aria-hidden="true">
+        <div class="hero-cinema__layer is-active">
+          <img
+            src="hero/hero-capa-marrom.webp"
+            alt="Living com painel ripado e marcenaria integrada Tendência"
+            width="2816"
+            height="1536"
+            data-hero-focus="ripado"
+            fetchpriority="high"
+            decoding="sync"
+          >
+        </div>
+        <div class="hero-cinema__layer">
+          <img alt="" decoding="async" loading="lazy">
+        </div>
+      </div>
 
       <div class="container">
         <div class="hero-grid">
-          <div class="hero-card hero-glass-card">
-            <span class="eyebrow animate-fade-up">Projeto autoral + execução premium</span>
-            <h1 class="animate-fade-up delay-1">O Seu Ambiente Pronto. Na Medida. No Prazo Exato.</h1>
-            <p class="hero-copy animate-fade-up delay-2">
-              Precisão milimétrica na marcenaria e respeito absoluto à sua casa.
-              Receba o seu espaço pronto para viver, sem a ansiedade da obra.
-            </p>
-            <div class="hero-actions animate-fade-up delay-3">
-              <button class="btn btn-accent cta-stack" type="button" data-open-modal data-primary-action data-cta-location="hero-primary">
-                <span class="cta-main-text">Solicitar orçamento</span>
-                <span class="cta-presence-line" aria-hidden="true">
-                  <span class="presence-dot"></span>
-                  <span class="presence-copy">Chapecó</span>
-                </span>
-              </button>
-              <a class="btn btn-outline" href="#portfolio">Ver Execuções</a>
+          <div class="hero-stack">
+            <div class="hero-card hero-glass-card">
+              <span class="eyebrow animate-fade-up">Projeto autoral + execução premium</span>
+              <h1 class="animate-fade-up delay-1">O Seu Ambiente Pronto. Na Medida. No Prazo Exato.</h1>
+              <p class="hero-copy animate-fade-up delay-2">
+                Precisão milimétrica na marcenaria e respeito absoluto à sua casa.
+                Receba o seu espaço pronto para viver, sem a ansiedade da obra.
+              </p>
+              <div class="hero-actions animate-fade-up delay-3">
+                <button class="btn btn-accent cta-stack" type="button" data-open-modal data-primary-action data-cta-location="hero-primary">
+                  <span class="cta-main-text">Solicitar orçamento</span>
+                  <span class="cta-presence-line" aria-hidden="true">
+                    <span class="presence-dot"></span>
+                    <span class="presence-copy">Chapecó</span>
+                  </span>
+                </button>
+                <a class="btn btn-outline" href="#portfolio">Ver Execuções</a>
+              </div>
+
+              <div class="animate-fade-up delay-4 hero-trust-wrap">
+                <div class="hero-trust-badge" aria-label="Mais de 2.000 projetos executados com rigor técnico na região">
+                  <div class="trust-badge__avatars" aria-hidden="true">
+                    <span class="trust-avatar"></span>
+                    <span class="trust-avatar"></span>
+                    <span class="trust-avatar"></span>
+                  </div>
+                  <div class="trust-badge__content">
+                    <div class="trust-badge__stars" aria-hidden="true">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
+                    </div>
+                    <p class="trust-badge__text">+ de 2.000 projetos executados com rigor técnico na região</p>
+                  </div>
+                </div>
+                <div class="scroll-hint" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+              </div>
             </div>
 
-            <div class="animate-fade-up delay-4 hero-trust-wrap">
-              <div class="hero-trust-badge" aria-label="Mais de 2.000 projetos executados com rigor técnico na região">
-                <div class="trust-badge__avatars" aria-hidden="true">
-                  <span class="trust-avatar"></span>
-                  <span class="trust-avatar"></span>
-                  <span class="trust-avatar"></span>
-                </div>
-                <div class="trust-badge__content">
-                  <div class="trust-badge__stars" aria-hidden="true">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="#FFFFFF"><path d="M12 .587l3.668 7.431 8.2 1.192-5.934 5.784 1.4 8.168L12 18.896l-7.334 3.857 1.4-8.168L.132 9.21l8.2-1.192z"/></svg>
-                  </div>
-                  <p class="trust-badge__text">+de 2.000 projetos executados com rigor técnico na região</p>
-                </div>
-              </div>
-              <div class="scroll-hint" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FFFFFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+            <div class="hero-theme-lines" id="hero-theme-lines" role="tablist" aria-label="Temas de ambiente">
+              <button type="button" class="hero-theme-line is-active" role="tab" aria-selected="true" data-theme-index="0" aria-label="Painel ripado"></button>
+              <button type="button" class="hero-theme-line" role="tab" aria-selected="false" data-theme-index="1" aria-label="Closet aberto"></button>
+              <button type="button" class="hero-theme-line hero-theme-line--mobile" role="tab" aria-selected="false" data-theme-index="2" aria-label="Banheiro técnico"></button>
             </div>
           </div>
         </div>
@@ -320,27 +333,112 @@
       </div>
     </section>
 
-    <section class="curadoria-cores" id="curadoria-cores" aria-labelledby="curadoria-cores-caption">
+    <section class="about-manifesto" id="sobre" aria-labelledby="sobre-heading">
       <div class="container">
-        <div class="curadoria-cores__stage">
-          <p class="curadoria-cores__label">Curadoria · Julho 2026</p>
-
-          <div
-            class="curadoria-cores__prism"
-            id="curadoria-cores-prism"
-            tabindex="0"
-            aria-label="Curadoria cromática Tendência"
-          >
-            <div class="curadoria-cores__swatches" aria-hidden="true">
-              <span class="curadoria-cores__orb"></span>
-              <span class="curadoria-cores__orb"></span>
-              <span class="curadoria-cores__orb"></span>
+        <div class="about-manifesto__grid">
+          <div class="about-manifesto__copy">
+            <p class="about-manifesto__eyebrow">Sobre a Tendência</p>
+            <h2 id="sobre-heading">Duas gerações de rigor técnico. Uma única assinatura.</h2>
+            <div class="about-manifesto__body">
+              <p>
+                A Tendência não nasceu de uma linha de montagem impessoal. Somos uma empresa familiar movida pela precisão da engenharia e pelo acolhimento do design. Pai, filho, esposa e nora dividem a gestão, o projeto e a execução de cada ambiente que entregamos.
+              </p>
+              <p>
+                Para nós, o seu projeto não é um número de série em um relatório fabril; é o palco onde a sua vida acontece. Por isso, combinamos o controle dimensional rígido com o cuidado milimétrico de quem entende o valor de um lar. Nós projetamos e instalamos como se fôssemos morar ali.
+              </p>
             </div>
           </div>
 
-          <p class="curadoria-cores__caption" id="curadoria-cores-caption" aria-live="polite">
-            Paleta Terra Orgânica — Acolhimento na forma bruta
-          </p>
+          <figure class="about-manifesto__media">
+            <img
+              src="solucao/solucao-detalhe-marcenaria-blum.jpg"
+              alt="Detalhe técnico de marcenaria com ferragens de precisão — execução familiar Tendência"
+              width="1024"
+              height="559"
+              loading="lazy"
+              decoding="async"
+            >
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="material-station" id="estacao-materiais" aria-labelledby="material-station-heading">
+      <div class="container">
+        <header class="material-station__header">
+          <p class="material-station__eyebrow">Estação de Materiais</p>
+          <h2 id="material-station-heading">Superfícies selecionadas para execução técnica</h2>
+        </header>
+
+        <div class="material-station__grid" id="material-station-grid" role="list">
+          <button
+            type="button"
+            class="material-swatch"
+            role="listitem"
+            data-material-id="chapa-premium"
+            aria-expanded="false"
+            aria-controls="material-detail-chapa"
+          >
+            <img
+              src="anatomia/anatomia-01-chapas-premium.jpg"
+              alt="Textura de chapa premium em núcleo de alta densidade"
+              width="1024"
+              height="559"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="material-swatch__overlay" id="material-detail-chapa">
+              <span class="material-swatch__code">MDF-HD · 18mm</span>
+              <h3>Chapa Premium</h3>
+              <p>Núcleo de alta densidade, baixa emissão e estabilidade dimensional para encaixes milimétricos.</p>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            class="material-swatch"
+            role="listitem"
+            data-material-id="lacca-fosca"
+            aria-expanded="false"
+            aria-controls="material-detail-lacca"
+          >
+            <img
+              src="execucoes/execucao-03-closet-minimalista-lacca.jpg"
+              alt="Superfície em lacca fosca com acabamento uniforme"
+              width="1024"
+              height="559"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="material-swatch__overlay" id="material-detail-lacca">
+              <span class="material-swatch__code">LAC · Fosco</span>
+              <h3>Lacca Técnica</h3>
+              <p>Acabamento fosco de baixa reflexão, resistente ao uso diário e fácil de integrar ao ambiente.</p>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            class="material-swatch"
+            role="listitem"
+            data-material-id="ferragem-precisao"
+            aria-expanded="false"
+            aria-controls="material-detail-ferragem"
+          >
+            <img
+              src="anatomia/anatomia-02-ferragens-importadas.jpg"
+              alt="Detalhe de ferragem de precisão em corrediça"
+              width="1024"
+              height="559"
+              loading="lazy"
+              decoding="async"
+            >
+            <div class="material-swatch__overlay" id="material-detail-ferragem">
+              <span class="material-swatch__code">HW · Blum</span>
+              <h3>Ferragem de Precisão</h3>
+              <p>Corrediças e dobradiças com amortecimento controlado para abertura suave e ciclo de vida prolongado.</p>
+            </div>
+          </button>
         </div>
       </div>
     </section>
@@ -480,7 +578,7 @@
           <div class="footer-brand">
             <img
               class="footer-brand-logo"
-              src="social/logotipo-tendencia.png"
+              src="social/logotipo-tendencia.png?v=2"
               alt="Tendência Móveis Planejados"
               width="44"
               height="44"
@@ -499,7 +597,11 @@
           <div class="footer-list">
             <a href="#solucao">A Solução</a>
             <a href="#diferenciais">Diferenciais</a>
+            <a href="#jornada-execucao">Jornada</a>
+            <a href="#sobre">Sobre</a>
+            <a href="#estacao-materiais">Materiais</a>
             <a href="#portfolio">Portfólio</a>
+            <a href="#faq">FAQ</a>
           </div>
         </div>
 
@@ -562,23 +664,22 @@
 
     <span class="bar-divider" aria-hidden="true"></span>
 
-    <a
+    <button
       class="bottom-action-btn primary"
+      type="button"
+      data-open-modal
       data-primary-action
       data-cta-location="bottom-bar-primary"
-      href="https://wa.me/5549999508884?text=Ol%C3%A1%2C%20quero%20agendar%20um%20atendimento%20para%20m%C3%B3veis%20planejados."
-      target="_blank"
-      rel="noreferrer"
-      aria-label="Agendar atendimento no WhatsApp"
+      aria-label="Solicitar orçamento"
     >
       <span class="cta-stack">
-        <span class="cta-main-text">Agendar atendimento</span>
+        <span class="cta-main-text">Solicitar orçamento</span>
         <span class="cta-presence-line" aria-hidden="true">
           <span class="presence-dot"></span>
           <span class="presence-copy">Chapecó</span>
         </span>
       </span>
-    </a>
+    </button>
   </div>
 
   <div class="menu-backdrop" id="menu-backdrop" data-close-menu></div>
@@ -610,12 +711,13 @@
         <section class="step active" data-step="1">
           <h3>Quais ambientes você deseja planejar?</h3>
           <div class="choice-grid" id="environment-options">
-            <button class="chip" type="button" data-value="Cozinha">Cozinha</button>
-            <button class="chip" type="button" data-value="Living/Sala">Living/Sala</button>
-            <button class="chip" type="button" data-value="Dormitório">Dormitório</button>
-            <button class="chip" type="button" data-value="Banheiro">Banheiro</button>
-            <button class="chip" type="button" data-value="Casa completa">Casa completa</button>
+            <button class="chip" type="button" data-value="Cozinha" aria-pressed="false">Cozinha</button>
+            <button class="chip" type="button" data-value="Living/Sala" aria-pressed="false">Living/Sala</button>
+            <button class="chip" type="button" data-value="Dormitório" aria-pressed="false">Dormitório</button>
+            <button class="chip" type="button" data-value="Banheiro" aria-pressed="false">Banheiro</button>
+            <button class="chip" type="button" data-value="Casa completa" aria-pressed="false">Casa completa</button>
           </div>
+          <p class="step-error" id="step-1-error" role="alert" hidden>Selecione pelo menos um ambiente.</p>
           <div class="step-actions">
             <button class="btn btn-primary" type="button" data-next-step>Continuar</button>
           </div>
@@ -623,11 +725,12 @@
 
         <section class="step" data-step="2">
           <h3>Qual a sua urgência?</h3>
-          <div class="urgency-list" id="urgency-options">
-            <button class="radio-card" type="button" data-value="Imediata">Imediata</button>
-            <button class="radio-card" type="button" data-value="Próximos 3 meses">Próximos 3 meses</button>
-            <button class="radio-card" type="button" data-value="Apenas planejamento">Apenas planejamento</button>
+          <div class="urgency-list" id="urgency-options" role="radiogroup" aria-label="Urgência do projeto">
+            <button class="radio-card" type="button" data-value="Imediata" aria-checked="false">Imediata</button>
+            <button class="radio-card" type="button" data-value="Próximos 3 meses" aria-checked="false">Próximos 3 meses</button>
+            <button class="radio-card" type="button" data-value="Apenas planejamento" aria-checked="false">Apenas planejamento</button>
           </div>
+          <p class="step-error" id="step-2-error" role="alert" hidden>Selecione a urgência.</p>
           <div class="step-actions">
             <button class="btn btn-outline btn-back" type="button" data-prev-step>Voltar</button>
             <button class="btn btn-primary" type="button" data-next-step>Continuar</button>
@@ -637,9 +740,12 @@
         <section class="step" data-step="3">
           <h3>Para onde enviamos o atendimento?</h3>
           <div class="urgency-list">
-            <input class="field" id="lead-name" type="text" placeholder="Seu nome completo">
-            <input class="field" id="lead-phone" type="tel" placeholder="Seu WhatsApp com DDD">
+            <label class="field-label" for="lead-name">Nome completo</label>
+            <input class="field" id="lead-name" type="text" name="name" autocomplete="name" placeholder="Seu nome completo">
+            <label class="field-label" for="lead-phone">WhatsApp com DDD</label>
+            <input class="field" id="lead-phone" type="tel" name="phone" autocomplete="tel" inputmode="tel" placeholder="(49) 99999-9999">
           </div>
+          <p class="step-error" id="step-3-error" role="alert" hidden>Preencha nome e WhatsApp válido com DDD.</p>
           <div class="step-actions">
             <button class="btn btn-outline btn-back" type="button" data-prev-step>Voltar</button>
             <button class="btn btn-accent" type="button" id="submit-lead">Enviar para WhatsApp</button>
@@ -652,6 +758,6 @@
 
     <script src="assets/js/config.js"></script>
   <script src="assets/js/tracking.js"></script>
-  <script src="assets/js/main.js?v=jornada-compact"></script>
+  <script src="assets/js/main.js?v=feature-scroll-fix-2"></script>
 </body>
 </html>
