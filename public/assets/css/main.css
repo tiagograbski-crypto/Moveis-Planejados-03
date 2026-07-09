@@ -495,8 +495,22 @@
     }
 
     .hero {
+      --hero-title: clamp(1.875rem, 2.6svh + 0.8rem, 2.55rem);
+      --hero-copy-size: clamp(0.9rem, 0.5svh + 0.72rem, 1.05rem);
+      --hero-eyebrow-size: clamp(0.7rem, 0.28svh + 0.58rem, 0.8rem);
+      --hero-trust-size: clamp(0.7rem, 0.24svh + 0.55rem, 0.82rem);
+      --hero-btn-size: clamp(0.84375rem, 0.38svh + 0.65rem, 0.9375rem);
+      --hero-card-padding: clamp(1.0625rem, 2.2svh, 1.5rem);
+      --hero-stack-gap: clamp(0.4375rem, 0.9svh, 0.625rem);
+      --hero-block-gap: clamp(0.375rem, 0.75svh, 0.625rem);
+      --hero-stack-max: 40rem;
+      --hero-grid-pad-top: calc(var(--header-height) + clamp(0.25rem, 1svh, 0.5rem));
+      --hero-grid-pad-bottom: clamp(0.375rem, 1svh, 0.75rem);
+
       position: relative;
-      min-height: calc(100vh - var(--header-height));
+      height: 100svh;
+      min-height: 100svh;
+      max-height: 100svh;
       display: flex;
       align-items: center;
       background: var(--espresso-dark);
@@ -548,9 +562,9 @@
     .hero-stack {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: var(--hero-stack-gap);
       width: 100%;
-      max-width: 38.75rem;
+      max-width: var(--hero-stack-max);
     }
 
     .hero-theme-lines {
@@ -680,11 +694,17 @@
     }
 
     .scroll-hint {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      margin-top: 1.5rem;
-      opacity: 0.6;
+      display: none;
+    }
+
+    @media (min-height: 52em) {
+      .scroll-hint {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        margin-top: 0.75rem;
+        opacity: 0.6;
+      }
     }
 
     .scroll-hint svg {
@@ -702,13 +722,17 @@
     .hero .container {
       position: relative;
       z-index: 2;
+      height: 100%;
+      display: flex;
+      align-items: center;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: minmax(0, 38.75rem) minmax(0, 1fr);
-      gap: var(--space-2xl);
-      padding: clamp(3rem, 6vh, 4rem) 0;
+      grid-template-columns: minmax(0, var(--hero-stack-max)) minmax(0, 1fr);
+      gap: var(--space-lg);
+      width: 100%;
+      padding: var(--hero-grid-pad-top) 0 var(--hero-grid-pad-bottom);
       align-items: center;
     }
 
@@ -719,7 +743,7 @@
       border: 0.0625rem solid rgba(255, 255, 255, 0.2);
       backdrop-filter: blur(0.875rem);
       border-radius: var(--radius);
-      padding: clamp(1.5rem, 3vw, 2.125rem);
+      padding: var(--hero-card-padding);
       box-shadow: var(--shadow);
       transition: transform 0.4s var(--easing-organic), box-shadow 0.4s var(--easing-organic), border-color 0.4s var(--easing-organic);
     }
@@ -797,8 +821,13 @@
     .hero-actions {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.875rem;
-      margin-bottom: 1rem;
+      gap: var(--hero-block-gap);
+      margin-bottom: var(--hero-block-gap);
+    }
+
+    .hero-actions .btn {
+      padding: clamp(0.625rem, 1.1svh, 0.8125rem) clamp(0.9375rem, 2vw, 1.25rem);
+      font-size: var(--hero-btn-size);
     }
 
     .hero-note {
@@ -811,8 +840,25 @@
       color: #ffffff;
     }
 
+    .hero-card h1 {
+      font-size: var(--hero-title);
+      margin-bottom: var(--hero-block-gap);
+      line-height: 1.1;
+      letter-spacing: -0.015em;
+    }
+
+    .hero-card .eyebrow {
+      margin-bottom: var(--hero-block-gap);
+      padding: 0.375rem 0.75rem;
+      font-size: var(--hero-eyebrow-size);
+    }
+
     .hero-card .hero-copy {
       color: rgba(255, 255, 255, 0.9);
+      font-size: var(--hero-copy-size);
+      line-height: 1.42;
+      margin-bottom: var(--hero-block-gap);
+      max-width: 48ch;
     }
 
     .hero-card .hero-note {
@@ -833,9 +879,9 @@
     .hero-trust-badge {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      margin-top: 1rem;
-      margin-bottom: 0.5rem;
+      gap: 0.625rem;
+      margin-top: var(--hero-block-gap);
+      margin-bottom: 0;
     }
 
     .trust-badge__avatars {
@@ -885,11 +931,11 @@
 
     .trust-badge__text {
       margin: 0;
-      font-size: 0.8rem;
+      font-size: var(--hero-trust-size);
       font-weight: 300;
       letter-spacing: 0.05em;
       color: rgba(255, 248, 241, 0.78);
-      line-height: 1.35;
+      line-height: 1.3;
     }
 
     .persistent-ui {
@@ -2050,7 +2096,7 @@
     }
 
     .hero-actions .btn-accent {
-      min-width: 15rem;
+      min-width: min(100%, 15rem);
     }
 
     .hero-actions .btn-accent .cta-main-text {
@@ -2390,12 +2436,18 @@
       }
 
       .hero {
+        height: 100dvh;
+        height: 100svh;
         min-height: 100dvh;
-        min-height: 100vh;
+        min-height: 100svh;
+        max-height: 100dvh;
+        max-height: 100svh;
         display: flex;
         align-items: center;
         justify-content: center;
         overflow: hidden;
+        --hero-title: clamp(1.55rem, 3.5svh + 0.45rem, 2rem);
+        --hero-stack-max: 100%;
       }
 
       .hero::before {
@@ -2442,7 +2494,7 @@
       .hero-grid {
         width: 100%;
         max-width: none;
-        padding: calc(var(--header-height) + 0.625rem) 0 1.25rem;
+        padding: var(--hero-grid-pad-top) 0 var(--hero-grid-pad-bottom);
         grid-template-columns: 1fr;
         justify-items: center;
       }
@@ -2454,7 +2506,7 @@
         text-align: left;
         width: 100%;
         margin-inline: auto;
-        padding: 1.125rem 1rem;
+        padding: var(--hero-card-padding) clamp(0.875rem, 3vw, 1rem);
       }
 
       .hero-glass-card .eyebrow {
@@ -2462,12 +2514,10 @@
         border-radius: 0;
         background: transparent;
         padding: 0;
-        font-size: 0.7rem;
         text-transform: uppercase;
         letter-spacing: 0.1em;
         opacity: 0.8;
         text-align: left;
-        margin-bottom: 1rem;
         display: block;
       }
 
@@ -2511,8 +2561,8 @@
       }
 
       .trust-badge__text {
-        font-size: 0.7rem;
-        line-height: 1.3;
+        font-size: var(--hero-trust-size);
+        line-height: 1.28;
       }
 
       .about-manifesto {
@@ -2616,7 +2666,107 @@
       }
     }
 
+    /* Hero viewport-fit — international tiers (width + height) */
+    @media (min-width: 48em) and (max-width: 63.9375em) {
+      .hero {
+        --hero-title: clamp(1.75rem, 2.9svh + 0.6rem, 2.2rem);
+        --hero-stack-max: 35rem;
+      }
+
+      .hero::before {
+        background: linear-gradient(
+          180deg,
+          rgba(24, 14, 10, 0.55) 0%,
+          rgba(24, 14, 10, 0.3) 50%,
+          rgba(24, 14, 10, 0.6) 100%
+        );
+      }
+    }
+
+    @media (min-width: 64em) and (max-width: 89.9375em) {
+      .hero {
+        --hero-title: clamp(1.9rem, 2.5svh + 0.72rem, 2.4rem);
+        --hero-copy-size: clamp(0.875rem, 0.45svh + 0.66rem, 0.98rem);
+        --hero-eyebrow-size: clamp(0.72rem, 0.28svh + 0.58rem, 0.8125rem);
+        --hero-btn-size: clamp(0.84375rem, 0.36svh + 0.64rem, 0.9375rem);
+        --hero-stack-max: 35rem;
+        --hero-card-padding: clamp(1.0625rem, 2svh, 1.4375rem);
+        --hero-block-gap: clamp(0.4375rem, 0.8svh, 0.6875rem);
+      }
+
+      .hero-actions .btn-accent .cta-main-text {
+        font-size: clamp(0.92rem, 0.38svh + 0.66rem, 1rem);
+      }
+    }
+
+    @media (min-width: 90em) and (max-width: 119.9375em) {
+      .hero {
+        --hero-title: clamp(2rem, 2.25svh + 0.82rem, 2.6rem);
+        --hero-copy-size: clamp(0.9rem, 0.48svh + 0.7rem, 1.02rem);
+        --hero-stack-max: 37rem;
+        --hero-card-padding: clamp(1.125rem, 2.1svh, 1.5625rem);
+      }
+
+      .hero-cinema__layer img[data-hero-focus="ripado"] {
+        object-position: 28% center;
+      }
+    }
+
+    /* Full HD / wide laptops: largura de desktop, altura limitada (ex.: 1920×1080) */
+    @media (min-width: 90em) and (max-height: 68.75em) {
+      .hero {
+        --hero-title: clamp(1.7rem, 2.25svh + 0.62rem, 2.15rem);
+        --hero-copy-size: clamp(0.86rem, 0.4svh + 0.64rem, 0.94rem);
+        --hero-btn-size: clamp(0.8125rem, 0.34svh + 0.6rem, 0.9rem);
+        --hero-card-padding: clamp(0.9375rem, 1.75svh, 1.25rem);
+        --hero-block-gap: clamp(0.375rem, 0.7svh, 0.5625rem);
+        --hero-stack-gap: clamp(0.375rem, 0.7svh, 0.5625rem);
+        --hero-stack-max: 33.5rem;
+      }
+
+      .hero-actions .btn {
+        padding: clamp(0.5625rem, 1svh, 0.75rem) clamp(0.875rem, 1.8vw, 1.125rem);
+      }
+
+      .scroll-hint {
+        display: none;
+      }
+    }
+
+    @media (min-width: 120em) and (min-height: 72em) {
+      .hero {
+        --hero-title: clamp(2.2rem, 2.45svh + 0.92rem, 3.05rem);
+        --hero-copy-size: clamp(0.96rem, 0.48svh + 0.76rem, 1.08rem);
+        --hero-stack-max: 41rem;
+        --hero-card-padding: clamp(1.25rem, 2.2svh, 1.75rem);
+      }
+
+      .hero-cinema__layer img[data-hero-focus="ripado"] {
+        object-position: 24% center;
+      }
+    }
+
+    @media (max-height: 48em) {
+      .hero {
+        --hero-title: clamp(1.35rem, 2svh + 0.5rem, 1.65rem);
+        --hero-copy-size: clamp(0.8rem, 0.35svh + 0.58rem, 0.88rem);
+        --hero-card-padding: clamp(0.75rem, 1.5svh, 1rem);
+        --hero-block-gap: 0.3125rem;
+        --hero-stack-gap: 0.3125rem;
+      }
+
+      .scroll-hint {
+        display: none;
+      }
+    }
+
     @media (max-width: 21.875em) {
+      .hero {
+        --hero-title: clamp(1.35rem, 3svh + 0.4rem, 1.55rem);
+        --hero-copy-size: 0.8rem;
+        --hero-btn-size: 0.78rem;
+      }
+
       .bottom-action-btn.primary .cta-main-text {
         font-size: 0.76rem;
       }
