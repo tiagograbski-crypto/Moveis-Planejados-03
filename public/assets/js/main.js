@@ -23,20 +23,28 @@
         : null;
       const leadName = document.getElementById("lead-name");
       const leadPhone = document.getElementById("lead-phone");
+      const leadCity = document.getElementById("lead-city");
+      const areaButtons = Array.from(document.querySelectorAll("#area-options .chip"));
+      const budgetButtons = Array.from(document.querySelectorAll("#budget-options .radio-card"));
       const submitLeadButton = document.getElementById("submit-lead");
       const stepErrors = {
         1: document.getElementById("step-1-error"),
         2: document.getElementById("step-2-error"),
-        3: document.getElementById("step-3-error")
+        3: document.getElementById("step-3-error"),
+        4: document.getElementById("step-4-error")
       };
       const appConfig = window.APP_CONFIG || {};
       const whatsappNumber = appConfig.whatsappNumber || "5549999508884";
       const menuEnabled = Boolean(appConfig.menuEnabled);
       const menuItems = Array.isArray(appConfig.menuItems) ? appConfig.menuItems : [];
+      const TOTAL_MODAL_STEPS = 4;
 
       const formState = {
         environments: [],
         urgency: "",
+        city: "",
+        area: "",
+        budget: "",
         name: "",
         phone: ""
       };
@@ -463,6 +471,12 @@
         }
 
         if (step === 3) {
+          if (leadCity) {
+            leadCity.classList.remove("is-invalid");
+          }
+        }
+
+        if (step === 4) {
           leadName.classList.remove("is-invalid");
           leadPhone.classList.remove("is-invalid");
         }
@@ -499,17 +513,23 @@
           item.classList.toggle("active", Number(item.dataset.step) === step);
         });
 
-        modalProgressFill.style.width = (step / 3) * 100 + "%";
-        stepIndicator.textContent = "Passo " + step + " de 3";
+        modalProgressFill.style.width = (step / TOTAL_MODAL_STEPS) * 100 + "%";
+        stepIndicator.textContent = "Passo " + step + " de " + TOTAL_MODAL_STEPS;
       }
 
       function resetForm() {
         formState.environments = [];
         formState.urgency = "";
+        formState.city = "";
+        formState.area = "";
+        formState.budget = "";
         formState.name = "";
         formState.phone = "";
         leadName.value = "";
         leadPhone.value = "";
+        if (leadCity) {
+          leadCity.value = "";
+        }
         isSubmittingLead = false;
         if (submitLeadButton) {
           submitLeadButton.disabled = false;
@@ -520,6 +540,14 @@
           button.setAttribute("aria-pressed", "false");
         });
         urgencyButtons.forEach((button) => {
+          button.classList.remove("active");
+          button.setAttribute("aria-checked", "false");
+        });
+        areaButtons.forEach((button) => {
+          button.classList.remove("active");
+          button.setAttribute("aria-pressed", "false");
+        });
+        budgetButtons.forEach((button) => {
           button.classList.remove("active");
           button.setAttribute("aria-checked", "false");
         });
@@ -679,18 +707,43 @@
         }
 
         if (step === 3) {
+          formState.city = leadCity ? leadCity.value.trim() : "";
+          const missing = [];
+
+          if (!formState.city) {
+            if (leadCity) {
+              leadCity.classList.add("is-invalid");
+            }
+            missing.push("cidade");
+          }
+
+          if (!formState.area) {
+            missing.push("metragem");
+          }
+
+          if (!formState.budget) {
+            missing.push("faixa de investimento");
+          }
+
+          if (missing.length > 0) {
+            showStepError(3, "Preencha " + missing.join(", ") + ".");
+            return false;
+          }
+        }
+
+        if (step === 4) {
           formState.name = leadName.value.trim();
           formState.phone = leadPhone.value.trim();
 
           if (!formState.name) {
             leadName.classList.add("is-invalid");
-            showStepError(3, "Informe seu nome completo.");
+            showStepError(4, "Informe seu nome completo.");
             return false;
           }
 
           if (!isValidLeadPhone(formState.phone)) {
             leadPhone.classList.add("is-invalid");
-            showStepError(3, "Informe um WhatsApp válido com DDD.");
+            showStepError(4, "Informe um WhatsApp válido com DDD.");
             return false;
           }
         }
@@ -703,7 +756,7 @@
           return;
         }
 
-        if (!validateStep(3)) {
+        if (!validateStep(4)) {
           return;
         }
 
@@ -713,12 +766,15 @@
         }
 
         const message = [
-          "Olá, quero solicitar orçamento para móveis planejados.",
+          "Olá. Quero iniciar um projeto de móveis planejados.",
           "",
           "Nome: " + formState.name,
           "WhatsApp: " + formState.phone,
-          "Ambientes: " + formState.environments.join(", "),
-          "Urgência: " + formState.urgency
+          "Cidade: " + formState.city,
+          "Escopo: " + formState.environments.join(", "),
+          "Metragem: " + formState.area,
+          "Investimento: " + formState.budget,
+          "Prazo: " + formState.urgency
         ].join("\n");
 
         const url = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
@@ -726,7 +782,10 @@
           window.AppTracking.trackModalSubmitWhatsapp({
             destination: url,
             selected_environments: formState.environments.length,
-            urgency: formState.urgency
+            urgency: formState.urgency,
+            city: formState.city,
+            area: formState.area,
+            budget: formState.budget
           });
         }
         window.open(url, "_blank", "noopener");
@@ -831,11 +890,11 @@
         {
           poolIndex: 0,
           id: "ripado",
-          label: "Painel ripado",
+          label: "Living",
           images: [
             {
               src: "hero/hero-capa-marrom.webp",
-              alt: "Living com painel ripado e marcenaria integrada Tendência",
+              alt: "Living com painel ripado e marcenaria integrada",
               focus: "ripado"
             }
           ]
@@ -843,11 +902,11 @@
         {
           poolIndex: 1,
           id: "closet",
-          label: "Closet aberto",
+          label: "Closet",
           images: [
             {
               src: "execucoes/execucao-03-closet-minimalista-lacca.jpg",
-              alt: "Closet aberto em lacca com organização técnica",
+              alt: "Closet em lacca com organização interna",
               focus: "closet"
             }
           ]
@@ -855,12 +914,12 @@
         {
           poolIndex: 2,
           id: "banheiro",
-          label: "Banheiro técnico",
+          label: "Banheiro",
           mobileOnly: true,
           images: [
             {
               src: "assets/images/banheiro.jpeg",
-              alt: "Banheiro planejado com bancada em pedra e marcenaria flutuante",
+              alt: "Banheiro planejado com bancada em pedra",
               focus: "banheiro"
             }
           ]
@@ -902,6 +961,7 @@
         let slideTimerId = 0;
         let isTransitioning = false;
         let resizeTimerId = 0;
+        let autoAdvancePaused = false;
 
         if (layers.length < 2) {
           return;
@@ -1010,7 +1070,7 @@
         }
 
         function scheduleAutoAdvance() {
-          if (prefersReducedMotion) {
+          if (prefersReducedMotion || autoAdvancePaused) {
             return;
           }
 
@@ -1027,6 +1087,14 @@
             const nextThemeIndex = (activeThemeIndex + 1) % themes.length;
             showSlide(nextThemeIndex);
           }, 6500);
+        }
+
+        function pauseAutoAdvance() {
+          autoAdvancePaused = true;
+          if (slideTimerId) {
+            window.clearInterval(slideTimerId);
+            slideTimerId = 0;
+          }
         }
 
         function selectThemeByPoolIndex(poolIndex) {
@@ -1083,6 +1151,7 @@
 
         themeButtons.forEach(function (button) {
           button.addEventListener("click", function () {
+            pauseAutoAdvance();
             const poolIndex = Number(button.getAttribute("data-theme-index"));
             if (Number.isNaN(poolIndex)) {
               return;
@@ -1091,6 +1160,9 @@
             selectThemeByPoolIndex(poolIndex);
           });
         });
+
+        cinema.addEventListener("pointerdown", pauseAutoAdvance, { passive: true });
+        themeLines.addEventListener("pointerdown", pauseAutoAdvance, { passive: true });
 
         updateThemeLines();
         preloadSecondaryImages();
@@ -1486,10 +1558,388 @@
         });
       }
 
+      function initPortfolioLightbox() {
+        const lightbox = document.getElementById("portfolio-lightbox");
+        const lightboxPanel = lightbox ? lightbox.querySelector(".lightbox-panel") : null;
+        const lightboxImage = document.getElementById("lightbox-image");
+        const lightboxTitle = document.getElementById("lightbox-title");
+        const lightboxCaption = document.getElementById("lightbox-caption");
+        const prevButton = document.getElementById("lightbox-prev");
+        const nextButton = document.getElementById("lightbox-next");
+        const cards = Array.from(document.querySelectorAll("#portfolio .portfolio-card[data-lightbox-src]"));
+        let currentIndex = 0;
+        let releaseLightboxTrap = null;
+        let lightboxLastFocused = null;
+
+        if (!lightbox || !lightboxPanel || !lightboxImage || cards.length === 0) {
+          return;
+        }
+
+        function getPayload(card) {
+          return {
+            src: card.getAttribute("data-lightbox-src") || "",
+            alt: card.getAttribute("data-lightbox-alt") || "",
+            title: card.getAttribute("data-lightbox-title") || "",
+            caption: card.getAttribute("data-lightbox-caption") || ""
+          };
+        }
+
+        function render(index) {
+          const card = cards[index];
+          if (!card) {
+            return;
+          }
+
+          const data = getPayload(card);
+          lightboxImage.src = data.src;
+          lightboxImage.alt = data.alt;
+          lightboxTitle.textContent = data.title;
+          lightboxCaption.textContent = data.caption;
+          currentIndex = index;
+        }
+
+        function open(index) {
+          if (index < 0 || index >= cards.length) {
+            return;
+          }
+
+          lightboxLastFocused = document.activeElement;
+          render(index);
+          lightbox.classList.add("open");
+          lightbox.setAttribute("aria-hidden", "false");
+          document.body.style.overflow = "hidden";
+          releaseLightboxTrap = enableFocusTrap(lightboxPanel);
+          lightbox.querySelector(".lightbox-close").focus();
+        }
+
+        function close() {
+          lightbox.classList.remove("open");
+          lightbox.setAttribute("aria-hidden", "true");
+          document.body.style.overflow = "";
+          lightboxImage.removeAttribute("src");
+          if (releaseLightboxTrap) {
+            releaseLightboxTrap();
+            releaseLightboxTrap = null;
+          }
+          if (lightboxLastFocused && typeof lightboxLastFocused.focus === "function") {
+            lightboxLastFocused.focus();
+          }
+        }
+
+        function showRelative(step) {
+          const nextIndex = (currentIndex + step + cards.length) % cards.length;
+          render(nextIndex);
+        }
+
+        cards.forEach(function (card, index) {
+          card.addEventListener("click", function () {
+            open(index);
+          });
+
+          card.addEventListener("keydown", function (event) {
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              open(index);
+            }
+          });
+        });
+
+        lightbox.querySelectorAll("[data-close-lightbox]").forEach(function (node) {
+          node.addEventListener("click", close);
+        });
+
+        if (prevButton) {
+          prevButton.addEventListener("click", function () {
+            showRelative(-1);
+          });
+        }
+
+        if (nextButton) {
+          nextButton.addEventListener("click", function () {
+            showRelative(1);
+          });
+        }
+
+        document.addEventListener("keydown", function (event) {
+          if (!lightbox.classList.contains("open")) {
+            return;
+          }
+
+          if (event.key === "Escape") {
+            event.preventDefault();
+            close();
+            return;
+          }
+
+          if (event.key === "ArrowLeft") {
+            event.preventDefault();
+            showRelative(-1);
+            return;
+          }
+
+          if (event.key === "ArrowRight") {
+            event.preventDefault();
+            showRelative(1);
+          }
+        });
+      }
+
+      function initPortfolioCarousel() {
+        const carousel = document.getElementById("portfolio-carousel");
+        const grid = document.querySelector("#portfolio .portfolio-grid");
+        const hint = document.getElementById("portfolio-carousel-hint");
+        const dotsContainer = document.getElementById("portfolio-carousel-dots");
+        const cards = Array.from(document.querySelectorAll("#portfolio .portfolio-card"));
+        const mobileQuery = window.matchMedia("(max-width: 47.9375em)");
+        let dotsBuilt = false;
+
+        if (!carousel || !grid || cards.length === 0) {
+          return;
+        }
+
+        function buildDots() {
+          if (!dotsContainer || !mobileQuery.matches) {
+            if (dotsContainer) {
+              dotsContainer.textContent = "";
+            }
+            dotsBuilt = false;
+            return;
+          }
+
+          dotsContainer.textContent = "";
+          cards.forEach(function (_card, index) {
+            const dot = document.createElement("button");
+            dot.type = "button";
+            dot.className = "portfolio-carousel__dot" + (index === 0 ? " is-active" : "");
+            dot.setAttribute("aria-label", "Projeto " + (index + 1));
+            dot.addEventListener("click", function () {
+              const card = cards[index];
+              if (!card) {
+                return;
+              }
+              grid.scrollTo({
+                left: card.offsetLeft - grid.offsetLeft,
+                behavior: "smooth"
+              });
+            });
+            dotsContainer.appendChild(dot);
+          });
+          dotsBuilt = true;
+        }
+
+        function updateCarouselState() {
+          if (!mobileQuery.matches) {
+            carousel.classList.remove("is-scrolled", "is-end");
+            return;
+          }
+
+          const maxScroll = grid.scrollWidth - grid.clientWidth;
+          carousel.classList.toggle("is-scrolled", grid.scrollLeft > 24);
+          carousel.classList.toggle("is-end", maxScroll > 0 && grid.scrollLeft >= maxScroll - 24);
+
+          if (!dotsBuilt) {
+            buildDots();
+          }
+
+          if (!dotsContainer) {
+            return;
+          }
+
+          let activeIndex = 0;
+          let nearestDistance = Infinity;
+          const scrollLeft = grid.scrollLeft;
+
+          cards.forEach(function (card, index) {
+            const distance = Math.abs(card.offsetLeft - scrollLeft);
+            if (distance < nearestDistance) {
+              nearestDistance = distance;
+              activeIndex = index;
+            }
+          });
+
+          dotsContainer.querySelectorAll(".portfolio-carousel__dot").forEach(function (dot, index) {
+            dot.classList.toggle("is-active", index === activeIndex);
+          });
+        }
+
+        grid.addEventListener("scroll", function () {
+          if (hint && mobileQuery.matches) {
+            hint.classList.add("is-hidden");
+          }
+          updateCarouselState();
+          requestFeatureActivationUpdate();
+        }, { passive: true });
+
+        window.addEventListener("resize", function () {
+          buildDots();
+          updateCarouselState();
+        });
+
+        buildDots();
+        updateCarouselState();
+      }
+
+      function initHeroClientAvatars() {
+        const container = document.getElementById("hero-client-avatars");
+        const avatars = Array.isArray(appConfig.clientAvatars) ? appConfig.clientAvatars : [];
+
+        if (!container || avatars.length === 0) {
+          return;
+        }
+
+        container.textContent = "";
+
+        avatars.forEach(function (avatar) {
+          if (!avatar || typeof avatar.src !== "string") {
+            return;
+          }
+
+          const image = document.createElement("img");
+          image.className = "trust-avatar";
+          image.src = avatar.src;
+          image.alt = typeof avatar.alt === "string" ? avatar.alt : "";
+          image.width = 40;
+          image.height = 40;
+          image.loading = "lazy";
+          image.decoding = "async";
+          container.appendChild(image);
+        });
+      }
+
+      function initGoogleReviews() {
+        const reviewsConfig = appConfig.googleReviews || {};
+        if (!reviewsConfig.enabled) {
+          return;
+        }
+
+        const rating = Number(reviewsConfig.rating);
+        const reviewCount = Number(reviewsConfig.reviewCount);
+        const profileUrl = typeof reviewsConfig.profileUrl === "string" ? reviewsConfig.profileUrl : "";
+        const ratingLabel = Number.isFinite(rating) ? rating.toFixed(1).replace(".", ",") : "";
+        const countLabel = Number.isFinite(reviewCount)
+          ? reviewCount + " avalia" + (reviewCount === 1 ? "ção" : "ções") + " no Google"
+          : "";
+
+        const heroProof = document.getElementById("hero-google-proof");
+        const heroRating = document.getElementById("hero-google-rating");
+        const heroCount = document.getElementById("hero-google-count");
+        const modalProof = document.getElementById("modal-google-proof");
+        const modalRating = document.getElementById("modal-google-rating");
+        const modalCount = document.getElementById("modal-google-count");
+
+        if (heroProof && ratingLabel && countLabel && profileUrl) {
+          heroProof.href = profileUrl;
+          if (heroRating) {
+            heroRating.textContent = ratingLabel;
+          }
+          if (heroCount) {
+            heroCount.textContent = countLabel;
+          }
+          heroProof.hidden = false;
+        }
+
+        if (modalProof && ratingLabel && countLabel && profileUrl) {
+          modalProof.href = profileUrl;
+          if (modalRating) {
+            modalRating.textContent = ratingLabel;
+          }
+          if (modalCount) {
+            modalCount.textContent = countLabel;
+          }
+          modalProof.hidden = false;
+        }
+      }
+
+      function initGuarantee() {
+        const guaranteeConfig = appConfig.guarantee || {};
+        const structureNode = document.getElementById("guarantee-structure-years");
+        const hardwareNode = document.getElementById("guarantee-hardware-years");
+        const contractNode = document.getElementById("guarantee-contract-note");
+
+        if (structureNode && guaranteeConfig.structureYears) {
+          structureNode.textContent = guaranteeConfig.structureYears + " anos";
+        }
+
+        if (hardwareNode && guaranteeConfig.hardwareYears) {
+          hardwareNode.textContent = guaranteeConfig.hardwareYears + " anos";
+        }
+
+        if (contractNode && guaranteeConfig.contractNote) {
+          contractNode.textContent = guaranteeConfig.contractNote;
+        }
+      }
+
+      function initLeadOffer() {
+        const offerConfig = appConfig.leadOffer || {};
+        const heroOffer = document.getElementById("hero-offer-line");
+        const modalOffer = document.getElementById("modal-offer-line");
+        const modalSla = document.getElementById("modal-response-sla");
+
+        if (heroOffer && offerConfig.headline) {
+          heroOffer.textContent = offerConfig.headline;
+        }
+
+        if (modalOffer && offerConfig.headline) {
+          modalOffer.textContent = offerConfig.headline;
+        }
+
+        if (modalSla && offerConfig.responseSla) {
+          modalSla.textContent = offerConfig.responseSla + ".";
+        }
+      }
+
+      function initShowcaseVideo() {
+        const videoConfig = appConfig.showcaseVideo || {};
+        const section = document.getElementById("entrega");
+        const trigger = document.getElementById("showcase-video-trigger");
+        const poster = document.getElementById("showcase-video-poster");
+        const caption = document.getElementById("showcase-video-caption");
+
+        if (!section || !trigger) {
+          return;
+        }
+
+        if (!videoConfig.enabled) {
+          section.hidden = true;
+          return;
+        }
+
+        if (poster && videoConfig.poster) {
+          poster.src = videoConfig.poster;
+        }
+
+        const youtubeId = typeof videoConfig.youtubeId === "string" ? videoConfig.youtubeId.trim() : "";
+
+        if (!youtubeId) {
+          trigger.disabled = true;
+          trigger.classList.add("is-disabled");
+          if (caption) {
+            caption.textContent = "Vídeo em breve.";
+          }
+          return;
+        }
+
+        if (caption) {
+          caption.textContent = "Toque para assistir.";
+        }
+
+        trigger.addEventListener("click", function () {
+          const embedUrl = "https://www.youtube.com/watch?v=" + encodeURIComponent(youtubeId);
+          window.open(embedUrl, "_blank", "noopener,noreferrer");
+        });
+      }
+
       initHeroCinema();
       initJourneyTimeline();
       initMaterialStation();
       initPersistentHeroUI();
+      initPortfolioLightbox();
+      initPortfolioCarousel();
+      initGoogleReviews();
+      initHeroClientAvatars();
+      initGuarantee();
+      initLeadOffer();
+      initShowcaseVideo();
 
       window.addEventListener("scroll", updateScrollUI, { passive: true });
       window.addEventListener("scroll", requestFeatureActivationUpdate, { passive: true });
@@ -1609,17 +2059,50 @@
         });
       });
 
+      areaButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          formState.area = button.dataset.value;
+          areaButtons.forEach((entry) => {
+            entry.classList.remove("active");
+            entry.setAttribute("aria-pressed", "false");
+          });
+          button.classList.add("active");
+          button.setAttribute("aria-pressed", "true");
+          clearStepError(3);
+        });
+      });
+
+      budgetButtons.forEach((button) => {
+        button.addEventListener("click", function () {
+          formState.budget = button.dataset.value;
+          budgetButtons.forEach((entry) => {
+            entry.classList.remove("active");
+            entry.setAttribute("aria-checked", "false");
+          });
+          button.classList.add("active");
+          button.setAttribute("aria-checked", "true");
+          clearStepError(3);
+        });
+      });
+
+      if (leadCity) {
+        leadCity.addEventListener("input", function () {
+          leadCity.classList.remove("is-invalid");
+          clearStepError(3);
+        });
+      }
+
       if (leadName) {
         leadName.addEventListener("input", function () {
           leadName.classList.remove("is-invalid");
-          clearStepError(3);
+          clearStepError(4);
         });
       }
 
       if (leadPhone) {
         leadPhone.addEventListener("input", function () {
           leadPhone.classList.remove("is-invalid");
-          clearStepError(3);
+          clearStepError(4);
         });
       }
 
@@ -1629,7 +2112,7 @@
             return;
           }
 
-          setStep(Math.min(3, currentStep + 1));
+          setStep(Math.min(TOTAL_MODAL_STEPS, currentStep + 1));
         });
       });
 
