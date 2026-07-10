@@ -256,6 +256,10 @@
 
     .site-header.site-header--hero {
       position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1100;
       background-color: transparent !important;
       border: 0;
       box-shadow: none;
@@ -263,9 +267,10 @@
       backdrop-filter: none;
     }
 
-    .site-header.site-header--hero.persistent-ui--top,
-    .site-header.site-header--hero.persistent-ui--top.is-active {
-      transform: translateY(0);
+  /* transform em sticky quebra fixação — header nunca usa slide vertical */
+    .site-header.persistent-ui--top,
+    .site-header.persistent-ui--top.is-active {
+      transform: none;
       opacity: 1;
       pointer-events: auto;
     }
@@ -518,8 +523,11 @@
       --hero-stack-max: 40rem;
       --hero-grid-pad-top: calc(var(--header-height) + clamp(0.25rem, 1svh, 0.5rem));
       --hero-grid-pad-bottom: clamp(0.375rem, 1svh, 0.75rem);
+      --hero-exit: 0;
 
       position: relative;
+      z-index: 1;
+      isolation: isolate;
       height: 100svh;
       min-height: 100svh;
       max-height: 100svh;
@@ -528,6 +536,47 @@
       background: var(--espresso-dark);
       overflow: hidden;
       color: #fff7ef;
+    }
+
+    .hero .hero-cinema,
+    .hero .hero-stack {
+      opacity: calc(1 - (var(--hero-exit) * 0.96));
+    }
+
+    .hero .hero-stack {
+      transform: translate3d(0, calc(var(--hero-exit) * -1.5rem), 0);
+    }
+
+    .hero.hero--handoff .hero-stack,
+    .hero.hero--handoff .hero-cinema {
+      pointer-events: none;
+    }
+
+    .hero.hero--handoff {
+      z-index: 1;
+    }
+
+    .hero.hero--handoff .hero-card,
+    .hero.hero--handoff .hero-card:hover {
+      transform: none;
+      transition: none;
+    }
+
+    .hero.hero--passed {
+      z-index: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    main > :not(.hero) {
+      position: relative;
+      z-index: 2;
+    }
+
+    #solucao {
+      z-index: 3;
+      isolation: isolate;
+      background-color: var(--bg);
     }
 
     .hero-cinema {
@@ -980,6 +1029,12 @@
       transform: translateX(-50%) translateY(0);
       opacity: 1;
       pointer-events: auto;
+    }
+
+    body:not(.hero-released) .bottom-action-bar.persistent-ui--bottom {
+      transform: translateX(-50%) translateY(100%);
+      opacity: 0;
+      pointer-events: none;
     }
 
     .material-station {
@@ -1547,7 +1602,7 @@
       color: #fff8f1;
       background:
         linear-gradient(rgba(32, 20, 15, 0.82), rgba(32, 20, 15, 0.82)),
-        url("anatomia/anatomia-bg-atelier-escuro.jpg") center/cover no-repeat fixed;
+        url("/anatomia/anatomia-bg-atelier-escuro.jpg") center/cover no-repeat fixed;
     }
 
     .pillars .section-subtitle {
@@ -2441,6 +2496,7 @@
       bottom: calc(0.875rem + env(safe-area-inset-bottom, 0rem));
       z-index: 1150;
       isolation: isolate;
+      transform: translateX(-50%);
       width: min(40rem, calc(100% - 1.5rem));
       border-radius: var(--radius-pill);
       display: grid;
@@ -3089,160 +3145,111 @@
 
       .feature-list {
         gap: 0.75rem;
+        overflow-anchor: none;
       }
 
-      /* Mobile — sempre legíveis; scroll só ilumina o card em foco */
+      /* Mobile — fundo sólido; spotlight só altera borda/sombra, sem animação */
       .feature-item {
         opacity: 1;
         transform: none;
         filter: none;
         color: var(--text);
-        background: rgba(255, 255, 255, 0.86);
+        background: rgba(255, 252, 247, 0.96);
         border-color: rgba(183, 131, 88, 0.26);
         box-shadow: 0 0.5rem 1.125rem rgba(48, 33, 22, 0.09);
-        -webkit-backdrop-filter: blur(0.625rem) saturate(1.04);
-        backdrop-filter: blur(0.625rem) saturate(1.04);
-        will-change: transform, box-shadow, border-color, background;
-        transition:
-          border-color 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-          box-shadow 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-          background 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-          transform 0.42s cubic-bezier(0.16, 1, 0.3, 1),
-          color 0.32s ease;
+        -webkit-backdrop-filter: none;
+        backdrop-filter: none;
+        transition: none;
       }
 
       .feature-item strong {
         color: var(--text);
-        transition: color 0.32s ease;
+        transition: none;
       }
 
       .feature-item div {
         color: var(--muted);
-        transition: color 0.32s ease;
+        transition: none;
       }
 
       .feature-item .feature-icon {
         background: rgba(183, 131, 88, 0.14);
         color: var(--accent-dark);
-        transition: color 0.32s ease, background 0.32s ease, box-shadow 0.32s ease;
+        transition: none;
       }
 
       .feature-item.is-active {
-        transform: translateY(-0.125rem);
-        -webkit-backdrop-filter: blur(0.9375rem) saturate(1.15);
-        backdrop-filter: blur(0.9375rem) saturate(1.15);
+        transform: none;
       }
 
-      /* Iluminação nível 1 — glass neutro */
-      body[data-feature-highlight="1"] .feature-item.is-active {
-        color: #fff8f1;
-        background: var(--bottom-bar-glass);
-        border-color: rgba(255, 255, 255, 0.3);
-        box-shadow: var(--feature-glass-lit-glow);
+      /* Mobile — destaque aditivo: mesmo fundo/texto; só borda + sombra mudam */
+      body[data-feature-highlight="1"] .feature-item.is-active,
+      body[data-feature-highlight="2"] .feature-item.is-active,
+      body[data-feature-highlight="3"] .feature-item.is-active,
+      body[data-feature-highlight="4"] .feature-item.is-active {
+        color: var(--text);
+        background: rgba(255, 252, 247, 0.96);
       }
 
       body[data-feature-highlight="1"] .feature-item.is-active strong,
-      body[data-feature-highlight="1"] .feature-item.is-active div {
-        color: rgba(255, 248, 241, 0.9);
+      body[data-feature-highlight="1"] .feature-item.is-active div,
+      body[data-feature-highlight="2"] .feature-item.is-active strong,
+      body[data-feature-highlight="2"] .feature-item.is-active div,
+      body[data-feature-highlight="3"] .feature-item.is-active strong,
+      body[data-feature-highlight="3"] .feature-item.is-active div,
+      body[data-feature-highlight="4"] .feature-item.is-active strong,
+      body[data-feature-highlight="4"] .feature-item.is-active div {
+        color: inherit;
       }
 
-      body[data-feature-highlight="1"] .feature-item.is-active .feature-icon {
-        background: rgba(255, 255, 255, 0.16);
-        color: #f0d4b0;
+      body[data-feature-highlight="1"] .feature-item.is-active div,
+      body[data-feature-highlight="2"] .feature-item.is-active div,
+      body[data-feature-highlight="3"] .feature-item.is-active div,
+      body[data-feature-highlight="4"] .feature-item.is-active div {
+        color: var(--muted);
       }
 
-      /* Iluminação nível 2 — permanece claro + aro terracota */
+      body[data-feature-highlight="1"] .feature-item.is-active .feature-icon,
+      body[data-feature-highlight="2"] .feature-item.is-active .feature-icon,
+      body[data-feature-highlight="3"] .feature-item.is-active .feature-icon,
+      body[data-feature-highlight="4"] .feature-item.is-active .feature-icon {
+        background: rgba(183, 131, 88, 0.14);
+        color: var(--accent-dark);
+        box-shadow: none;
+      }
+
+      body[data-feature-highlight="1"] .feature-item.is-active {
+        border-color: rgba(48, 33, 22, 0.38);
+        box-shadow:
+          0 0.75rem 1.75rem rgba(48, 33, 22, 0.14),
+          0 0 0 0.125rem rgba(48, 33, 22, 0.12);
+      }
+
       body[data-feature-highlight="2"] .feature-item.is-active {
-        color: var(--text);
-        background: rgba(255, 252, 247, 0.96);
         border-color: rgba(183, 131, 88, 0.72);
         box-shadow:
           0 0.875rem 2rem rgba(127, 90, 63, 0.22),
           0 0 0 0.125rem rgba(183, 131, 88, 0.2);
       }
 
-      body[data-feature-highlight="2"] .feature-item.is-active strong {
-        color: var(--text);
-      }
-
-      body[data-feature-highlight="2"] .feature-item.is-active div {
-        color: var(--muted);
-      }
-
-      body[data-feature-highlight="2"] .feature-item.is-active .feature-icon {
-        background: rgba(183, 131, 88, 0.24);
-        color: var(--accent-dark);
-        box-shadow: inset 0 0 0 0.0625rem rgba(183, 131, 88, 0.2);
-      }
-
-      /* Iluminação nível 3 — terracota CTA (padrão) */
       body[data-feature-highlight="3"] .feature-item.is-active {
-        color: #fff8f1;
-        background: var(--bottom-primary-glass);
-        border-color: rgba(255, 255, 255, 0.26);
+        border-color: rgba(183, 131, 88, 0.78);
         box-shadow:
-          0 1rem 2.25rem rgba(127, 90, 63, 0.34),
-          inset 0 0.0625rem 0 rgba(255, 255, 255, 0.16);
+          0 0.875rem 2rem rgba(127, 90, 63, 0.26),
+          0 0 0 0.125rem rgba(183, 131, 88, 0.22);
       }
 
-      body[data-feature-highlight="3"] .feature-item.is-active strong {
-        color: #fff8f1;
-      }
-
-      body[data-feature-highlight="3"] .feature-item.is-active div {
-        color: rgba(255, 248, 241, 0.9);
-      }
-
-      body[data-feature-highlight="3"] .feature-item.is-active .feature-icon {
-        background: rgba(255, 255, 255, 0.2);
-        color: #fff0df;
-        box-shadow: inset 0 0 0 0.0625rem rgba(255, 255, 255, 0.2);
-      }
-
-      /* Iluminação nível 4 — terracota sólido */
       body[data-feature-highlight="4"] .feature-item.is-active {
-        color: #fffaf4;
-        background: linear-gradient(135deg, var(--terracota) 0%, #7f5a3f 100%);
-        border-color: rgba(255, 255, 255, 0.34);
+        border-color: rgba(127, 90, 63, 0.88);
         box-shadow:
-          0 1.125rem 2.5rem rgba(127, 90, 63, 0.4),
-          inset 0 0.0625rem 0 rgba(255, 255, 255, 0.22);
+          0 1rem 2.25rem rgba(127, 90, 63, 0.32),
+          0 0 0 0.14rem rgba(127, 90, 63, 0.26);
       }
 
-      body[data-feature-highlight="4"] .feature-item.is-active strong {
-        color: #fffaf4;
-      }
-
-      body[data-feature-highlight="4"] .feature-item.is-active div {
-        color: rgba(255, 250, 244, 0.92);
-      }
-
-      body[data-feature-highlight="4"] .feature-item.is-active .feature-icon {
-        background: rgba(255, 255, 255, 0.24);
-        color: #fff8f1;
-        box-shadow: inset 0 0 0 0.0625rem rgba(255, 255, 255, 0.28);
-      }
-
-      @supports not ((-webkit-backdrop-filter: blur(16px)) or (backdrop-filter: blur(16px))) {
-        .feature-item {
-          background: rgba(255, 248, 241, 0.94);
-        }
-
-        body[data-feature-highlight="1"] .feature-item.is-active {
-          background: rgba(36, 27, 23, 0.94);
-        }
-
-        body[data-feature-highlight="2"] .feature-item.is-active {
-          background: rgba(255, 252, 247, 0.98);
-        }
-
-        body[data-feature-highlight="3"] .feature-item.is-active {
-          background: rgba(127, 90, 63, 0.96);
-        }
-
-        body[data-feature-highlight="4"] .feature-item.is-active {
-          background: linear-gradient(135deg, #9e6e56 0%, #6e4d36 100%);
-        }
+      #solucao .media-frame.sensory-visual-target img {
+        opacity: 1;
+        transition: none;
+        will-change: auto;
       }
 
       .footer-grid {
@@ -3360,9 +3367,34 @@
         backdrop-filter: none;
       }
 
+      .site-header:not(.site-header--hero) {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: rgba(36, 27, 23, 0.94) !important;
+        border-bottom: 0.0625rem solid rgba(255, 255, 255, 0.14);
+        box-shadow: 0 0.5rem 1.5rem rgba(0, 0, 0, 0.16);
+        -webkit-backdrop-filter: blur(0.75rem);
+        backdrop-filter: blur(0.75rem);
+      }
+
+      body.scrolled-past-hero #solucao,
+      body.scrolled-past-hero #diferenciais,
+      body.scrolled-past-hero #jornada-execucao,
+      body.scrolled-past-hero #garantia,
+      body.scrolled-past-hero #sobre,
+      body.scrolled-past-hero #entrega,
+      body.scrolled-past-hero #estacao-materiais,
+      body.scrolled-past-hero #portfolio,
+      body.scrolled-past-hero #faq,
+      body.scrolled-past-hero #contato {
+        scroll-margin-top: calc(var(--header-height) + env(safe-area-inset-top, 0rem) + 0.75rem);
+      }
+
       .site-header.persistent-ui--top,
       .site-header.persistent-ui--top.is-active {
-        transform: translateY(0);
+        transform: none;
         opacity: 1;
         pointer-events: auto;
       }
@@ -3871,6 +3903,16 @@
       .hero-cinema__layer.is-active img {
         animation: none;
         transform: none;
+      }
+
+      .hero .hero-cinema,
+      .hero .hero-stack {
+        opacity: 1 !important;
+        transform: none !important;
+      }
+
+      .hero.hero--passed {
+        visibility: hidden;
       }
 
       .journey-timeline {

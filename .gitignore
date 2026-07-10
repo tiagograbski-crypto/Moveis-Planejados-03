@@ -27,3 +27,5 @@ npm-debug.log*
 
 # Local portfolio source (outside repo)
 # ~/Desktop/Portifolio Moveis Planejados
+
+.vercel

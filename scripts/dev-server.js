@@ -262,6 +262,26 @@ const server = http.createServer((req, res) => {
         return;
     }
     
+    // favicon.ico — browsers pedem por padrão; servimos o SVG existente
+    if (url === "/favicon.ico") {
+      const faviconPath = path.join(ROOT, "favicon.svg");
+      if (fileExists(faviconPath)) {
+        fs.readFile(faviconPath, function (err, data) {
+          if (err) {
+            handleError(res, err, 404);
+            return;
+          }
+
+          res.writeHead(200, {
+            "Content-Type": "image/svg+xml",
+            ...DEV_HEADERS
+          });
+          res.end(data);
+        });
+        return;
+      }
+    }
+
     // Sanitizar e resolver caminho do arquivo
     const filePath = sanitizePath(url === '/' ? '/index.html' : url);
     

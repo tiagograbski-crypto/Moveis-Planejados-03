@@ -68,8 +68,8 @@
       let menuLastFocusedElement = null;
       let activeFeatureCard = null;
       const FEATURE_ACTIVATION_HYSTERESIS_DESKTOP_PX = 32;
-      const FEATURE_ACTIVATION_HYSTERESIS_MOBILE_PX = 10;
-      let featureActivationFrameId = 0;
+      let scrollFrameId = 0;
+      let heroScrollHandoffApply = null;
       let resizeReflowTimerId = 0;
       let isSubmittingLead = false;
       let featureCardObserver = null;
@@ -125,19 +125,54 @@
       }
 
       function getFeatureActivationHysteresis() {
-        return isDesktopScrollLighting()
-          ? FEATURE_ACTIVATION_HYSTERESIS_DESKTOP_PX
-          : FEATURE_ACTIVATION_HYSTERESIS_MOBILE_PX;
+        return FEATURE_ACTIVATION_HYSTERESIS_DESKTOP_PX;
       }
 
-      function triggerFeatureScrollHaptic() {
-        try {
-          if (window.navigator && typeof window.navigator.vibrate === "function") {
-            window.navigator.vibrate(10);
-          }
-        } catch (error) {
-          // Falha silenciosa intencional para navegadores sem suporte/permissao.
+      function getMobileFeatureActivationY() {
+        if (window.visualViewport) {
+          return window.visualViewport.offsetTop + (window.visualViewport.height * 0.48);
         }
+
+        return window.innerHeight * 0.48;
+      }
+
+      function pickMobileFeatureCard(activationY) {
+        for (let i = 0; i < featureCards.length; i++) {
+          const rect = featureCards[i].getBoundingClientRect();
+
+          if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+            continue;
+          }
+
+          if (rect.top <= activationY && rect.bottom >= activationY) {
+            return featureCards[i];
+          }
+        }
+
+        for (let i = 0; i < featureCards.length - 1; i++) {
+          const currentRect = featureCards[i].getBoundingClientRect();
+          const nextRect = featureCards[i + 1].getBoundingClientRect();
+          const gapTop = currentRect.bottom;
+          const gapBottom = nextRect.top;
+
+          if (activationY >= gapTop && activationY <= gapBottom) {
+            const midpoint = gapTop + ((gapBottom - gapTop) / 2);
+            return activationY < midpoint ? featureCards[i] : featureCards[i + 1];
+          }
+        }
+
+        let fallbackCard = null;
+
+        featureCards.forEach(function (card) {
+          const rect = card.getBoundingClientRect();
+          if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+            return;
+          }
+
+          fallbackCard = card;
+        });
+
+        return fallbackCard;
       }
 
       function isSolucaoInLightingZone() {
@@ -164,15 +199,10 @@
           return;
         }
 
-        const previousCard = activeFeatureCard;
         activeFeatureCard = nextCard;
         featureCards.forEach((card) => {
           card.classList.toggle("is-active", card === nextCard);
         });
-
-        if (!isDesktopScrollLighting() && nextCard && previousCard) {
-          triggerFeatureScrollHaptic();
-        }
       }
 
       function clearActiveFeatureCard() {
@@ -187,29 +217,11 @@
       }
 
       function updateMobileFeatureScrollSpotlight() {
-        const viewportHeight = window.innerHeight;
-        const activationY = viewportHeight * 0.48;
-        let bestCard = null;
-        let bestDistance = Infinity;
+        const activationY = getMobileFeatureActivationY();
+        const candidate = pickMobileFeatureCard(activationY);
 
-        featureCards.forEach((card) => {
-          const rect = card.getBoundingClientRect();
-
-          if (rect.bottom <= 0 || rect.top >= viewportHeight) {
-            return;
-          }
-
-          const centerY = rect.top + (rect.height / 2);
-          const distance = Math.abs(centerY - activationY);
-
-          if (distance < bestDistance) {
-            bestDistance = distance;
-            bestCard = card;
-          }
-        });
-
-        if (bestCard) {
-          setActiveFeatureCard(bestCard);
+        if (candidate) {
+          setActiveFeatureCard(candidate);
         } else {
           clearActiveFeatureCard();
         }
@@ -237,52 +249,59 @@
         };
       }
 
+      function shouldHoldActiveFeatureInGap(activeCard, activationY, viewportHeight) {
+        const activeIndex = featureCards.indexOf(activeCard);
+        const activeRect = getFeatureCardLayoutRect(activeCard);
+        const nextCard = featureCards[activeIndex + 1];
+        const prevCard = featureCards[activeIndex - 1];
+
+        if (activeRect.bottom > activationY && activeRect.top < viewportHeight) {
+          if (nextCard) {
+            const nextRect = getFeatureCardLayoutRect(nextCard);
+            if (activationY < nextRect.top) {
+              return true;
+            }
+          } else {
+            return true;
+          }
+        }
+
+        if (prevCard && activationY < activeRect.top) {
+          const prevRect = getFeatureCardLayoutRect(prevCard);
+          if (activationY > prevRect.bottom) {
+            const gapMidpoint = prevRect.bottom + ((activeRect.top - prevRect.bottom) / 2);
+            return activationY >= gapMidpoint;
+          }
+        }
+
+        return false;
+      }
+
       function resolveFeatureCardCandidate(spanningCard, nearestCard, activationY, viewportHeight) {
-        if (spanningCard) {
-          return spanningCard;
-        }
+        const candidate = spanningCard || nearestCard;
 
-        if (activeFeatureCard) {
-          const activeIndex = featureCards.indexOf(activeFeatureCard);
-          const activeRect = getFeatureCardLayoutRect(activeFeatureCard);
-          const nextCard = featureCards[activeIndex + 1];
-          const prevCard = featureCards[activeIndex - 1];
-
-          if (activeRect.bottom > activationY && activeRect.top < viewportHeight) {
-            if (nextCard) {
-              const nextRect = getFeatureCardLayoutRect(nextCard);
-              if (activationY < nextRect.top) {
-                return activeFeatureCard;
-              }
-            } else {
-              return activeFeatureCard;
-            }
-          }
-
-          if (prevCard && activationY < activeRect.top) {
-            const prevRect = getFeatureCardLayoutRect(prevCard);
-            if (activationY > prevRect.bottom) {
-              return activeFeatureCard;
-            }
-          }
-        }
-
-        if (!nearestCard) {
+        if (!candidate) {
           return activeFeatureCard;
         }
 
-        if (activeFeatureCard && nearestCard !== activeFeatureCard) {
-          const activeCenterY = getFeatureCardLayoutRect(activeFeatureCard).centerY;
-          const nearestCenterY = getFeatureCardLayoutRect(nearestCard).centerY;
-          const activeDistance = Math.abs(activeCenterY - activationY);
-          const nearestDistance = Math.abs(nearestCenterY - activationY);
-
-          if (nearestDistance + getFeatureActivationHysteresis() > activeDistance) {
+        if (activeFeatureCard) {
+          if (!spanningCard && shouldHoldActiveFeatureInGap(activeFeatureCard, activationY, viewportHeight)) {
             return activeFeatureCard;
+          }
+
+          if (candidate !== activeFeatureCard) {
+            const activeCenterY = getFeatureCardLayoutRect(activeFeatureCard).centerY;
+            const candidateCenterY = getFeatureCardLayoutRect(candidate).centerY;
+            const activeDistance = Math.abs(activeCenterY - activationY);
+            const candidateDistance = Math.abs(candidateCenterY - activationY);
+
+            if (candidateDistance + getFeatureActivationHysteresis() > activeDistance) {
+              return activeFeatureCard;
+            }
           }
         }
 
-        return nearestCard;
+        return candidate;
       }
 
       function updateActiveFeatureFromViewportCenter() {
@@ -341,7 +360,7 @@
       }
 
       function shouldExcludeFromSensoryLighting(target) {
-        if (target === solucaoMediaFrame && isDesktopScrollLighting()) {
+        if (target === solucaoMediaFrame) {
           return true;
         }
 
@@ -453,19 +472,32 @@
         }
 
         updateActiveFeatureFromViewportCenter();
-        updateSensoryVisualLighting();
-        updateGalleryFocusLighting();
+
+        if (isDesktopScrollLighting()) {
+          updateSensoryVisualLighting();
+          updateGalleryFocusLighting();
+        }
       }
 
-      function requestFeatureActivationUpdate() {
-        if (featureActivationFrameId) {
+      function scheduleScrollUpdate() {
+        if (scrollFrameId) {
           return;
         }
 
-        featureActivationFrameId = window.requestAnimationFrame(function () {
-          featureActivationFrameId = 0;
+        scrollFrameId = window.requestAnimationFrame(function () {
+          scrollFrameId = 0;
+
+          if (typeof heroScrollHandoffApply === "function") {
+            heroScrollHandoffApply();
+          }
+
           updateScrollLighting();
+          updateScrollUI();
         });
+      }
+
+      function requestFeatureActivationUpdate() {
+        scheduleScrollUpdate();
       }
 
       function runPrimaryActionTelemetry(target) {
@@ -974,7 +1006,10 @@
           featureCardObserver.observe(solucaoSection);
         }
 
-        featureCards.forEach((card) => featureCardObserver.observe(card));
+        if (isDesktopScrollLighting()) {
+          featureCards.forEach((card) => featureCardObserver.observe(card));
+        }
+
         requestFeatureActivationUpdate();
       }
 
@@ -1649,21 +1684,38 @@
         });
       }
 
-      function initPersistentHeroUI() {
+      function initHeroScrollHandoff() {
         const heroSection = document.getElementById("hero");
         const persistentNodes = Array.from(document.querySelectorAll(".persistent-ui"));
-        let heroInView = true;
 
         if (!heroSection || persistentNodes.length === 0) {
           return;
         }
 
-        function setPersistentVisible(isVisible) {
+        function getViewportHeight() {
+          return window.visualViewport ? window.visualViewport.height : window.innerHeight;
+        }
+
+        function getHeroExitProgress(rect, viewportHeight) {
+          const fadeStart = viewportHeight * 0.88;
+          const fadeEnd = viewportHeight * 0.16;
+
+          if (rect.bottom >= fadeStart) {
+            return 0;
+          }
+
+          if (rect.bottom <= fadeEnd) {
+            return 1;
+          }
+
+          return 1 - ((rect.bottom - fadeEnd) / (fadeStart - fadeEnd));
+        }
+
+        function setPersistentChrome(isVisible) {
           document.body.classList.toggle("bottom-bar-visible", isVisible);
 
           persistentNodes.forEach(function (node) {
             if (node.classList.contains("persistent-ui--top")) {
-              node.classList.add("is-active");
               return;
             }
 
@@ -1671,44 +1723,48 @@
           });
         }
 
-        function syncPersistentFromHero() {
-          setPersistentVisible(!heroInView);
+        heroScrollHandoffApply = function applyHeroScrollHandoff() {
+          const viewportHeight = getViewportHeight();
+          const rect = heroSection.getBoundingClientRect();
+          const exitProgress = getHeroExitProgress(rect, viewportHeight);
+          const heroPassed = rect.bottom <= 0;
+          const useHeroHeader = rect.bottom > viewportHeight * 0.34;
+          const heroReleased = heroPassed || exitProgress >= 0.92;
+          const showPersistentChrome = heroReleased && rect.bottom < viewportHeight * 0.28;
+
+          heroSection.style.setProperty("--hero-exit", exitProgress.toFixed(4));
+          heroSection.classList.toggle("hero--handoff", exitProgress > 0.02);
+          heroSection.classList.toggle("hero--passed", heroPassed);
+
+          document.body.classList.toggle("hero-active", !heroPassed);
+          document.body.classList.toggle("hero-released", heroReleased);
+          document.body.classList.toggle("scrolled-past-hero", !useHeroHeader);
 
           if (siteHeader) {
-            siteHeader.classList.toggle("site-header--hero", heroInView);
+            siteHeader.classList.toggle("site-header--hero", useHeroHeader);
+            siteHeader.classList.add("is-active");
           }
 
-          updateScrollUI();
-        }
+          setPersistentChrome(showPersistentChrome);
+        };
 
-        if (!("IntersectionObserver" in window)) {
-          setPersistentVisible(false);
-          document.body.classList.remove("bottom-bar-visible");
-          if (siteHeader) {
-            siteHeader.classList.add("site-header--hero");
-          }
-          return;
-        }
-
-        const heroObserver = new IntersectionObserver(function (entries) {
-          entries.forEach(function (entry) {
-            heroInView = entry.isIntersecting;
-            syncPersistentFromHero();
+        if ("IntersectionObserver" in window) {
+          const heroObserver = new IntersectionObserver(function () {
+            scheduleScrollUpdate();
+          }, {
+            root: null,
+            threshold: [0, 0.15, 0.35, 0.55, 0.75, 1]
           });
-        }, {
-          root: null,
-          threshold: 0
-        });
 
-        heroObserver.observe(heroSection);
-        syncPersistentFromHero();
+          heroObserver.observe(heroSection);
 
-        window.addEventListener("resize", syncPersistentFromHero);
+          window.addEventListener("pagehide", function () {
+            heroObserver.disconnect();
+          });
+        }
 
-        window.addEventListener("pagehide", function () {
-          heroObserver.disconnect();
-          window.removeEventListener("resize", syncPersistentFromHero);
-        });
+        window.addEventListener("resize", scheduleScrollUpdate);
+        heroScrollHandoffApply();
       }
 
       function initPortfolioLightbox() {
@@ -2161,7 +2217,7 @@
       initHeroCinema();
       initJourneyTimeline();
       initMaterialStation();
-      initPersistentHeroUI();
+      initHeroScrollHandoff();
       initPortfolioLightbox();
       initPortfolioCarousel();
       initGoogleReviews();
@@ -2172,8 +2228,13 @@
       initFooterTrust();
       initFooterMap();
 
-      window.addEventListener("scroll", updateScrollUI, { passive: true });
-      window.addEventListener("scroll", requestFeatureActivationUpdate, { passive: true });
+      window.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
+
+      if (window.visualViewport) {
+        window.visualViewport.addEventListener("resize", scheduleScrollUpdate, { passive: true });
+        window.visualViewport.addEventListener("scroll", scheduleScrollUpdate, { passive: true });
+      }
+
       window.addEventListener("resize", function () {
         if (resizeReflowTimerId) {
           window.clearTimeout(resizeReflowTimerId);
@@ -2194,21 +2255,20 @@
       });
 
       window.addEventListener("pagehide", function () {
-        if (featureActivationFrameId) {
-          window.cancelAnimationFrame(featureActivationFrameId);
-          featureActivationFrameId = 0;
+        if (scrollFrameId) {
+          window.cancelAnimationFrame(scrollFrameId);
+          scrollFrameId = 0;
         }
         if (resizeReflowTimerId) {
           window.clearTimeout(resizeReflowTimerId);
           resizeReflowTimerId = 0;
         }
       });
-      updateScrollUI();
       setupMenu();
       setupFeatureCardScrollTelling();
       setupSensoryVisualObserver();
       setupGalleryFocusObserver();
-      requestFeatureActivationUpdate();
+      scheduleScrollUpdate();
 
       const portfolioGrid = document.querySelector("#portfolio .portfolio-grid");
       if (portfolioGrid) {
