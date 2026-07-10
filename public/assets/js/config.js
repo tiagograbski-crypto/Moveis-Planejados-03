@@ -31,6 +31,17 @@ window.APP_CONFIG = Object.assign(
       hardwareYears: 2,
       contractNote: "Termos, prazos e coberturas definidos em contrato antes da produção."
     },
+    footerTrust: {
+      projectCount: "+2.000 projetos",
+      projectRegion: "Oeste de SC",
+      guaranteeLabel: "5 anos garantia",
+      googleRating: "4,9 Google",
+      location: "Chapecó · SC"
+    },
+    mapsEmbedUrl:
+      "https://maps.google.com/maps?q=Av.+Get%C3%BAlio+Vargas,+1200,+Chapec%C3%B3+-+SC,+89800-000&hl=pt-BR&z=15&output=embed",
+    mapsLinkUrl:
+      "https://www.google.com/maps/search/?api=1&query=Tend%C3%AAncia+M%C3%B3veis+Planejados+Chapec%C3%B3",
     showcaseVideo: {
       enabled: true,
       poster: "sobre/equipe-tendencia-obra.jpg",
@@ -40,6 +51,8 @@ window.APP_CONFIG = Object.assign(
       headline: "Orçamento sem compromisso",
       responseSla: "Resposta em horário comercial"
     },
+    // Mobile — intensidade da iluminação ao rolar (cards sempre legíveis; 1–4 só muda o foco ativo)
+    featureHighlightLevel: 3,
     tracking: {
       environment: "staging",
       gtmEnabled: true,

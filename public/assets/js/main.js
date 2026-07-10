@@ -5,6 +5,8 @@
       const sensoryVisualTargets = Array.from(document.querySelectorAll(".sensory-visual-target"));
       const modal = document.getElementById("lead-modal");
       const modalPanel = document.querySelector("#lead-modal .modal-panel");
+      const modalBody = document.querySelector("#lead-modal .modal-body");
+      const leadSummary = document.getElementById("lead-summary");
       const premiumClickAudio = document.getElementById("premium-click");
       const modalProgressFill = document.getElementById("modal-progress-fill");
       const stepIndicator = document.getElementById("step-indicator");
@@ -24,6 +26,8 @@
       const leadName = document.getElementById("lead-name");
       const leadPhone = document.getElementById("lead-phone");
       const leadCity = document.getElementById("lead-city");
+      const areaOptions = document.getElementById("area-options");
+      const budgetOptions = document.getElementById("budget-options");
       const areaButtons = Array.from(document.querySelectorAll("#area-options .chip"));
       const budgetButtons = Array.from(document.querySelectorAll("#budget-options .radio-card"));
       const submitLeadButton = document.getElementById("submit-lead");
@@ -38,6 +42,14 @@
       const menuEnabled = Boolean(appConfig.menuEnabled);
       const menuItems = Array.isArray(appConfig.menuItems) ? appConfig.menuItems : [];
       const TOTAL_MODAL_STEPS = 4;
+
+      function initFeatureHighlightLevel() {
+        const level = Number(appConfig.featureHighlightLevel);
+        const safeLevel = level >= 1 && level <= 4 ? level : 3;
+        document.body.setAttribute("data-feature-highlight", String(safeLevel));
+      }
+
+      initFeatureHighlightLevel();
 
       const formState = {
         environments: [],
@@ -55,7 +67,8 @@
       let modalLastFocusedElement = null;
       let menuLastFocusedElement = null;
       let activeFeatureCard = null;
-      const FEATURE_ACTIVATION_HYSTERESIS_PX = 32;
+      const FEATURE_ACTIVATION_HYSTERESIS_DESKTOP_PX = 32;
+      const FEATURE_ACTIVATION_HYSTERESIS_MOBILE_PX = 10;
       let featureActivationFrameId = 0;
       let resizeReflowTimerId = 0;
       let isSubmittingLead = false;
@@ -111,6 +124,22 @@
         return window.matchMedia("(min-width: 64em)").matches;
       }
 
+      function getFeatureActivationHysteresis() {
+        return isDesktopScrollLighting()
+          ? FEATURE_ACTIVATION_HYSTERESIS_DESKTOP_PX
+          : FEATURE_ACTIVATION_HYSTERESIS_MOBILE_PX;
+      }
+
+      function triggerFeatureScrollHaptic() {
+        try {
+          if (window.navigator && typeof window.navigator.vibrate === "function") {
+            window.navigator.vibrate(10);
+          }
+        } catch (error) {
+          // Falha silenciosa intencional para navegadores sem suporte/permissao.
+        }
+      }
+
       function isSolucaoInLightingZone() {
         if (!solucaoSection) {
           return false;
@@ -135,10 +164,55 @@
           return;
         }
 
+        const previousCard = activeFeatureCard;
         activeFeatureCard = nextCard;
         featureCards.forEach((card) => {
           card.classList.toggle("is-active", card === nextCard);
         });
+
+        if (!isDesktopScrollLighting() && nextCard && previousCard) {
+          triggerFeatureScrollHaptic();
+        }
+      }
+
+      function clearActiveFeatureCard() {
+        if (!activeFeatureCard) {
+          return;
+        }
+
+        activeFeatureCard = null;
+        featureCards.forEach((card) => {
+          card.classList.remove("is-active");
+        });
+      }
+
+      function updateMobileFeatureScrollSpotlight() {
+        const viewportHeight = window.innerHeight;
+        const activationY = viewportHeight * 0.48;
+        let bestCard = null;
+        let bestDistance = Infinity;
+
+        featureCards.forEach((card) => {
+          const rect = card.getBoundingClientRect();
+
+          if (rect.bottom <= 0 || rect.top >= viewportHeight) {
+            return;
+          }
+
+          const centerY = rect.top + (rect.height / 2);
+          const distance = Math.abs(centerY - activationY);
+
+          if (distance < bestDistance) {
+            bestDistance = distance;
+            bestCard = card;
+          }
+        });
+
+        if (bestCard) {
+          setActiveFeatureCard(bestCard);
+        } else {
+          clearActiveFeatureCard();
+        }
       }
 
       function getFeatureCardLayoutRect(card) {
@@ -203,7 +277,7 @@
           const activeDistance = Math.abs(activeCenterY - activationY);
           const nearestDistance = Math.abs(nearestCenterY - activationY);
 
-          if (nearestDistance + FEATURE_ACTIVATION_HYSTERESIS_PX > activeDistance) {
+          if (nearestDistance + getFeatureActivationHysteresis() > activeDistance) {
             return activeFeatureCard;
           }
         }
@@ -216,8 +290,18 @@
           return;
         }
 
+        if (!isSolucaoInLightingZone()) {
+          clearActiveFeatureCard();
+          return;
+        }
+
+        if (!isDesktopScrollLighting()) {
+          updateMobileFeatureScrollSpotlight();
+          return;
+        }
+
         const viewportHeight = window.innerHeight;
-        const activationY = viewportHeight * (isDesktopScrollLighting() ? 0.4 : 0.5);
+        const activationY = viewportHeight * 0.4;
         let spanningCard = null;
         let spanningDistance = Infinity;
         let nearestCard = null;
@@ -474,6 +558,12 @@
           if (leadCity) {
             leadCity.classList.remove("is-invalid");
           }
+          if (areaOptions) {
+            areaOptions.classList.remove("is-invalid-group");
+          }
+          if (budgetOptions) {
+            budgetOptions.classList.remove("is-invalid-group");
+          }
         }
 
         if (step === 4) {
@@ -506,6 +596,47 @@
         return digits.length >= 10 && digits.length <= 13;
       }
 
+      function updateLeadSummary() {
+        if (!leadSummary) {
+          return;
+        }
+
+        const summaryItems = [
+          { label: "Escopo", value: formState.environments.join(", ") },
+          { label: "Prazo", value: formState.urgency },
+          { label: "Cidade", value: formState.city },
+          { label: "Metragem", value: formState.area },
+          { label: "Investimento", value: formState.budget }
+        ].filter((item) => item.value);
+
+        leadSummary.innerHTML = summaryItems.map(function (item) {
+          return (
+            "<div class=\"lead-summary__row\">" +
+            "<span class=\"lead-summary__label\">" + item.label + "</span>" +
+            "<span class=\"lead-summary__value\">" + item.value + "</span>" +
+            "</div>"
+          );
+        }).join("");
+      }
+
+      function focusStepEntry(step) {
+        const activeStep = steps.find(function (item) {
+          return Number(item.dataset.step) === step;
+        });
+
+        if (!activeStep) {
+          return;
+        }
+
+        const focusTarget = activeStep.querySelector(
+          "#submit-lead, input:not([disabled]), button[data-next-step], .chip, .radio-card"
+        );
+
+        if (focusTarget && typeof focusTarget.focus === "function") {
+          focusTarget.focus({ preventScroll: true });
+        }
+      }
+
       function setStep(step) {
         currentStep = step;
         clearAllStepErrors();
@@ -515,6 +646,19 @@
 
         modalProgressFill.style.width = (step / TOTAL_MODAL_STEPS) * 100 + "%";
         stepIndicator.textContent = "Passo " + step + " de " + TOTAL_MODAL_STEPS;
+
+        if (modalBody) {
+          modalBody.scrollTop = 0;
+        }
+
+        if (step === 4) {
+          formState.city = leadCity ? leadCity.value.trim() : formState.city;
+          updateLeadSummary();
+        }
+
+        window.requestAnimationFrame(function () {
+          focusStepEntry(step);
+        });
       }
 
       function resetForm() {
@@ -718,15 +862,21 @@
           }
 
           if (!formState.area) {
+            if (areaOptions) {
+              areaOptions.classList.add("is-invalid-group");
+            }
             missing.push("metragem");
           }
 
           if (!formState.budget) {
+            if (budgetOptions) {
+              budgetOptions.classList.add("is-invalid-group");
+            }
             missing.push("faixa de investimento");
           }
 
           if (missing.length > 0) {
-            showStepError(3, "Preencha " + missing.join(", ") + ".");
+            showStepError(3, "Complete: " + missing.join(", ") + ".");
             return false;
           }
         }
@@ -757,6 +907,9 @@
         }
 
         if (!validateStep(4)) {
+          if (modalBody && stepErrors[4]) {
+            stepErrors[4].scrollIntoView({ block: "nearest", behavior: "smooth" });
+          }
           return;
         }
 
@@ -1929,6 +2082,82 @@
         });
       }
 
+      function initFooterTrust() {
+        const container = document.getElementById("footer-trust");
+        const trustConfig = appConfig.footerTrust || {};
+
+        if (!container) {
+          return;
+        }
+
+        const seals = [
+          {
+            value: trustConfig.projectCount || "+2.000 projetos",
+            label: trustConfig.projectRegion || "Oeste de SC"
+          },
+          {
+            value: trustConfig.guaranteeLabel || "5 anos garantia",
+            label: "Em contrato"
+          },
+          {
+            value: trustConfig.googleRating || "4,9 Google",
+            label: "Avaliações"
+          },
+          {
+            value: trustConfig.location || "Chapecó · SC",
+            label: "Residencial & comercial"
+          }
+        ];
+
+        container.textContent = "";
+
+        seals.forEach(function (seal) {
+          const item = document.createElement("div");
+          item.className = "footer-seal";
+
+          const value = document.createElement("strong");
+          value.className = "footer-seal__value";
+          value.textContent = seal.value;
+
+          const label = document.createElement("span");
+          label.className = "footer-seal__label";
+          label.textContent = seal.label;
+
+          item.appendChild(value);
+          item.appendChild(label);
+          container.appendChild(item);
+        });
+      }
+
+      function initFooterMap() {
+        const mapSlot = document.getElementById("footer-map-slot");
+        const mapLink = document.getElementById("footer-map-link");
+        const mapsLinkUrl = appConfig.mapsLinkUrl || "";
+        const mapsEmbedUrl = appConfig.mapsEmbedUrl || "";
+
+        if (mapLink && mapsLinkUrl) {
+          mapLink.href = mapsLinkUrl;
+        }
+
+        if (!mapSlot || !mapsEmbedUrl) {
+          return;
+        }
+
+        if (!window.matchMedia("(min-width: 48em)").matches) {
+          return;
+        }
+
+        const iframe = document.createElement("iframe");
+        iframe.title = "Mapa — Tendência Móveis Planejados, Chapecó SC";
+        iframe.src = mapsEmbedUrl;
+        iframe.loading = "lazy";
+        iframe.referrerPolicy = "no-referrer-when-downgrade";
+        iframe.setAttribute("allowfullscreen", "");
+
+        mapSlot.appendChild(iframe);
+        mapSlot.removeAttribute("aria-hidden");
+      }
+
       initHeroCinema();
       initJourneyTimeline();
       initMaterialStation();
@@ -1940,6 +2169,8 @@
       initGuarantee();
       initLeadOffer();
       initShowcaseVideo();
+      initFooterTrust();
+      initFooterMap();
 
       window.addEventListener("scroll", updateScrollUI, { passive: true });
       window.addEventListener("scroll", requestFeatureActivationUpdate, { passive: true });
@@ -1977,6 +2208,7 @@
       setupFeatureCardScrollTelling();
       setupSensoryVisualObserver();
       setupGalleryFocusObserver();
+      requestFeatureActivationUpdate();
 
       const portfolioGrid = document.querySelector("#portfolio .portfolio-grid");
       if (portfolioGrid) {
@@ -2068,6 +2300,9 @@
           });
           button.classList.add("active");
           button.setAttribute("aria-pressed", "true");
+          if (areaOptions) {
+            areaOptions.classList.remove("is-invalid-group");
+          }
           clearStepError(3);
         });
       });
@@ -2081,6 +2316,9 @@
           });
           button.classList.add("active");
           button.setAttribute("aria-checked", "true");
+          if (budgetOptions) {
+            budgetOptions.classList.remove("is-invalid-group");
+          }
           clearStepError(3);
         });
       });
@@ -2109,6 +2347,12 @@
       document.querySelectorAll("[data-next-step]").forEach((button) => {
         button.addEventListener("click", function () {
           if (!validateStep(currentStep)) {
+            if (modalBody) {
+              const errorNode = stepErrors[currentStep];
+              if (errorNode && typeof errorNode.scrollIntoView === "function") {
+                errorNode.scrollIntoView({ block: "nearest", behavior: "smooth" });
+              }
+            }
             return;
           }
 
@@ -2123,6 +2367,15 @@
       });
 
       document.getElementById("submit-lead").addEventListener("click", submitLead);
+
+      if (leadPhone) {
+        leadPhone.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            submitLead();
+          }
+        });
+      }
 
       document.addEventListener("keydown", function (event) {
         if (event.key === "Escape" && menuEnabled && document.body.classList.contains("menu-open")) {
