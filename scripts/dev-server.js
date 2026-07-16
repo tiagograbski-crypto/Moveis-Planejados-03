@@ -262,6 +262,20 @@ const server = http.createServer((req, res) => {
         return;
     }
     
+    if (url === '/health') {
+        res.writeHead(200, {
+            'Content-Type': 'application/json',
+            'Cache-Control': 'no-cache'
+        });
+        res.end(JSON.stringify({
+            status: 'healthy',
+            timestamp: new Date().toISOString(),
+            uptime: process.uptime(),
+            memory: process.memoryUsage()
+        }));
+        return;
+    }
+
     // favicon.ico — browsers pedem por padrão; servimos o SVG existente
     if (url === "/favicon.ico") {
       const faviconPath = path.join(ROOT, "favicon.svg");
@@ -456,20 +470,3 @@ server.listen(PORT, HOST, () => {
     console.log('╚══════════════════════════════════════════════════════════╝\n');
 });
 
-// Health check endpoint (para ferramentas externas)
-server.on('request', (req, res) => {
-    if (req.url === '/health' && req.method === 'GET') {
-        res.writeHead(200, {
-            'Content-Type': 'application/json',
-            'Cache-Control': 'no-cache'
-        });
-        
-        res.end(JSON.stringify({
-            status: 'healthy',
-            timestamp: new Date().toISOString(),
-            uptime: process.uptime(),
-            memory: process.memoryUsage(),
-            connections: server.connections
-        }));
-    }
-});

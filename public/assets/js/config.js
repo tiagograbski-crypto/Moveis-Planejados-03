@@ -53,6 +53,17 @@ window.APP_CONFIG = Object.assign(
     },
     // Mobile — intensidade da iluminação ao rolar (cards sempre legíveis; 1–4 só muda o foco ativo)
     featureHighlightLevel: 3,
+    showroomNav: {
+      enabled: true,
+      expiryHour: 20,
+      expiryMinute: 0,
+      exclusiveLicenseLabel: "Tendência Móveis",
+      portfolioUrl: "https://www.glid.ia.br/",
+      acquireWhatsApp: "5549999084031",
+      acquireContactName: "Tiago",
+      acquireMessage:
+        "Olá, {contact}! Acessei o ambiente showroom gl.id da {client} e tenho interesse em adquirir esta estrutura. Podemos conversar?"
+    },
     tracking: {
       environment: "staging",
       gtmEnabled: true,
