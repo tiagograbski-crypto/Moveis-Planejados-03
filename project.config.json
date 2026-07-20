@@ -1,11 +1,11 @@
 {
-  "name": "tendencia-landing",
+  "name": "glid-showroom-landing",
   "portfolio": {
     "desktopPath": "~/Desktop/PROJETOS/Portifolio Moveis Planejados"
   },
   "deploy": {
     "outputDirectory": "public",
-    "productionUrl": "https://www.tendenciamoveis.com.br"
+    "productionUrl": "https://www.seusite.com.br"
   },
   "images": {
     "sections": [

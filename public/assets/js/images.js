@@ -1,20 +1,23 @@
-/** Caminhos reais das imagens (extensão correta: jpg/png) */
+/** Caminhos reais das imagens no diretório public/ */
 const SITE_IMAGES = {
-    hero: '/assets/images/01-hero/hero-capa-marrom.png',
-    solucao: '/assets/images/02-solucao/solucao-detalhe-marcenaria-blum.jpg',
-    anatomiaBg: '/assets/images/03-anatomia/anatomia-bg-atelier-escuro.jpg',
+    hero: '/hero/hero-capa-marrom.webp',
+    solucao: '/solucao/solucao-detalhe-marcenaria-blum.jpg',
+    anatomiaBg: '/anatomia/anatomia-bg-atelier-escuro.jpg',
     anatomia: [
-        '/assets/images/03-anatomia/anatomia-01-chapas-premium.jpg',
-        '/assets/images/03-anatomia/anatomia-02-ferragens-importadas.jpg',
-        '/assets/images/03-anatomia/anatomia-03-projeto-tecnico-3d.jpg',
-        '/assets/images/03-anatomia/anatomia-04-instalacao-premium.jpg',
+        '/anatomia/anatomia-01-chapas-premium.jpg',
+        '/anatomia/anatomia-02-ferragens-importadas.jpg',
+        '/anatomia/anatomia-03-projeto-tecnico-3d.jpg',
+        '/anatomia/anatomia-04-instalacao-premium.jpg',
     ],
     execucoes: [
-        '/assets/images/04-execucoes/execucao-01-cozinha-gourmet-nogueira.jpg',
-        '/assets/images/04-execucoes/execucao-02-living-painel-ripado.png',
-        '/assets/images/04-execucoes/execucao-03-closet-minimalista-lacca.jpg',
+        '/solucao/solucao-detalhe-marcenaria-blum.jpg',
+        '/hero/hero-capa-marrom.webp',
+        '/execucoes/execucao-03-closet-minimalista-lacca.jpg',
+        '/anatomia/anatomia-04-instalacao-premium.jpg',
+        '/assets/images/projeto 3d.jpg',
+        '/sobre/equipe-obra.jpg',
     ],
-    socialOg: '/assets/images/05-social/social-og-compartilhamento.png',
+    socialOg: '/social/social-og-compartilhamento.webp',
 };
 
 function hydrateSiteImages() {

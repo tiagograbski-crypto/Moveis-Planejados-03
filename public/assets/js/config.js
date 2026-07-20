@@ -1,6 +1,11 @@
 window.APP_CONFIG = Object.assign(
   {
-    whatsappNumber: "5549999508884",
+    brandName: "Sua Marca",
+    siteUrl: "https://www.seusite.com.br",
+    whatsappNumber: "5549999999999",
+    phoneDisplay: "(49) 99999-9999",
+    phoneTel: "+5549999999999",
+    email: "contato@seusite.com.br",
     menuEnabled: true,
     menuItems: [
       { label: "Início", href: "#hero" },
@@ -24,7 +29,7 @@ window.APP_CONFIG = Object.assign(
       rating: 4.9,
       reviewCount: 87,
       profileUrl:
-        "https://www.google.com/maps/search/?api=1&query=Tend%C3%AAncia+M%C3%B3veis+Planejados+Chapec%C3%B3"
+        "https://www.google.com/maps/search/?api=1&query=M%C3%B3veis+Planejados+Chapec%C3%B3"
     },
     guarantee: {
       structureYears: 5,
@@ -41,10 +46,10 @@ window.APP_CONFIG = Object.assign(
     mapsEmbedUrl:
       "https://maps.google.com/maps?q=Av.+Get%C3%BAlio+Vargas,+1200,+Chapec%C3%B3+-+SC,+89800-000&hl=pt-BR&z=15&output=embed",
     mapsLinkUrl:
-      "https://www.google.com/maps/search/?api=1&query=Tend%C3%AAncia+M%C3%B3veis+Planejados+Chapec%C3%B3",
+      "https://www.google.com/maps/search/?api=1&query=M%C3%B3veis+Planejados+Chapec%C3%B3",
     showcaseVideo: {
       enabled: true,
-      poster: "sobre/equipe-tendencia-obra.jpg",
+      poster: "sobre/equipe-obra.jpg",
       youtubeId: ""
     },
     leadOffer: {
@@ -55,14 +60,15 @@ window.APP_CONFIG = Object.assign(
     featureHighlightLevel: 3,
     showroomNav: {
       enabled: true,
-      expiryHour: 20,
-      expiryMinute: 0,
-      exclusiveLicenseLabel: "Tendência Móveis",
+      statusLabel: "Disponível",
+      modelLabel: "Modelo SEO Local (gl.id)",
+      priceValue: "R$ 2.497",
+      deliveryLabel: "Entrega em 72 horas",
       portfolioUrl: "https://www.glid.ia.br/",
-      acquireWhatsApp: "5549999084031",
+      acquireWhatsApp: "5549999999999",
       acquireContactName: "Tiago",
       acquireMessage:
-        "Olá, {contact}! Acessei o ambiente showroom gl.id da {client} e tenho interesse em adquirir esta estrutura. Podemos conversar?"
+        "Olá, {contact}! Acessei o ambiente showroom gl.id e tenho interesse em adquirir esta estrutura (Modelo SEO Local — R$ 2.497). Podemos conversar?"
     },
     tracking: {
       environment: "staging",
@@ -72,3 +78,41 @@ window.APP_CONFIG = Object.assign(
   },
   window.APP_CONFIG || {}
 );
+
+(function () {
+  const PLACEHOLDER_WHATSAPP = "5549999999999";
+  const BLOCKED_SAMPLE_WHATSAPP = new Set([
+    "5549999508884",
+    "5549999084031",
+    "5500000000000"
+  ]);
+
+  const BLOCKED_SAMPLE_PHONE_PATTERNS = [
+    /\+?55\s*49\s*99950[-\s]?8884/gi,
+    /\+?55\s*49\s*99908[-\s]?4031/gi,
+    /\(49\)\s*99950[-\s]?8884/gi,
+    /\(49\)\s*99908[-\s]?4031/gi,
+    /5549999508884/g,
+    /5549999084031/g
+  ];
+
+  window.resolveWhatsAppNumber = function (value) {
+    const digits = String(value || "").replace(/\D/g, "");
+
+    if (!digits || BLOCKED_SAMPLE_WHATSAPP.has(digits)) {
+      return PLACEHOLDER_WHATSAPP;
+    }
+
+    return digits;
+  };
+
+  window.sanitizeWhatsAppMessage = function (message) {
+    let text = String(message || "");
+
+    BLOCKED_SAMPLE_PHONE_PATTERNS.forEach(function (pattern) {
+      text = text.replace(pattern, "");
+    });
+
+    return text.replace(/\n{3,}/g, "\n\n").trim();
+  };
+})();

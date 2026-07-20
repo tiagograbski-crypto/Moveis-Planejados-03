@@ -213,6 +213,31 @@
       min-width: 0;
     }
 
+    .brand-logo-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 2.5rem;
+      height: 2.5rem;
+      border: 0.0625rem dashed rgba(255, 248, 241, 0.32);
+      border-radius: 0.375rem;
+      background: rgba(255, 255, 255, 0.05);
+      color: rgba(255, 248, 241, 0.62);
+      font-family: var(--font-sans);
+      font-size: 0.4375rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      line-height: 1.15;
+      text-align: center;
+      text-transform: uppercase;
+    }
+
+    .brand-logo-placeholder--footer {
+      width: 2.75rem;
+      height: 2.75rem;
+      font-size: 0.46875rem;
+    }
+
     .brand-header-logo {
       display: block;
       width: 2.5rem;
@@ -4149,7 +4174,7 @@
       }
     }
 
-    .showroom-nav.is-expired .showroom-nav__panel {
+    .showroom-nav.is-available .showroom-nav__panel {
       border-right-color: var(--showroom-metal);
     }
 
@@ -4181,11 +4206,11 @@
       text-transform: uppercase;
     }
 
-    .showroom-nav.is-expired .showroom-nav__status-label {
+    .showroom-nav.is-available .showroom-nav__status-label {
       color: rgba(168, 168, 168, 0.88);
     }
 
-    .showroom-nav__countdown {
+    .showroom-nav__price {
       margin: 0 0 0.875rem;
       padding: 0.5rem 0.5625rem;
       border-radius: 0.375rem;
@@ -4196,7 +4221,7 @@
       letter-spacing: 0.04em;
     }
 
-    .showroom-nav__countdown-label {
+    .showroom-nav__price-label {
       display: block;
       margin-bottom: 0.25rem;
       color: rgba(196, 188, 178, 0.62);
@@ -4205,13 +4230,24 @@
       text-transform: uppercase;
     }
 
-    .showroom-nav__countdown-time {
+    .showroom-nav__price-value {
       display: block;
       color: rgba(245, 240, 232, 0.96);
       font-family: ui-monospace, "Cascadia Mono", "SFMono-Regular", Menlo, Consolas, monospace;
-      font-size: 0.75rem;
+      font-size: 0.875rem;
       font-variant-numeric: tabular-nums;
-      letter-spacing: 0.06em;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .showroom-nav__price-delivery {
+      display: block;
+      margin-top: 0.375rem;
+      color: rgba(184, 134, 11, 0.78);
+      font-size: 0.5625rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
     }
 
     .showroom-nav__actions {
@@ -4262,7 +4298,7 @@
       background: rgba(255, 255, 255, 0.04);
     }
 
-    .showroom-nav.is-expired .showroom-nav__btn--primary {
+    .showroom-nav.is-available .showroom-nav__btn--primary {
       border-color: rgba(168, 168, 168, 0.55);
       background: rgba(255, 255, 255, 0.04);
     }
@@ -4290,7 +4326,7 @@
         border-color 0.22s ease;
     }
 
-    .showroom-nav.is-expired .showroom-nav__toggle {
+    .showroom-nav.is-available .showroom-nav__toggle {
       border-color: var(--showroom-metal);
       color: rgba(168, 168, 168, 0.9);
     }

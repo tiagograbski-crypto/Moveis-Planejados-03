@@ -3,19 +3,19 @@
  * config.js é versionado com placeholders — substitua antes do deploy.
  */
 const SITE_CONFIG = {
-    brand: 'Tendência',
+    brand: 'Sua Marca',
     tagline: 'Móveis Planejados de Alto Padrão',
     whatsapp: '5549999999999',
     phone: '+5549999999999',
-    phoneDisplay: '+55 49 99999-9999',
-    email: 'projetos@tendenciamoveis.com.br',
+    phoneDisplay: '(49) 99999-9999',
+    email: 'contato@seusite.com.br',
     address: {
         line1: 'Av. Getúlio Vargas, 1200',
         city: 'Chapecó - SC, Brasil',
         footerRegion: 'Brasil',
     },
-    defaultMessage: 'Olá! Vim pelo site da Tendência e gostaria de solicitar uma consultoria privada de móveis planejados.',
-    siteUrl: 'https://www.tendenciamoveis.com.br',
+    defaultMessage: 'Olá! Vim pelo site e gostaria de solicitar uma consultoria privada de móveis planejados.',
+    siteUrl: 'https://www.seusite.com.br',
 };
 
 const PLACEHOLDER_WHATSAPP = '5549999999999';

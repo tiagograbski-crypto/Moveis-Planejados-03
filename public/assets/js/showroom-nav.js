@@ -13,32 +13,46 @@
   const toggle = document.getElementById("showroom-nav-toggle");
   const panel = document.getElementById("showroom-nav-panel");
   const statusValue = document.getElementById("showroom-nav-status");
-  const countdownWrap = document.getElementById("showroom-nav-countdown");
-  const timerNode = document.getElementById("showroom-nav-timer");
+  const priceLabel = document.getElementById("showroom-nav-price-label");
+  const priceValue = document.getElementById("showroom-nav-price-value");
+  const deliveryNode = document.getElementById("showroom-nav-delivery");
   const portfolioLink = document.getElementById("showroom-nav-portfolio");
   const acquireLink = document.getElementById("showroom-nav-acquire");
 
-  if (!nav || !toggle || !panel || !statusValue || !countdownWrap || !timerNode) {
+  if (!nav || !toggle || !panel || !statusValue || !priceLabel || !priceValue) {
     return;
   }
 
-  const expiryHour = Number.isFinite(navConfig.expiryHour) ? navConfig.expiryHour : 20;
-  const expiryMinute = Number.isFinite(navConfig.expiryMinute) ? navConfig.expiryMinute : 0;
-  const exclusiveLabel = navConfig.exclusiveLicenseLabel || "Tendência Móveis";
+  const statusLabel = navConfig.statusLabel || "Disponível";
+  const modelLabel = navConfig.modelLabel || "Modelo SEO Local (gl.id)";
+  const priceText = navConfig.priceValue || "R$ 2.497";
+  const deliveryLabel = navConfig.deliveryLabel || "Entrega em 72 horas";
   const portfolioUrl = navConfig.portfolioUrl || "https://www.glid.ia.br/";
-  const acquireWhatsApp = String(navConfig.acquireWhatsApp || "5549999084031").replace(/\D/g, "");
+  const acquireWhatsApp =
+    typeof window.resolveWhatsAppNumber === "function"
+      ? window.resolveWhatsAppNumber(navConfig.acquireWhatsApp)
+      : String(navConfig.acquireWhatsApp || "5549999999999").replace(/\D/g, "");
   const acquireContactName = navConfig.acquireContactName || "Tiago";
   const acquireMessageTemplate =
     navConfig.acquireMessage ||
-    "Olá, {contact}! Acessei o ambiente showroom gl.id da {client} e tenho interesse em adquirir esta estrutura. Podemos conversar?";
+    "Olá, {contact}! Acessei o ambiente showroom gl.id e tenho interesse em adquirir esta estrutura (Modelo SEO Local — R$ 2.497). Podemos conversar?";
   const storageKey = "showroom-nav-collapsed";
 
   function buildAcquireWhatsAppUrl() {
-    const message = acquireMessageTemplate
-      .replace(/\{contact\}/g, acquireContactName)
-      .replace(/\{client\}/g, exclusiveLabel);
+    const rawMessage = acquireMessageTemplate.replace(/\{contact\}/g, acquireContactName);
+    const message = window.sanitizeWhatsAppMessage
+      ? window.sanitizeWhatsAppMessage(rawMessage)
+      : rawMessage;
 
     return "https://wa.me/" + acquireWhatsApp + "?text=" + encodeURIComponent(message);
+  }
+
+  nav.classList.add("is-available");
+  statusValue.textContent = statusLabel;
+  priceLabel.textContent = modelLabel;
+  priceValue.textContent = priceText;
+  if (deliveryNode) {
+    deliveryNode.textContent = deliveryLabel;
   }
 
   if (portfolioLink) {
@@ -51,50 +65,12 @@
       if (window.dataLayer && Array.isArray(window.dataLayer)) {
         window.dataLayer.push({
           event: "showroom_acquire_click",
-          client_label: exclusiveLabel,
+          model_label: modelLabel,
+          price_value: priceText,
           contact_name: acquireContactName
         });
       }
     });
-  }
-
-  statusValue.textContent = "Licença Exclusiva: " + exclusiveLabel;
-
-  function getExpiryDate() {
-    const expiry = new Date();
-    expiry.setHours(expiryHour, expiryMinute, 0, 0);
-    return expiry;
-  }
-
-  function padTime(value) {
-    return String(value).padStart(2, "0");
-  }
-
-  function setExpiredState() {
-    nav.classList.add("is-expired");
-    statusValue.textContent = "Licença Disponível para Aquisição";
-    countdownWrap.hidden = true;
-    timerNode.removeAttribute("datetime");
-  }
-
-  function updateCountdown() {
-    const now = Date.now();
-    const expiry = getExpiryDate().getTime();
-    const remaining = expiry - now;
-
-    if (remaining <= 0) {
-      setExpiredState();
-      return false;
-    }
-
-    const totalSeconds = Math.floor(remaining / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    timerNode.textContent = padTime(hours) + "h " + padTime(minutes) + "m " + padTime(seconds) + "s";
-    timerNode.setAttribute("datetime", new Date(expiry).toISOString());
-    return true;
   }
 
   function setCollapsed(collapsed) {
@@ -126,15 +102,5 @@
 
   if (savedCollapsed || window.matchMedia("(max-width: 47.9375em)").matches) {
     setCollapsed(true);
-  }
-
-  let countdownIntervalId = 0;
-
-  if (updateCountdown()) {
-    countdownIntervalId = window.setInterval(function () {
-      if (!updateCountdown()) {
-        window.clearInterval(countdownIntervalId);
-      }
-    }, 1000);
   }
 })();

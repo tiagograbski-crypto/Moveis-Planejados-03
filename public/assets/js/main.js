@@ -38,7 +38,10 @@
         4: document.getElementById("step-4-error")
       };
       const appConfig = window.APP_CONFIG || {};
-      const whatsappNumber = appConfig.whatsappNumber || "5549999508884";
+      const whatsappNumber =
+        typeof window.resolveWhatsAppNumber === "function"
+          ? window.resolveWhatsAppNumber(appConfig.whatsappNumber)
+          : String(appConfig.whatsappNumber || "5549999999999").replace(/\D/g, "");
       const menuEnabled = Boolean(appConfig.menuEnabled);
       const menuItems = Array.isArray(appConfig.menuItems) ? appConfig.menuItems : [];
       const TOTAL_MODAL_STEPS = 4;
@@ -950,17 +953,31 @@
           submitLeadButton.disabled = true;
         }
 
-        const message = [
-          "Olá. Quero iniciar um projeto de móveis planejados.",
-          "",
-          "Nome: " + formState.name,
-          "WhatsApp: " + formState.phone,
-          "Cidade: " + formState.city,
-          "Escopo: " + formState.environments.join(", "),
-          "Metragem: " + formState.area,
-          "Investimento: " + formState.budget,
-          "Prazo: " + formState.urgency
-        ].join("\n");
+        const message = window.sanitizeWhatsAppMessage
+          ? window.sanitizeWhatsAppMessage(
+              [
+                "Olá. Quero iniciar um projeto de móveis planejados.",
+                "",
+                "Nome: " + formState.name,
+                "WhatsApp: " + formState.phone,
+                "Cidade: " + formState.city,
+                "Escopo: " + formState.environments.join(", "),
+                "Metragem: " + formState.area,
+                "Investimento: " + formState.budget,
+                "Prazo: " + formState.urgency
+              ].join("\n")
+            )
+          : [
+              "Olá. Quero iniciar um projeto de móveis planejados.",
+              "",
+              "Nome: " + formState.name,
+              "WhatsApp: " + formState.phone,
+              "Cidade: " + formState.city,
+              "Escopo: " + formState.environments.join(", "),
+              "Metragem: " + formState.area,
+              "Investimento: " + formState.budget,
+              "Prazo: " + formState.urgency
+            ].join("\n");
 
         const url = "https://wa.me/" + whatsappNumber + "?text=" + encodeURIComponent(message);
         if (window.AppTracking && typeof window.AppTracking.trackModalSubmitWhatsapp === "function") {
@@ -1089,26 +1106,13 @@
         },
         {
           poolIndex: 1,
-          id: "closet",
-          label: "Closet",
+          id: "ripado-png",
+          label: "Living",
           images: [
             {
-              src: "execucoes/execucao-03-closet-minimalista-lacca.jpg",
-              alt: "Closet em lacca com organização interna",
-              focus: "closet"
-            }
-          ]
-        },
-        {
-          poolIndex: 2,
-          id: "banheiro",
-          label: "Banheiro",
-          mobileOnly: true,
-          images: [
-            {
-              src: "assets/images/banheiro.jpeg",
-              alt: "Banheiro planejado com bancada em pedra",
-              focus: "banheiro"
+              src: "hero/hero-capa-marrom.png",
+              alt: "Living com painel ripado e marcenaria integrada",
+              focus: "ripado"
             }
           ]
         }
@@ -1540,7 +1544,7 @@
         let inviteObserver = null;
         let absorptionTimerId = 0;
         let absorptionObserver = null;
-        const absorptionStorageKey = "tendencia_brand_absorption_material_station";
+        const absorptionStorageKey = "showroom_brand_absorption_material_station";
 
         function setActiveSwatch(activeSwatch) {
           swatches.forEach((swatch) => {
@@ -2204,7 +2208,7 @@
         }
 
         const iframe = document.createElement("iframe");
-        iframe.title = "Mapa — Tendência Móveis Planejados, Chapecó SC";
+        iframe.title = "Mapa — Sua Marca, Chapecó SC";
         iframe.src = mapsEmbedUrl;
         iframe.loading = "lazy";
         iframe.referrerPolicy = "no-referrer-when-downgrade";
