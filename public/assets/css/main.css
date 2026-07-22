@@ -2270,6 +2270,44 @@
         opacity: 1;
       }
 
+      #portfolio .portfolio-grid--hover-focus .portfolio-card:not(.is-hover-lit) {
+        transform: none;
+        box-shadow: var(--shadow);
+      }
+
+      #portfolio .portfolio-grid--hover-focus .portfolio-card:not(.is-hover-lit):hover {
+        transform: none;
+        box-shadow: var(--shadow);
+      }
+
+      #portfolio .portfolio-grid--hover-focus .portfolio-card:not(.is-hover-lit) picture img,
+      #portfolio .portfolio-grid--hover-focus .portfolio-card:not(.is-hover-lit) > img {
+        filter: grayscale(88%) blur(5px);
+        opacity: 0.42;
+        transform: scale(1);
+      }
+
+      #portfolio .portfolio-grid--hover-focus .portfolio-card:not(.is-hover-lit)::after {
+        background: linear-gradient(180deg, rgba(18, 12, 9, 0.42), rgba(18, 12, 9, 0.94));
+      }
+
+      #portfolio .portfolio-grid--hover-focus .portfolio-card.is-hover-lit {
+        transform: translateY(-0.25rem);
+        box-shadow: 0 1.75rem 3.5rem rgba(18, 13, 10, 0.34);
+        z-index: 1;
+      }
+
+      #portfolio .portfolio-grid--hover-focus .portfolio-card.is-hover-lit picture img,
+      #portfolio .portfolio-grid--hover-focus .portfolio-card.is-hover-lit > img {
+        filter: grayscale(0) blur(0);
+        opacity: 1;
+        transform: scale(1.04);
+      }
+
+      #portfolio .portfolio-grid--hover-focus .portfolio-card.is-hover-lit::after {
+        background: linear-gradient(180deg, rgba(32, 20, 15, 0.02), rgba(32, 20, 15, 0.72));
+      }
+
       .card.media-frame.sensory-visual-target {
         opacity: 0.62;
         transform: none;
@@ -3787,6 +3825,37 @@
       #portfolio .portfolio-card__zoom {
         opacity: 1;
         transform: scale(1);
+      }
+
+      #portfolio .portfolio-card.sensory-visual-target:not(.is-in-view) picture img,
+      #portfolio .portfolio-card.sensory-visual-target:not(.is-in-view) > img {
+        filter: grayscale(72%) blur(2.5px);
+        opacity: 0.58;
+        transform: scale(0.985);
+        transition:
+          filter 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+          transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+
+      #portfolio .portfolio-card.sensory-visual-target.is-in-view picture img,
+      #portfolio .portfolio-card.sensory-visual-target.is-in-view > img {
+        filter: grayscale(0) blur(0);
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      #portfolio .portfolio-card.sensory-visual-target.is-in-view {
+        transform: translateY(-0.125rem);
+        box-shadow: 0 1.25rem 2.5rem rgba(18, 13, 10, 0.22);
+      }
+
+      #portfolio .portfolio-card.sensory-visual-target:not(.is-in-view)::after {
+        background: linear-gradient(180deg, rgba(24, 16, 12, 0.28), rgba(24, 16, 12, 0.9));
+      }
+
+      #portfolio .portfolio-card.sensory-visual-target.is-in-view::after {
+        background: linear-gradient(180deg, rgba(32, 20, 15, 0.02), rgba(32, 20, 15, 0.82));
       }
     }
 

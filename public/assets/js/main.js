@@ -367,7 +367,7 @@
           return true;
         }
 
-        if (portfolioFocusCards.indexOf(target) !== -1 && isDesktopScrollLighting()) {
+        if (portfolioFocusCards.indexOf(target) !== -1) {
           return true;
         }
 
@@ -379,9 +379,7 @@
           return !shouldExcludeFromSensoryLighting(target);
         });
 
-        const portfolioMobileTargets = !isDesktopScrollLighting() ? portfolioFocusCards : [];
-
-        if (scrollLitTargets.length === 0 && portfolioMobileTargets.length === 0) {
+        if (scrollLitTargets.length === 0) {
           return;
         }
 
@@ -413,12 +411,6 @@
 
           applyFocusLighting(target, minFocusRatio);
         });
-
-        if (!isDesktopScrollLighting()) {
-          portfolioFocusCards.forEach((target) => {
-            applyFocusLighting(target, mobileMinFocusRatio);
-          });
-        }
       }
 
       function resetPortfolioFocusClasses() {
@@ -427,36 +419,89 @@
         });
       }
 
-      function updateGalleryFocusLighting() {
-        if (!isDesktopScrollLighting() || portfolioFocusCards.length === 0) {
+      function getPortfolioGrid() {
+        return document.querySelector("#portfolio .portfolio-grid");
+      }
+
+      function isPortfolioHoverFocusActive() {
+        const grid = getPortfolioGrid();
+        return Boolean(grid && grid.classList.contains("portfolio-grid--hover-focus"));
+      }
+
+      function setPortfolioHoverLit(card) {
+        const grid = getPortfolioGrid();
+
+        if (!grid || !card) {
           return;
         }
 
-        const viewportCenterY = window.innerHeight / 2;
-        const bandTop = window.innerHeight * 0.3;
-        const bandBottom = window.innerHeight * 0.7;
-        let bestCard = null;
-        let bestDistance = Infinity;
+        grid.classList.add("portfolio-grid--hover-focus");
+        portfolioFocusCards.forEach(function (item) {
+          const focused = item === card;
+          item.classList.toggle("is-hover-lit", focused);
+          item.classList.toggle("is-in-view", focused);
+          item.classList.toggle("is-scroll-lit", focused);
+        });
+      }
 
-        portfolioFocusCards.forEach((card) => {
-          const rect = card.getBoundingClientRect();
-          const cardCenterY = rect.top + (rect.height / 2);
+      function clearPortfolioHoverFocus() {
+        const grid = getPortfolioGrid();
 
-          if (cardCenterY < bandTop || cardCenterY > bandBottom) {
-            return;
-          }
+        if (grid) {
+          grid.classList.remove("portfolio-grid--hover-focus");
+        }
 
-          const distance = Math.abs(cardCenterY - viewportCenterY);
-          if (distance < bestDistance) {
-            bestDistance = distance;
-            bestCard = card;
-          }
+        portfolioFocusCards.forEach(function (card) {
+          card.classList.remove("is-hover-lit", "is-in-view", "is-scroll-lit");
+        });
+      }
+
+      function updateGalleryFocusLighting() {
+        if (!isDesktopScrollLighting() || portfolioFocusCards.length === 0 || isPortfolioHoverFocusActive()) {
+          return;
+        }
+
+        portfolioFocusCards.forEach(function (card) {
+          card.classList.remove("is-in-view", "is-scroll-lit", "is-hover-lit");
+        });
+      }
+
+      function initPortfolioHoverFocus() {
+        const grid = getPortfolioGrid();
+        const finePointerQuery = window.matchMedia("(hover: hover) and (pointer: fine) and (min-width: 64em)");
+
+        if (!grid || portfolioFocusCards.length === 0 || !finePointerQuery.matches) {
+          return;
+        }
+
+        portfolioFocusCards.forEach(function (card) {
+          card.addEventListener("pointerenter", function () {
+            if (!finePointerQuery.matches) {
+              return;
+            }
+
+            setPortfolioHoverLit(card);
+          });
+
+          card.addEventListener("focusin", function () {
+            if (!finePointerQuery.matches) {
+              return;
+            }
+
+            setPortfolioHoverLit(card);
+          });
         });
 
-        portfolioFocusCards.forEach((card) => {
-          const focused = card === bestCard;
-          card.classList.toggle("is-in-view", focused);
-          card.classList.toggle("is-scroll-lit", focused);
+        grid.addEventListener("pointerleave", function () {
+          clearPortfolioHoverFocus();
+          scheduleScrollUpdate();
+        });
+
+        grid.addEventListener("focusout", function (event) {
+          if (!grid.contains(event.relatedTarget)) {
+            clearPortfolioHoverFocus();
+            scheduleScrollUpdate();
+          }
         });
       }
 
@@ -1981,6 +2026,9 @@
         function updateCarouselState() {
           if (!mobileQuery.matches) {
             carousel.classList.remove("is-scrolled", "is-end");
+            cards.forEach(function (card) {
+              card.classList.remove("is-in-view", "is-scroll-lit");
+            });
             return;
           }
 
@@ -1998,10 +2046,11 @@
 
           let activeIndex = 0;
           let nearestDistance = Infinity;
-          const scrollLeft = grid.scrollLeft;
+          const gridCenter = grid.scrollLeft + (grid.clientWidth / 2);
 
           cards.forEach(function (card, index) {
-            const distance = Math.abs(card.offsetLeft - scrollLeft);
+            const cardCenter = card.offsetLeft + (card.offsetWidth / 2);
+            const distance = Math.abs(cardCenter - gridCenter);
             if (distance < nearestDistance) {
               nearestDistance = distance;
               activeIndex = index;
@@ -2010,6 +2059,12 @@
 
           dotsContainer.querySelectorAll(".portfolio-carousel__dot").forEach(function (dot, index) {
             dot.classList.toggle("is-active", index === activeIndex);
+          });
+
+          cards.forEach(function (card, index) {
+            const focused = index === activeIndex;
+            card.classList.toggle("is-in-view", focused);
+            card.classList.toggle("is-scroll-lit", focused);
           });
         }
 
@@ -2318,6 +2373,7 @@
       initHeroScrollHandoff();
       initPortfolioLightbox();
       initPortfolioCarousel();
+      initPortfolioHoverFocus();
       initGoogleReviews();
       initHeroClientAvatars();
       initGuarantee();
