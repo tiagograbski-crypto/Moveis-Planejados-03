@@ -11,7 +11,7 @@ const SITE_CONFIG = {
     email: 'contato@seusite.com.br',
     address: {
         line1: 'Av. Getúlio Vargas, 1200',
-        city: 'Chapecó - SC, Brasil',
+        city: 'Sua cidade - SC, Brasil',
         footerRegion: 'Brasil',
     },
     defaultMessage: 'Olá! Vim pelo site e gostaria de solicitar uma consultoria privada de móveis planejados.',

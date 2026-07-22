@@ -2142,6 +2142,59 @@
         });
       }
 
+      function initClientPlaceholders() {
+        const placeholders = appConfig.clientPlaceholders || {};
+        const city = placeholders.city || "Sua cidade";
+        const stateCode = placeholders.stateCode || "SC";
+        const region = placeholders.region || "Sua região";
+        const cityState = placeholders.cityState || city + " · " + stateCode;
+        const cityAndRegion = placeholders.cityAndRegion || city + " e região";
+        const heroEyebrow =
+          placeholders.heroEyebrow || city + " · Residencial & Comercial";
+        const serviceArea =
+          placeholders.serviceArea ||
+          "Atendemos " + cityAndRegion + " — residencial e comercial.";
+        const footerTagline =
+          placeholders.footerTagline ||
+          "Móveis planejados na sua região. Residencial e comercial — projeto, produção e instalação.";
+
+        document.querySelectorAll(".presence-copy").forEach(function (node) {
+          node.textContent = city;
+          node.classList.add("presence-copy--demo");
+        });
+
+        const heroEyebrowNode = document.getElementById("demo-hero-eyebrow");
+        if (heroEyebrowNode) {
+          heroEyebrowNode.textContent = heroEyebrow;
+        }
+
+        const portfolioRegionNode = document.getElementById("demo-portfolio-region");
+        if (portfolioRegionNode) {
+          portfolioRegionNode.textContent =
+            "Residencial e comercial · " + cityAndRegion + ".";
+        }
+
+        const faqServiceAreaNode = document.getElementById("demo-faq-service-area");
+        if (faqServiceAreaNode) {
+          faqServiceAreaNode.textContent = serviceArea;
+        }
+
+        const footerTaglineNode = document.getElementById("demo-footer-tagline");
+        if (footerTaglineNode) {
+          footerTaglineNode.textContent = footerTagline;
+        }
+
+        const footerCityNode = document.getElementById("demo-footer-city");
+        if (footerCityNode) {
+          footerCityNode.textContent = city + " - " + stateCode;
+        }
+
+        const geoMeta = document.querySelector('meta[name="geo.placename"]');
+        if (geoMeta) {
+          geoMeta.setAttribute("content", city);
+        }
+      }
+
       function initFooterTrust() {
         const container = document.getElementById("footer-trust");
         const trustConfig = appConfig.footerTrust || {};
@@ -2153,7 +2206,7 @@
         const seals = [
           {
             value: trustConfig.projectCount || "+2.000 projetos",
-            label: trustConfig.projectRegion || "Oeste de SC"
+            label: trustConfig.projectRegion || "Sua região"
           },
           {
             value: trustConfig.guaranteeLabel || "5 anos garantia",
@@ -2164,7 +2217,7 @@
             label: "Avaliações"
           },
           {
-            value: trustConfig.location || "Chapecó · SC",
+            value: trustConfig.location || "Sua cidade · SC",
             label: "Residencial & comercial"
           }
         ];
@@ -2208,7 +2261,10 @@
         }
 
         const iframe = document.createElement("iframe");
-        iframe.title = "Mapa — Sua Marca, Chapecó SC";
+        const placeholders = appConfig.clientPlaceholders || {};
+        const mapCity = placeholders.city || "Sua cidade";
+        const mapState = placeholders.stateCode || "SC";
+        iframe.title = "Mapa — Sua Marca, " + mapCity + " " + mapState;
         iframe.src = mapsEmbedUrl;
         iframe.loading = "lazy";
         iframe.referrerPolicy = "no-referrer-when-downgrade";
@@ -2228,6 +2284,7 @@
       initHeroClientAvatars();
       initGuarantee();
       initLeadOffer();
+      initClientPlaceholders();
       initShowcaseVideo();
       initFooterTrust();
       initFooterMap();

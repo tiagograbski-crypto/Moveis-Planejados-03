@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-BR" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Móveis Planejados · Sua Marca</title>
   <meta name="description" content="Marcenaria planejada sob medida. Residencial e comercial. Projeto técnico, produção precisa e instalação no prazo.">
   <meta name="geo.region" content="BR-SC">
-  <meta name="geo.placename" content="Chapecó">
+  <meta name="geo.placename" content="Sua cidade">
   <link rel="canonical" href="https://www.seusite.com.br/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://www.seusite.com.br/">
@@ -29,7 +29,7 @@
       "address": {
         "@type": "PostalAddress",
         "streetAddress": "Av. Getúlio Vargas, 1200",
-        "addressLocality": "Chapecó",
+        "addressLocality": "Sua cidade",
         "addressRegion": "SC",
         "postalCode": "89800-000",
         "addressCountry": "BR"
@@ -41,9 +41,9 @@
       },
       "areaServed": {
         "@type": "City",
-        "name": "Chapecó"
+        "name": "Sua cidade"
       },
-      "description": "Estúdio de móveis planejados em Chapecó. Projetos residenciais e comerciais com curadoria de materiais e execução técnica.",
+      "description": "Estúdio de móveis planejados na sua região. Projetos residenciais e comerciais com curadoria de materiais e execução técnica.",
       "priceRange": "$$$",
       "aggregateRating": {
         "@type": "AggregateRating",
@@ -60,7 +60,9 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@300;400;600&display=swap"
     rel="stylesheet"
   >
-    <link rel="stylesheet" href="assets/css/main.css?v=showroom-nav-4">
+    <link rel="stylesheet" href="assets/css/main.css?v=showroom-nav-13">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/tailwind-config.js"></script>
 </head>
 <body>
   <div class="page-progress" id="page-progress"></div>
@@ -68,35 +70,42 @@
   <aside
     class="showroom-nav is-available"
     id="showroom-nav"
-    aria-label="Navegação gl.id Showroom"
+    aria-label="Ambiente de Homologação"
     data-showroom-nav
   >
     <div class="showroom-nav__panel" id="showroom-nav-panel">
-      <p class="showroom-nav__eyebrow">Ambiente gl.id Showroom</p>
+      <p class="showroom-nav__eyebrow" id="showroom-nav-eyebrow">Ambiente de Homologação</p>
       <p class="showroom-nav__status">
-        <span class="showroom-nav__status-label">Status:</span>
-        <span class="showroom-nav__status-value" id="showroom-nav-status">Disponível</span>
+        <span class="showroom-nav__status-label">Status</span>
+        <span class="showroom-nav__status-value" id="showroom-nav-status">Licenciamento exclusivo na região</span>
       </p>
       <p class="showroom-nav__price" id="showroom-nav-price" aria-live="polite">
-        <span class="showroom-nav__price-label" id="showroom-nav-price-label">Modelo SEO Local (gl.id)</span>
-        <span class="showroom-nav__price-value" id="showroom-nav-price-value">R$ 2.497</span>
-        <span class="showroom-nav__price-delivery" id="showroom-nav-delivery">Entrega em 72 horas</span>
+        <span class="showroom-nav__price-label" id="showroom-nav-price-label">Site pronto para sua marcenaria</span>
+        <span class="showroom-nav__price-anchor" id="showroom-nav-price-anchor">R$ 24.997</span>
+        <span class="showroom-nav__price-value" id="showroom-nav-price-value">R$ 14.997</span>
+        <span class="showroom-nav__price-note" id="showroom-nav-price-note">pagamento único · 50% entrada · 50% na entrega</span>
+        <span class="showroom-nav__price-delivery" id="showroom-nav-delivery">No ar em 7 a 10 dias úteis após envio do material</span>
       </p>
       <div class="showroom-nav__actions">
         <a
           class="showroom-nav__btn showroom-nav__btn--primary"
-          id="showroom-nav-portfolio"
-          href="https://www.glid.ia.br/"
-          target="_blank"
-          rel="noopener noreferrer"
-        >Voltar ao Portfólio (gl.id)</a>
-        <a
-          class="showroom-nav__btn showroom-nav__btn--ghost"
           id="showroom-nav-acquire"
           href="#"
           target="_blank"
           rel="noopener noreferrer"
-        >Adquirir esta Estrutura</a>
+        >Quero licenciar esta estrutura para a minha marcenaria</a>
+        <a
+          class="showroom-nav__btn showroom-nav__btn--ghost"
+          id="showroom-nav-guide"
+          href="#b2b-owner-guide"
+        >Ver o que está incluso ↓</a>
+        <a
+          class="showroom-nav__portfolio-link mt-2 block text-center text-sm text-stone-400 underline underline-offset-2 transition-colors hover:text-stone-200"
+          id="showroom-nav-portfolio"
+          href="https://www.glid.ia.br/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >Ver portfólio GLID</a>
       </div>
     </div>
     <button
@@ -167,7 +176,7 @@
         <div class="hero-grid">
           <div class="hero-stack">
             <div class="hero-card hero-glass-card">
-              <span class="eyebrow animate-fade-up">Chapecó · Residencial &amp; Comercial</span>
+              <span class="eyebrow animate-fade-up" id="demo-hero-eyebrow">Sua cidade · Residencial &amp; Comercial</span>
               <h1 class="animate-fade-up delay-1">Seu espaço. Na medida certa.</h1>
               <p class="hero-copy animate-fade-up delay-2">
                 Planejamos ambientes onde a vida e o trabalho acontecem.
@@ -178,7 +187,7 @@
                   <span class="cta-main-text">Iniciar projeto</span>
                   <span class="cta-presence-line" aria-hidden="true">
                     <span class="presence-dot"></span>
-                    <span class="presence-copy">Chapecó</span>
+                    <span class="presence-copy presence-copy--demo">Sua cidade</span>
                   </span>
                 </button>
                 <a class="btn btn-outline" href="#portfolio">Ver projetos</a>
@@ -569,8 +578,8 @@
       <div class="container">
         <div class="section-header">
           <h2>Projetos executados</h2>
-          <p class="section-subtitle">
-            Residencial e comercial · Chapecó e região.
+          <p class="section-subtitle" id="demo-portfolio-region">
+            Residencial e comercial · Sua cidade e região.
           </p>
         </div>
 
@@ -722,21 +731,21 @@
             <div class="stars">★★★★★</div>
             <p>"Cozinha entregue no prazo, acabamento impecável. Processo claro do início ao fim."</p>
             <strong>Marcelo F.</strong>
-            <span class="testimonial-meta">Chapecó · Residencial</span>
+            <span class="testimonial-meta">Sua cidade · Residencial</span>
           </article>
 
           <article class="testimonial-card">
             <div class="stars">★★★★★</div>
             <p>"Consultório projetado com precisão. Cada detalhe alinhado ao que eu precisava."</p>
             <strong>Dra. Helena</strong>
-            <span class="testimonial-meta">Xanxerê · Comercial</span>
+            <span class="testimonial-meta">Sua região · Comercial</span>
           </article>
 
           <article class="testimonial-card">
             <div class="stars">★★★★★</div>
             <p>"Living transformado. Materiais certos e equipe que cumpre o combinado."</p>
             <strong>Ricardo e Amanda</strong>
-            <span class="testimonial-meta">Chapecó · Residencial</span>
+            <span class="testimonial-meta">Sua cidade · Residencial</span>
           </article>
         </div>
       </div>
@@ -758,7 +767,7 @@
               <span>+</span>
             </button>
             <div class="faq-answer" id="faq-answer-1" role="region" aria-labelledby="faq-question-1" aria-hidden="true">
-              Atendemos Chapecó e todo o Oeste Catarinense — residencial e comercial.
+              <span id="demo-faq-service-area">Atendemos sua cidade e região de atuação — residencial e comercial.</span>
             </div>
           </article>
 
@@ -806,8 +815,8 @@
             <div class="brand-logo-placeholder brand-logo-placeholder--footer" aria-hidden="true">Seu Logo</div>
             <span>SUA MARCA</span>
           </div>
-          <p class="footer-brand-copy">
-            Móveis planejados em Chapecó. Residencial e comercial — projeto, produção e instalação.
+          <p class="footer-brand-copy" id="demo-footer-tagline">
+            Móveis planejados na sua região. Residencial e comercial — projeto, produção e instalação.
           </p>
         </div>
 
@@ -828,7 +837,7 @@
         <div class="footer-col footer-col--contact">
           <div class="footer-title">Contato</div>
           <div class="footer-list">
-            <span>Chapecó - SC</span>
+            <span id="demo-footer-city">Sua cidade - SC</span>
             <a href="tel:+5549999999999">(49) 99999-9999</a>
             <a href="mailto:contato@seusite.com.br">contato@seusite.com.br</a>
             <a class="footer-map-link" id="footer-map-link" href="#" target="_blank" rel="noopener noreferrer">Ver no mapa</a>
@@ -842,7 +851,7 @@
               <span class="cta-main-text">Iniciar projeto</span>
               <span class="cta-presence-line" aria-hidden="true">
                 <span class="presence-dot"></span>
-                <span class="presence-copy">Chapecó</span>
+                <span class="presence-copy presence-copy--demo">Sua cidade</span>
               </span>
             </button>
           </div>
@@ -863,6 +872,189 @@
       </div>
     </div>
   </footer>
+
+  <section id="b2b-owner-guide" aria-label="Guia de aquisição para donos de negócio">
+    <div class="b2b-demarcation b2b-demarcation--alert">
+      <div class="b2b-demarcation-inner">
+        <p class="b2b-demarcation-text">
+          <strong class="b2b-demarcation-kicker">⚠️ ÁREA EXCLUSIVA DO PROPRIETÁRIO:</strong>
+          A linha abaixo divide a vitrine do seu cliente dos bastidores da operação. O conteúdo a seguir é o seu
+          guia de aquisição e <strong>não ficará visível no site final</strong>.
+        </p>
+      </div>
+    </div>
+
+    <div class="b2b-wrap">
+      <header class="b2b-header">
+        <p class="b2b-eyebrow">gl.id · Licenciamento de estrutura</p>
+        <h2 class="b2b-h2">O site que você acabou de testar — com a sua marca</h2>
+        <p class="b2b-header-meta">Entrega em 7 a 10 dias úteis · Exclusividade por região</p>
+        <p class="b2b-lead" style="margin: 0 auto;">
+          Licencie a mesma estrutura que seus clientes vão usar no celular — com seu logo, suas fotos e pedidos organizados no WhatsApp.
+        </p>
+      </header>
+
+      <div class="b2b-trust">
+        <div class="b2b-trust-item">
+          <strong>Contrato</strong>
+          <span>Escopo assinado antes da entrada</span>
+        </div>
+        <div class="b2b-trust-item">
+          <strong>Pagamento</strong>
+          <span>50% na entrada · 50% com site no ar</span>
+        </div>
+        <div class="b2b-trust-item">
+          <strong>Propriedade</strong>
+          <span>Arquivos 100% seus após a entrega</span>
+        </div>
+        <div class="b2b-trust-item">
+          <strong>Exclusividade</strong>
+          <span>Licença exclusiva na sua região</span>
+        </div>
+      </div>
+
+      <h3 class="b2b-section-title">O que você ganha</h3>
+
+      <div class="b2b-grid-3">
+        <article class="b2b-card">
+          <p class="b2b-card-num">01</p>
+          <h3>Site Ultra Rápido</h3>
+          <p>O cliente final não desiste de esperar a página carregar no celular.</p>
+        </article>
+        <article class="b2b-card">
+          <p class="b2b-card-num">02</p>
+          <h3>Orçamentos Organizados</h3>
+          <p>O contato chega no seu WhatsApp estruturado, filtrando os curiosos e trazendo o nome, ambiente e faixa de valor.</p>
+        </article>
+        <article class="b2b-card">
+          <p class="b2b-card-num">03</p>
+          <h3>Base Pronta</h3>
+          <p>Estrutura entregue com código limpo e otimizado — pronta para operar e escalar quando você quiser.</p>
+        </article>
+      </div>
+
+      <div class="b2b-breakdown-header">
+        <h3 class="b2b-section-title" style="margin-bottom: 0.5rem;">Escopo blindado</h3>
+        <p class="b2b-section-lead">O que entra e o que não entra — sem surpresa na entrega.</p>
+      </div>
+
+      <div class="b2b-scope">
+        <div class="b2b-scope-box b2b-scope-box--yes">
+          <span class="b2b-scope-label b2b-scope-label--yes">O que você leva</span>
+          <h3>Por <span id="b2b-guide-price-inline">R$ 14.997</span></h3>
+          <ul>
+            <li>Site entregue com sua logo, cores e fotos de obras reais adaptadas.</li>
+            <li>Textos focados em conversão para móveis planejados.</li>
+            <li>Botão de WhatsApp integrado e direcionado para a sua equipe.</li>
+            <li>Propriedade total dos arquivos após a entrega.</li>
+            <li>Exclusividade de licença para a sua região.</li>
+          </ul>
+          <p class="b2b-footnote">Tudo acima consta no contrato de licenciamento.</p>
+        </div>
+        <div class="b2b-scope-box b2b-scope-box--no b2b-scope--no">
+          <span class="b2b-scope-label b2b-scope-label--no">O que não está incluso</span>
+          <h3>Fora do escopo GLID</h3>
+          <ul>
+            <li>A GLID <strong>não</strong> faz gestão de redes sociais.</li>
+            <li>A GLID <strong>não</strong> cria nem gerencia anúncios (Meta / Google Ads).</li>
+            <li>A GLID <strong>não</strong> configura ferramentas de rastreamento de terceiros (pixels ou analytics).</li>
+          </ul>
+          <p class="b2b-footnote">Entregamos a estrutura com as pontes prontas no código — o tráfego e a gestão ficam com você ou com o profissional que você contratar.</p>
+        </div>
+      </div>
+
+      <div class="b2b-note">
+        <h3>Tratamento das suas fotos</h3>
+        <p>
+          As fotos que você enviar passam por um processo rigoroso de engenharia de performance — otimização e compactação profissional — para garantir carregamento instantâneo sem perda de qualidade visual. O setup inicial inclui <strong>até 15 fotos tratadas</strong>.
+        </p>
+      </div>
+
+      <div class="b2b-support">
+        <h3>Como mexer no site depois da entrega</h3>
+        <p>
+          O código é blindado e seguro de propósito: não usamos WordPress pesado, e você não edita o código diretamente — isso protege a engenharia de conversão que faz o site vender.
+        </p>
+        <p>
+          Novas fotos ou alterações pontuais de textos e preços, após a entrega, podem ser feitas por <strong>pacotes avulsos de atualização</strong> (com taxa técnica para tratamento e publicação) ou por <strong>planos de manutenção mensal opcionais</strong>.
+        </p>
+      </div>
+
+      <div class="b2b-steps">
+        <h3>Como contratar</h3>
+        <div class="b2b-steps-grid">
+          <div class="b2b-step-card">
+            <span class="b2b-step-num">1</span>
+            Você envia sua logo e de 10 a 15 fotos de obras
+          </div>
+          <div class="b2b-step-card">
+            <span class="b2b-step-num">2</span>
+            Paga 50% de entrada para travar a exclusividade na sua região
+          </div>
+          <div class="b2b-step-card">
+            <span class="b2b-step-num">3</span>
+            Em 7 a 10 dias úteis o site está no ar — você acerta os 50% finais
+          </div>
+        </div>
+      </div>
+
+      <div class="b2b-founder">
+        <div class="b2b-avatar" role="img" aria-label="Tiago Grabski">
+          <img
+            src="assets/images/thiago-grabski.webp"
+            alt="Tiago Grabski"
+            width="112"
+            height="112"
+            loading="lazy"
+            decoding="async"
+          >
+        </div>
+        <div>
+          <h3>Tiago Grabski · gl.id</h3>
+          <p>Entrego uma máquina de pedido no WhatsApp para marcenaria — com contrato, prazo, exclusividade regional e arquivos no seu nome.</p>
+        </div>
+      </div>
+
+      <div class="b2b-faq">
+        <h3>Perguntas frequentes</h3>
+        <details>
+          <summary>Tem mensalidade?</summary>
+          <p>Não. O pagamento é único. Você só paga a renovação anual do domínio (.com.br) no ano seguinte.</p>
+        </details>
+        <details>
+          <summary>O site é meu?</summary>
+          <p>Sim. Após a entrega, os arquivos e o site são 100% da sua marcenaria.</p>
+        </details>
+        <details>
+          <summary>Meu concorrente pode ter igual?</summary>
+          <p>Não. Liberamos apenas uma licença exclusiva de operação por região — seu concorrente direto na mesma área não recebe a mesma estrutura.</p>
+        </details>
+      </div>
+
+      <div class="b2b-price">
+        <p class="b2b-price-label">Valor de mercado</p>
+        <p class="b2b-price-anchor" id="b2b-guide-anchor-price">R$ 24.997</p>
+        <p class="b2b-price-badge">Licenciamento imediato</p>
+        <p class="b2b-price-value" id="b2b-guide-price">R$ 14.997</p>
+        <p class="b2b-price-note">50% de entrada para travar a exclusividade · 50% com site no ar</p>
+        <p class="b2b-price-fine">Chave PIX e lista do material enviadas após seu WhatsApp</p>
+      </div>
+
+      <div class="b2b-cta-wrap">
+        <a
+          id="b2b-owner-guide-acquire"
+          class="b2b-cta"
+          href="#"
+          data-b2b-acquire
+          target="_blank"
+          rel="noopener noreferrer"
+        >Quero licenciar esta estrutura para a minha marcenaria</a>
+        <p class="b2b-cta-sub">
+          Mensagem pré-formatada no WhatsApp — é só enviar. Sem call de vendas.
+        </p>
+      </div>
+    </div>
+  </section>
 
   <div class="bottom-action-bar persistent-ui persistent-ui--bottom" role="group" aria-label="Ações rápidas">
     <a class="bottom-action-btn secondary" href="#portfolio" aria-label="Ver projetos">
@@ -889,7 +1081,7 @@
         <span class="cta-main-text">Iniciar projeto</span>
         <span class="cta-presence-line" aria-hidden="true">
           <span class="presence-dot"></span>
-          <span class="presence-copy">Chapecó</span>
+          <span class="presence-copy presence-copy--demo">Sua cidade</span>
         </span>
       </span>
     </button>
@@ -983,7 +1175,7 @@
           <div class="step-fields">
             <div class="step-field">
               <label class="field-label" for="lead-city">Cidade / região</label>
-              <input class="field" id="lead-city" type="text" name="city" autocomplete="address-level2" placeholder="Ex.: Chapecó, Xanxerê">
+              <input class="field" id="lead-city" type="text" name="city" autocomplete="address-level2" placeholder="Ex.: Sua cidade, sua região">
             </div>
 
             <div class="step-field">
@@ -1045,7 +1237,7 @@
 
     <script src="assets/js/config.js"></script>
   <script src="assets/js/tracking.js"></script>
-  <script src="assets/js/showroom-nav.js?v=5"></script>
-  <script src="assets/js/main.js?v=hero-handoff-4"></script>
+  <script src="assets/js/showroom-nav.js?v=11"></script>
+  <script src="assets/js/main.js?v=demo-placeholders-1"></script>
 </body>
 </html>

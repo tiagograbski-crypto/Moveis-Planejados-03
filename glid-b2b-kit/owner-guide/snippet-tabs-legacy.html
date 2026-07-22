@@ -1,0 +1,73 @@
+<!-- Cole na seção de serviços/protocolos (antes do grid de cards) -->
+<p id="protocols-demo-hint" class="protocols-demo-hint" hidden>
+  Versão demonstração — toque em qualquer serviço, informe seu WhatsApp e veja a mensagem que chegará no <strong>seu negócio</strong>.
+</p>
+<button type="button" id="owner-guide-jump" class="owner-guide-link" hidden>
+  Dono do negócio? Veja preços, domínio e entrega ↓
+</button>
+
+<!-- Cole após FAQ, antes do rodapé — ADAPTAR textos do nicho nos painéis -->
+<section class="owner-guide" id="owner-guide-section" hidden aria-label="Informações para donos do negócio">
+  <p class="owner-guide__eyebrow">gl.id Showroom · Para você, dono do negócio</p>
+  <h2 class="owner-guide__title">Imagine este app com a sua marca</h2>
+  <p class="owner-guide__lead">
+    Você está vendo uma demonstração. Na entrega, configuramos <strong>sua marca</strong>,
+    <strong>seus preços</strong> e <strong>seu domínio</strong> — o cliente agenda sozinho e o pedido
+    chega organizado no seu WhatsApp.
+  </p>
+
+  <div class="owner-guide__steps">
+    <div class="owner-guide__step"><span class="owner-guide__step-num">1</span><span>Toque em um serviço acima e simule o agendamento.</span></div>
+    <div class="owner-guide__step"><span class="owner-guide__step-num">2</span><span>Digite seu WhatsApp e veja a mensagem que você receberia.</span></div>
+    <div class="owner-guide__step"><span class="owner-guide__step-num">3</span><span>Escolha seu domínio e coloque o link na bio do Instagram.</span></div>
+  </div>
+
+  <div class="owner-guide__tabs" role="tablist" aria-label="Detalhes da entrega">
+    <button type="button" class="owner-guide__tab is-active" role="tab" aria-selected="true" data-owner-tab="agility">Agilidade</button>
+    <button type="button" class="owner-guide__tab" role="tab" aria-selected="false" data-owner-tab="pricing">Seus preços</button>
+    <button type="button" class="owner-guide__tab" role="tab" aria-selected="false" data-owner-tab="domain">Seu domínio</button>
+    <button type="button" class="owner-guide__tab" role="tab" aria-selected="false" data-owner-tab="delivery">Entrega</button>
+  </div>
+
+  <div class="owner-guide__panel is-active" id="owner-panel-agility" role="tabpanel">
+    <h3>Menos conversa, mais agendamento</h3>
+    <p>O cliente escolhe o serviço, informa os dados necessários e o turno. Você recebe tudo pronto no WhatsApp — serviço, valor estimado e telefone. Sem ficar explicando preço no chat.</p>
+    <ul class="owner-guide__list">
+      <li>Pedidos organizados, um por mensagem</li>
+      <li>Cliente já chega sabendo o valor aproximado</li>
+      <li>Mais tempo para executar, não para cotar</li>
+    </ul>
+  </div>
+  <div class="owner-guide__panel" id="owner-panel-pricing" role="tabpanel" hidden>
+    <h3>Preços definidos por você</h3>
+    <p>Cada serviço tem o <strong>valor base que você escolher</strong>. O app calcula variações automaticamente (porte, sessão, pacote — conforme o nicho). Opcionais também são seus.</p>
+    <ul class="owner-guide__list">
+      <li>Você define os valores na configuração — não nós</li>
+      <li>Cliente vê o total antes de confirmar</li>
+      <li>Sem surpresa no balcão para você nem para ele</li>
+    </ul>
+  </div>
+  <div class="owner-guide__panel" id="owner-panel-domain" role="tabpanel" hidden>
+    <h3>Seu endereço na internet</h3>
+    <p>Na compra, escolhemos juntos um domínio profissional para a bio do Instagram, Google e cartão. Algo fácil de lembrar.</p>
+    <span class="owner-guide__domain" id="owner-guide-domain-primary">suamarca.com.br</span>
+    <p class="owner-guide__domain-hint" id="owner-guide-domain-alts">Exemplos: souamarca.com.br · suaclinica.com.br</p>
+    <p>O domínio é seu. O app abre direto nele — parece aplicativo no celular do cliente.</p>
+  </div>
+  <div class="owner-guide__panel" id="owner-panel-delivery" role="tabpanel" hidden>
+    <h3>O que configuramos em 72 horas</h3>
+    <ul class="owner-guide__list">
+      <li>Marca, cidade e WhatsApp do seu negócio</li>
+      <li>Serviços com os preços que você definir</li>
+      <li>Domínio .com.br apontando para o app</li>
+      <li>Link para bio, anúncios e cartão</li>
+      <li>App instalável no celular (PWA)</li>
+    </ul>
+    <p>Investimento único: <span class="owner-guide__price-tag" id="owner-guide-price">R$ 2.497</span> — sem mensalidade obrigatória.</p>
+  </div>
+
+  <div class="owner-guide__cta-row">
+    <a id="owner-guide-acquire" href="#" target="_blank" rel="noopener noreferrer" class="owner-guide__cta">Adquirir esta estrutura</a>
+    <button type="button" id="owner-guide-retry" class="owner-guide__cta owner-guide__cta--ghost">Testar de novo</button>
+  </div>
+</section>
