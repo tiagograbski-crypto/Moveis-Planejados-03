@@ -292,6 +292,29 @@
       backdrop-filter: none;
     }
 
+    @media (min-width: 48em) {
+      /* Desktop: header permanece no fluxo (sticky) para evitar salto absolute↔sticky na dobra #solucao */
+      .site-header.site-header--hero {
+        position: sticky;
+        top: 0;
+        left: auto;
+        right: auto;
+      }
+
+      .hero {
+        margin-top: calc(-1 * var(--header-height));
+      }
+
+      html {
+        scroll-behavior: auto;
+      }
+
+      /* Barra fixa não deve alterar altura do documento no desktop */
+      body.bottom-bar-visible {
+        padding-bottom: 0;
+      }
+    }
+
   /* transform em sticky quebra fixação — header nunca usa slide vertical */
     .site-header.persistent-ui--top,
     .site-header.persistent-ui--top.is-active {
@@ -2249,17 +2272,16 @@
 
       .card.media-frame.sensory-visual-target {
         opacity: 0.62;
-        transform: scale(0.98);
+        transform: none;
         transition:
           opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
-          transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
           box-shadow 0.55s cubic-bezier(0.16, 1, 0.3, 1),
           border-color 0.55s cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       .card.media-frame.sensory-visual-target.is-panel-lit {
         opacity: 1;
-        transform: scale(1);
+        transform: none;
         box-shadow: 0 1.25rem 2.75rem rgba(48, 33, 22, 0.2);
         border-color: rgba(183, 131, 88, 0.42);
       }

@@ -1691,9 +1691,16 @@
       function initHeroScrollHandoff() {
         const heroSection = document.getElementById("hero");
         const persistentNodes = Array.from(document.querySelectorAll(".persistent-ui"));
+        const desktopHandoffQuery = window.matchMedia("(min-width: 48em)");
+        let heroHeaderOverlayMode = true;
+        let persistentChromeVisible = false;
 
         if (!heroSection || persistentNodes.length === 0) {
           return;
+        }
+
+        function isDesktopHeroHandoff() {
+          return desktopHandoffQuery.matches;
         }
 
         function getViewportHeight() {
@@ -1732,9 +1739,40 @@
           const rect = heroSection.getBoundingClientRect();
           const exitProgress = getHeroExitProgress(rect, viewportHeight);
           const heroPassed = rect.bottom <= 0;
-          const useHeroHeader = rect.bottom > viewportHeight * 0.34;
           const heroReleased = heroPassed || exitProgress >= 0.92;
-          const showPersistentChrome = heroReleased && rect.bottom < viewportHeight * 0.28;
+          let useHeroHeader;
+          let showPersistentChrome;
+
+          if (isDesktopHeroHandoff()) {
+            const headerOffY = viewportHeight * 0.3;
+            const headerOnY = viewportHeight * 0.36;
+
+            if (heroHeaderOverlayMode) {
+              if (rect.bottom <= headerOffY) {
+                heroHeaderOverlayMode = false;
+              }
+            } else if (rect.bottom > headerOnY) {
+              heroHeaderOverlayMode = true;
+            }
+
+            useHeroHeader = heroHeaderOverlayMode;
+
+            const chromeOnY = viewportHeight * 0.26;
+            const chromeOffY = viewportHeight * 0.32;
+
+            if (persistentChromeVisible) {
+              if (!heroReleased || rect.bottom >= chromeOffY) {
+                persistentChromeVisible = false;
+              }
+            } else if (heroReleased && rect.bottom < chromeOnY) {
+              persistentChromeVisible = true;
+            }
+
+            showPersistentChrome = persistentChromeVisible;
+          } else {
+            useHeroHeader = rect.bottom > viewportHeight * 0.34;
+            showPersistentChrome = heroReleased && rect.bottom < viewportHeight * 0.28;
+          }
 
           heroSection.style.setProperty("--hero-exit", exitProgress.toFixed(4));
           heroSection.classList.toggle("hero--handoff", exitProgress > 0.02);
