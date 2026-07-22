@@ -49,9 +49,9 @@
     navConfig.acquireButtonLabel || "Quero licenciar esta estrutura para a minha marcenaria";
   const guideButtonLabel = navConfig.guideButtonLabel || "Ver o que está incluso ↓";
   const acquireWhatsApp =
-    typeof window.resolveWhatsAppNumber === "function"
-      ? window.resolveWhatsAppNumber(navConfig.acquireWhatsApp)
-      : String(navConfig.acquireWhatsApp || "5549999999999").replace(/\D/g, "");
+    typeof window.resolveB2bAcquireWhatsApp === "function"
+      ? window.resolveB2bAcquireWhatsApp(navConfig.acquireWhatsApp)
+      : String(navConfig.acquireWhatsApp || "5549999084031").replace(/\D/g, "");
   const acquireContactName = navConfig.acquireContactName || "Tiago";
   const acquireMessageTemplate =
     navConfig.acquireMessage ||

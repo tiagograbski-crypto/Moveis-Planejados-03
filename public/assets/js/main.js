@@ -1,5 +1,6 @@
     (function () {
       const pageProgress = document.getElementById("page-progress");
+      const backToTopButton = document.getElementById("back-to-top");
       const siteHeader = document.getElementById("site-header");
       const faqItems = document.querySelectorAll(".faq-item");
       const sensoryVisualTargets = Array.from(document.querySelectorAll(".sensory-visual-target"));
@@ -610,6 +611,21 @@
         }
       }
 
+      function initBackToTop() {
+        if (!backToTopButton) {
+          return;
+        }
+
+        const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+        backToTopButton.addEventListener("click", function () {
+          window.scrollTo({
+            top: 0,
+            behavior: reducedMotionQuery.matches ? "auto" : "smooth"
+          });
+        });
+      }
+
       function updateScrollUI() {
         const scrollTop = window.scrollY || document.documentElement.scrollTop;
         const docHeight = document.documentElement.scrollHeight - window.innerHeight;
@@ -623,6 +639,16 @@
           const onHero = siteHeader.classList.contains("site-header--hero");
           siteHeader.classList.toggle("scrolled", scrollTop > 12 && !onHero);
         }
+
+        if (backToTopButton) {
+          const heroReleased = document.body.classList.contains("hero-released");
+          const suppressed = document.body.classList.contains("bottom-bar-suppressed");
+          const shouldShow = heroReleased && !suppressed && scrollTop > 40;
+
+          backToTopButton.classList.toggle("is-visible", shouldShow);
+          backToTopButton.hidden = !shouldShow;
+        }
+
         if (window.AppTracking && typeof window.AppTracking.trackScrollDepth === "function") {
           window.AppTracking.trackScrollDepth(progress);
         }
@@ -1768,6 +1794,11 @@
         }
 
         function setPersistentChrome(isVisible) {
+          if (typeof window.evaluateBottomActionBar === "function") {
+            window.evaluateBottomActionBar(isVisible);
+            return;
+          }
+
           document.body.classList.toggle("bottom-bar-visible", isVisible);
 
           persistentNodes.forEach(function (node) {
@@ -2272,6 +2303,16 @@
           faqServiceAreaNode.textContent = serviceArea;
         }
 
+        const faqGuaranteeNode = document.getElementById("demo-faq-guarantee");
+        const guaranteeConfig = appConfig.guarantee || {};
+        if (faqGuaranteeNode) {
+          faqGuaranteeNode.textContent =
+            (guaranteeConfig.structureYears || 5) +
+            " anos na estrutura e marcenaria · " +
+            (guaranteeConfig.hardwareYears || 2) +
+            " anos em ferragens e acessórios — tudo documentado em contrato antes da produção.";
+        }
+
         const footerTaglineNode = document.getElementById("demo-footer-tagline");
         if (footerTaglineNode) {
           footerTaglineNode.textContent = footerTagline;
@@ -2374,6 +2415,11 @@
       initPortfolioLightbox();
       initPortfolioCarousel();
       initPortfolioHoverFocus();
+      initBackToTop();
+
+      if (typeof window.initBottomActionZones === "function") {
+        window.initBottomActionZones();
+      }
       initGoogleReviews();
       initHeroClientAvatars();
       initGuarantee();
@@ -2466,8 +2512,15 @@
         });
       });
 
-      document.querySelectorAll("[data-open-modal]").forEach((button) => {
-        button.addEventListener("click", openModal);
+      document.addEventListener("click", function (event) {
+        const trigger = event.target.closest("[data-open-modal]");
+
+        if (!trigger) {
+          return;
+        }
+
+        event.preventDefault();
+        openModal();
       });
 
       document.querySelectorAll("[data-close-modal]").forEach((button) => {

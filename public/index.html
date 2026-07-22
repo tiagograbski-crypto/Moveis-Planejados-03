@@ -53,6 +53,78 @@
       }
     }
   </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Qual a área de atendimento?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Atendemos sua cidade e região de atuação — residencial e comercial."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quanto custa um projeto de móveis planejados?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "O valor depende do ambiente, dos materiais e da complexidade. Após o primeiro contato, apresentamos faixa de investimento e projeto 3D antes de qualquer compromisso de produção."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como funciona o pagamento?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Condições claras em contrato: entrada para reserva de produção e saldo conforme etapas acordadas."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual a garantia dos móveis?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "5 anos na estrutura e marcenaria e 2 anos em ferragens e acessórios, documentado em contrato antes da produção."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Vocês fazem visita técnica e medição no local?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Sim. A medição faz parte do processo inicial para o projeto sair na medida certa do ambiente."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qual o prazo médio do projeto à instalação?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Definido após aprovação do projeto 3D e assinatura do contrato, com cronograma oficial por escrito."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Quais materiais e ferragens são utilizados?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Curadoria de chapas de alta densidade, ferragens de precisão e acabamentos para uso intenso, especificados no projeto técnico."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Como agendar um orçamento?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Pelo botão Iniciar projeto ou WhatsApp, informando ambiente, cidade e faixa de investimento."
+          }
+        }
+      ]
+    }
+  </script>
   <link rel="preload" as="image" href="hero/hero-capa-marrom.webp" fetchpriority="high">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -60,7 +132,7 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:wght@300;400;600&display=swap"
     rel="stylesheet"
   >
-    <link rel="stylesheet" href="assets/css/main.css?v=portfolio-spotlight-1">
+    <link rel="stylesheet" href="assets/css/main.css?v=faq-vitrine-1">
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/js/tailwind-config.js"></script>
 </head>
@@ -756,7 +828,7 @@
         <div class="section-header">
           <h2>Dúvidas frequentes</h2>
           <p class="section-subtitle">
-            Respostas diretas. Sem rodeios.
+            Respostas diretas para as perguntas que mais chegam no WhatsApp — antes de você precisar perguntar.
           </p>
         </div>
 
@@ -773,31 +845,72 @@
 
           <article class="faq-item">
             <button class="faq-question" type="button" id="faq-question-2" aria-expanded="false" aria-controls="faq-answer-2">
-              <span>Como funciona o acompanhamento do projeto?</span>
+              <span>Quanto custa um projeto de móveis planejados?</span>
               <span>+</span>
             </button>
             <div class="faq-answer" id="faq-answer-2" role="region" aria-labelledby="faq-question-2" aria-hidden="true">
-              Projeto 3D, materiais definidos e cronograma claro — do início à instalação.
+              O valor depende do ambiente, dos materiais e da complexidade da marcenaria. Após o primeiro contato, fazemos o levantamento e apresentamos <strong>faixa de investimento</strong> e <strong>projeto 3D</strong> antes de qualquer compromisso de produção.
             </div>
           </article>
 
           <article class="faq-item">
             <button class="faq-question" type="button" id="faq-question-3" aria-expanded="false" aria-controls="faq-answer-3">
-              <span>Qual o prazo médio para execução?</span>
+              <span>Como funciona o pagamento?</span>
               <span>+</span>
             </button>
             <div class="faq-answer" id="faq-answer-3" role="region" aria-labelledby="faq-question-3" aria-hidden="true">
-              Definido após aprovação do projeto. Cronograma oficial em contrato.
+              Condições claras em contrato: normalmente <strong>entrada para reserva de produção</strong> e saldo conforme etapas acordadas. Nada começa na fábrica sem aprovação do projeto e forma de pagamento definida por escrito.
             </div>
           </article>
 
           <article class="faq-item">
             <button class="faq-question" type="button" id="faq-question-4" aria-expanded="false" aria-controls="faq-answer-4">
-              <span>Como agendar uma avaliação técnica?</span>
+              <span>Qual a garantia dos móveis?</span>
               <span>+</span>
             </button>
             <div class="faq-answer" id="faq-answer-4" role="region" aria-labelledby="faq-question-4" aria-hidden="true">
-              Pelo WhatsApp. Entendemos o escopo e retornamos com o próximo passo.
+              <span id="demo-faq-guarantee">5 anos na estrutura e marcenaria · 2 anos em ferragens e acessórios — tudo documentado em contrato antes da produção.</span>
+              <a class="faq-answer-link" href="#garantia">Ver detalhes da garantia</a>
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <button class="faq-question" type="button" id="faq-question-5" aria-expanded="false" aria-controls="faq-answer-5">
+              <span>Vocês fazem visita técnica e medição no local?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-5" role="region" aria-labelledby="faq-question-5" aria-hidden="true">
+              Sim. A medição faz parte do processo inicial para o projeto sair na medida certa — alinhado à circulação, tomadas, hidráulica e uso real do ambiente.
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <button class="faq-question" type="button" id="faq-question-6" aria-expanded="false" aria-controls="faq-answer-6">
+              <span>Qual o prazo médio do projeto à instalação?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-6" role="region" aria-labelledby="faq-question-6" aria-hidden="true">
+              Definido após aprovação do projeto 3D e assinatura do contrato. O cronograma oficial (produção + instalação) é entregue por escrito — sem estimativa vaga por mensagem.
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <button class="faq-question" type="button" id="faq-question-7" aria-expanded="false" aria-controls="faq-answer-7">
+              <span>Quais materiais e ferragens são utilizados?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-7" role="region" aria-labelledby="faq-question-7" aria-hidden="true">
+              Curadoria de chapas de alta densidade, ferragens de precisão e acabamentos escolhidos para uso intenso. Tudo especificado no projeto técnico antes da produção — veja exemplos na seção <a class="faq-answer-link" href="#estacao-materiais">Materiais</a>.
+            </div>
+          </article>
+
+          <article class="faq-item">
+            <button class="faq-question" type="button" id="faq-question-8" aria-expanded="false" aria-controls="faq-answer-8">
+              <span>Como agendar um orçamento?</span>
+              <span>+</span>
+            </button>
+            <div class="faq-answer" id="faq-answer-8" role="region" aria-labelledby="faq-question-8" aria-hidden="true">
+              Pelo botão <strong>Iniciar projeto</strong> ou WhatsApp. Você informa ambiente, cidade e faixa de investimento — retornamos com o próximo passo, sem formulário interminável.
             </div>
           </article>
         </div>
@@ -1017,6 +1130,10 @@
 
       <div class="b2b-faq">
         <h3>Perguntas frequentes</h3>
+        <details open>
+          <summary>Tem contrato?</summary>
+          <p>Sim. Enviamos contrato digital com escopo, prazo, pagamento 50/50 e transferência dos arquivos para o seu nome <strong>antes</strong> da entrada. Nada de “combinado no zap”.</p>
+        </details>
         <details>
           <summary>Tem mensalidade?</summary>
           <p>Não. O pagamento é único. Você só paga a renovação anual do domínio (.com.br) no ano seguinte.</p>
@@ -1028,6 +1145,10 @@
         <details>
           <summary>Meu concorrente pode ter igual?</summary>
           <p>Não. Liberamos apenas uma licença exclusiva de operação por região — seu concorrente direto na mesma área não recebe a mesma estrutura.</p>
+        </details>
+        <details>
+          <summary>Preciso saber editar site ou contratar agência?</summary>
+          <p>Não. A estrutura já vem pronta para captar pedidos. Atualizações pontuais podem ser por pacote avulsos ou manutenção opcional — sem WordPress exposto.</p>
         </details>
       </div>
 
@@ -1056,8 +1177,20 @@
     </div>
   </section>
 
-  <div class="bottom-action-bar persistent-ui persistent-ui--bottom" role="group" aria-label="Ações rápidas">
-    <a class="bottom-action-btn secondary" href="#portfolio" aria-label="Ver projetos">
+  <div
+    class="bottom-action-bar persistent-ui persistent-ui--bottom"
+    id="bottom-action-bar"
+    data-bottom-action-bar
+    role="group"
+    aria-label="Ações rápidas"
+  >
+    <a
+      class="bottom-action-btn secondary"
+      id="bottom-action-secondary"
+      data-bottom-action-secondary
+      href="#portfolio"
+      aria-label="Ver projetos executados"
+    >
       <svg viewBox="0 0 24 24" aria-hidden="true">
         <path
           fill="currentColor"
@@ -1071,6 +1204,8 @@
 
     <button
       class="bottom-action-btn primary"
+      id="bottom-action-primary"
+      data-bottom-action-primary
       type="button"
       data-open-modal
       data-primary-action
@@ -1086,6 +1221,25 @@
       </span>
     </button>
   </div>
+
+  <button
+    type="button"
+    class="back-to-top"
+    id="back-to-top"
+    aria-label="Voltar ao topo"
+    hidden
+  >
+    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+      <path
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        d="M12 18V6M7 11l5-5 5 5"
+      />
+    </svg>
+  </button>
 
   <div class="menu-backdrop" id="menu-backdrop" data-close-menu></div>
   <aside class="menu-drawer" id="site-menu-drawer" aria-hidden="true" aria-labelledby="menu-drawer-title">
@@ -1236,8 +1390,9 @@
   </div>
 
     <script src="assets/js/config.js"></script>
+  <script src="assets/js/bottom-action-zones.js"></script>
   <script src="assets/js/tracking.js"></script>
-  <script src="assets/js/showroom-nav.js?v=11"></script>
-  <script src="assets/js/main.js?v=portfolio-spotlight-1"></script>
+  <script src="assets/js/showroom-nav.js?v=12"></script>
+  <script src="assets/js/main.js?v=faq-vitrine-1"></script>
 </body>
 </html>

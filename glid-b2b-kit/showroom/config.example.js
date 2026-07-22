@@ -25,9 +25,14 @@ window.APP_CONFIG = Object.assign(window.APP_CONFIG || {}, {
     portfolioButtonLabel: "Ver portfólio GLID",
     acquireButtonLabel: "Quero licenciar esta estrutura para a minha marcenaria",
     guideButtonLabel: "Ver o que está incluso ↓",
-    acquireWhatsApp: "5549999999999",
+    acquireWhatsApp: "5549999084031",
     acquireContactName: "Tiago",
     acquireMessage:
       "Olá, Tiago. Naveguei no protótipo e decidi licenciar esta estrutura para a minha marcenaria por R$ 14.997. Estou de acordo com os prazos (no ar em até 10 dias úteis após envio do material) e com a forma de pagamento (50% de entrada / 50% na entrega). Entendi que o escopo não inclui tráfego ou gestão de anúncios. Pode me enviar a sua chave PIX e a lista exata do que preciso mandar para começarmos?"
+  },
+  bottomActionBar: {
+    enabled: true,
+    ownerAfterSection: "#faq",
+    hideInSection: "#b2b-owner-guide"
   }
 });

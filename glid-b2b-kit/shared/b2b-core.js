@@ -6,8 +6,8 @@
   window.buildAcquireWhatsAppUrl = function () {
     const navConfig = (window.APP_CONFIG || {}).showroomNav || {};
     const acquireWhatsApp =
-      typeof window.resolveShowroomWhatsApp === 'function'
-        ? window.resolveShowroomWhatsApp(navConfig.acquireWhatsApp)
+      typeof window.resolveB2bAcquireWhatsApp === 'function'
+        ? window.resolveB2bAcquireWhatsApp(navConfig.acquireWhatsApp)
         : String(navConfig.acquireWhatsApp || '5549999084031').replace(/\D/g, '');
     const acquireContactName = navConfig.acquireContactName || 'Tiago';
     const modelLabel = navConfig.modelLabel || 'Modelo Web App (gl.id)';
